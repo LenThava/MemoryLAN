@@ -9,6 +9,8 @@ A memory switch manages a cache of recently seen memory pages and
 replicates its cache to the other switches while striving for
 network-wide cache coherence.
 
+![Three end nodes attached to a (multi-hop) MemoryLAN](docs/model.jpg)
+
 The most prominent MemoryLAN use case is a wireless mesh network where
 the in-network cache mitigates packet loss. LoRa and long range
 Bluetooth Low Energy are two possible technologies on top of which the
