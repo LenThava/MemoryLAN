@@ -6,6 +6,8 @@ your LAN supports multicast, you can also run this code on other
 machines in the LAN. All peers now share the same, fully replicated
 shopping list.
 
+![Screenshot of the Shared Shopping List demo app](screenshot.jpg)
+
 ## User-Level Experience
 
 Peers can add new items to the list, delete existing ones, and re-add
@@ -77,8 +79,6 @@ demo app is structured as follows:
 | UDP multicast    | Python runtime   | "physical transport"
 +------------------+------------------+
 ```
-
-![Screenshot of the Shared Shopping List demo app](screenshot.jpg)
 
 ## Command Line Parameters
 

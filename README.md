@@ -102,8 +102,9 @@ turning the BLE stack into a raw broadcast medium.
 
 ## Python Implementation (UDP multicast)
 
-pending ...
-
+See the [./py](./py) directory for a Python-based implementation of
+the MemoryLAN switch (120 LoC), and the "Shared Shopping List" demo
+app.
 
 ## Kotlin Implementation (BLE, UDP multicast)
 
