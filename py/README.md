@@ -1,6 +1,6 @@
-# Python Demo of a Shared Shopping List App runnning over MemoryLAN over UDP Multicast
+# Python Demo of a Shared Shopping List App running over MemoryLAN over UDP Multicast
 
-This is a curses-based TUI application: Simpply start multiple
+This is a curses-based TUI application: Simply start multiple
 instances in different terminal windows on the same machine. In case
 your LAN supports multicast, you can also run this code on other
 machines in the LAN. All peers now share the same, fully replicated
@@ -21,7 +21,7 @@ randomly picking one and updating everybody about this pick. There are
 more efficient synchronization protocols for sure, but for this demo
 this is perfectly sufficient and simple.
 
-## Behind the Fassade (1 of 3)
+## Behind the Façade (1 of 3) -- LWW
 
 We use a last-writer-win (LWW) data structure where each item carries
 a timestamp (absolute time). A positive value means this is an active
@@ -33,13 +33,13 @@ an already deleted item will prevail.
 
 We applied a slight optimization of __not__ recording a "delete
 update" in case we have never heard about that item. This relieves us
-from storing "toombstone entries" for long forgotten items. The danger
+from storing "tombstone entries" for long forgotten items. The danger
 of this optimization is that any outdated peer (not having seen the
 latest delete update) can make us believe that an entry is active,
-which we could have prevented only if we had stored all toombstones we
+which we could have prevented only if we had stored all tombstones we
 learned about.
 
-## Behind the Fassade (2 of 3)
+## Behind the Façade (2 of 3) -- wire format
 
 The shopping list updates have the "wire format"
 
@@ -59,12 +59,12 @@ expressed as number of seconds since Jan 1, 1970 and can be either
 positive, meaning that this is an update for an active item, or
 negative for stating that this item was deleted at said time.
 
-```text``` is a freeform string and identifies the item in the
-shopping list. If two peers add ```egg```, only ony entry will be
+```text``` is a free-form string and identifies the item in the
+shopping list. If two peers add ```egg```, only one entry will be
 stored, namely the one with the more recent timestamp (merge policy of
 our LWW).
 
-## Behind the Fassade (3 of 3)
+## Behind the Façade (3 of 3) -- SW architecture
 
 The main program is called ```shared_SL.py```. Internally, the
 demo app is structured as follows:
