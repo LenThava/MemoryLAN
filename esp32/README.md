@@ -1,16 +1,16 @@
-# An ESP32-based MemoryLAN implementation
+# An ESP32-based MemoryLAN Implementation
 
-his implements multi-hop wireless broadcast of opaque frames (memory
-pages) of up to 120B with reliability support based on limited
-in-network memory.
+The code in this directory implements multi-hop wireless broadcast of
+opaque frames (memory pages) of up to 120B with reliability support
+based on limited in-network memory.
 
 Supported media:
 - BLE extended advertisements (PHY_CODED for long range connectivity)
 - BLE connections (for attaching end devices)
-- ESPNOW (WiFi-based, but doubtful performance in presence of BLE use)
+- ESP-NOW (WiFi-based, but doubtful performance in presence of BLE use)
 - LoRa
 
-Supported ESP devices:
+Supported ESP32 devices:
 - Heltec LoRa: V2, V3, V4
 - Lilygo T3S3: v1.2, v1.3
 - noname "C3 supermini", w/ and w/o 0.46" OLED
@@ -18,7 +18,7 @@ Supported ESP devices:
 
 ## Configuration
 
-- the file ```board_config.h``` has per-board configuration switches
+- the file ```board_config.h``` has per-board configuration switches as well as media-specific parameters (LoRa frequency etc)
 
 - board-specific initialization is in ```board_setup.h```
 
@@ -68,8 +68,9 @@ l> 48B rssi=-12
    on_beacon  from <08:38>: n=2
 ```
 
-where the first character identifies the interface (b=BT long range, e=ESP-NOW, l=Lora),
-followed by the direction of the exchanged frame: ```>``` for incoming, ```<``` for outgoing.
+where the first character identifies the interface (b=BT long range,
+e=ESP-NOW, l=LoRa), followed by the direction of the exchanged frame:
+```>``` for incoming, ```<``` for outgoing.
 
 
 ## Display and Deep Sleep
