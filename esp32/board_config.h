@@ -44,6 +44,13 @@
   #define USE_BLE_CO
   // #define USE_ESPNOW
   #define USE_U8G2
+#elif defined(LILYGO_TBEAMS3) // SX1862
+  #define BOARD_NAME "TBeam-Supr."
+  #define USE_BLE
+  #define USE_BLE_CO
+  // #define USE_ESPNOW
+  #define USE_LORA
+  #define USE_U8G2
 #elif defined(LILYGO_T3S3V12) // LR1121, Lora 2.4Ghz
   #define BOARD_NAME "T3S3-v1.2"
   #define USE_BLE
@@ -119,6 +126,9 @@
   // extern u8g2
 #elif defined(C3MINI)
   extern U8G2_SSD1306_72X40_ER_F_SW_I2C u8g2;
+#elif defined(LILYGO_TBEAMS3) //
+  extern SX1262 radio;
+  extern U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2;
 #elif defined(LILYGO_T3S3V12) // LR1121
   extern LR1121 radio;
   extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2;

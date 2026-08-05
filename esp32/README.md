@@ -11,7 +11,8 @@ Supported media:
 - LoRa
 
 Supported ESP32 devices:
-- Heltec LoRa: V2, V3, V4
+- Heltec LoRa: v2, v3, v4
+- Lilygo TBeam: Supreme
 - Lilygo T3S3: v1.2, v1.3
 - noname "C3 supermini", w/ and w/o 0.46" OLED
 

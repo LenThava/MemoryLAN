@@ -89,6 +89,38 @@
   #define SCL_OLED    GPIO_NUM_6
   U8G2_SSD1306_72X40_ER_F_SW_I2C u8g2(U8G2_R0, SCL_OLED, SDA_OLED, U8X8_PIN_NONE);
 
+#elif defined(LILYGO_TBEAMS3) // Sx1262
+
+  #define LED_PIN     GPIO_NUM_17
+  #define BUTTON_PIN  GPIO_NUM_0
+  #define VBAT_ADC    GPIO_NUM_1
+  #define VEXT        U8X8_PIN_NONE // disable
+
+  #define I2C_SDA   GPIO_NUM_42
+  #define I2C_SCL   GPIO_NUM_41
+  // SPI pins
+  #define SS	    GPIO_NUM_10
+  #define SCK       GPIO_NUM_12
+  #define MISO      GPIO_NUM_13
+  #define MOSI      GPIO_NUM_11
+  // Radio pins
+  #define RST_LoRa  GPIO_NUM_5
+  #define DIO1      GPIO_NUM_1
+  // #define DIO9      GPIO_NUM_?? 36
+  #define BUSY_LoRa GPIO_NUM_4
+  // Display pins
+  #define SDA_OLED  GPIO_NUM_17
+  #define SCL_OLED  GPIO_NUM_18
+  #define RST_OLED  U8X8_PIN_NONE // disable
+
+  // SD CS	GPIO_NUM_13
+  // SD MOSI	GPIO_NUM_11
+  // SD MISO	GPIO_NUM_2
+  // SD SCK	GPIO_NUM_14
+
+  SX1262 radio = new Module(SS, DIO1, RST_LoRa, BUSY_LoRa);
+  U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE, SCL_OLED, SDA_OLED);
+
 #elif defined(LILYGO_T3S3V12) // LR1121
 
   #define LED_PIN     GPIO_NUM_37
@@ -228,15 +260,10 @@ void set_vext(bool b)
 // deep sleep
 
 #if defined(HELTEC_V2) || defined(HELTEC_V3) || defined(HELTEC_V4) || \
-    defined(C3MINI) || defined(LILYGO_T3S3V12) || defined(LILYGO_T3S3V13)
+    defined(LILYGO_T3S3V12) || defined(LILYGO_T3S3V13)
 
 void go_deep_sleep_now()
 {
-#if defined(C3MINI)
-    if (Serial) Serial.printf("deep sleep ignored\r\n");
-    return;
-#endif
-
     if (Serial) Serial.printf("\r\ngoing deep sleep now\r\n\n");
     #if defined(USE_U8G2)
         u8g2.setPowerSave(false);
@@ -278,10 +305,8 @@ void go_deep_sleep_now()
     pinMode(RST_OLED, INPUT);
 #endif
 
-#if !defined(C3MINI)
     // enable button wakeup
     esp_sleep_enable_ext0_wakeup(BUTTON_PIN, LOW);
-#endif
     // wait button to be released, first
     while (digitalRead(BUTTON_PIN) == LOW) {}
     // start timer (one day) and then go to sleep
@@ -294,7 +319,7 @@ bool coming_back_from_deep_sleep() {
     return esp_sleep_get_wakeup_cause() == ESP_SLEEP_WAKEUP_TIMER;
 }
 
-#else
+#else // defined(C3MINI) || defined(LILYGO_TBEAMS3)
 
 void go_deep_sleep_now()
 {
