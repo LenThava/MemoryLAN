@@ -18,7 +18,13 @@
 // WARNING: do not enable BLE/BLE_CO and ESPNOW: both stacks use the
 // the same radio HW and performance of ESPNOW is close to 0 ...
 
-#if defined(HELTEC_V2) // this device can't do extended BT advert./PHY_CODED
+#if defined(C3MINI)
+  #define BOARD_NAME "C3supermini"
+  #define USE_BLE
+  #define USE_BLE_CO
+  // #define USE_ESPNOW
+  #define USE_U8G2
+#elif defined(HELTEC_V2) // this device can't do extended BT advert./PHY_CODED
   #define BOARD_NAME "Heltec-v2"
   #define USE_BLE_CO
   // #define USE_ESPNOW
@@ -37,12 +43,6 @@
   #define USE_BLE_CO
   // #define USE_ESPNOW
   #define USE_LORA
-  #define USE_U8G2
-#elif defined(C3MINI)
-  #define BOARD_NAME "C3supermini"
-  #define USE_BLE
-  #define USE_BLE_CO
-  // #define USE_ESPNOW
   #define USE_U8G2
 #elif defined(LILYGO_TBEAMS3) // SX1862
   #define BOARD_NAME "TBeam-Supr."
@@ -65,6 +65,12 @@
   // #define USE_ESPNOW
   #define USE_LORA
   #define USE_U8G2
+#elif defined(SEEED_XIAOS3) // with SX1262
+  #define BOARD_NAME "XIAO-S3"
+  #define USE_BLE
+  #define USE_BLE_CO
+  // #define USE_ESPNOW
+  #define USE_LORA
 #endif // boards
 
 // ---------------------------------------------------------------------------
@@ -115,7 +121,9 @@
 // ---------------------------------------------------------------------------
 // board-specific globals
 
-#if defined(HELTEC_V2)
+#if defined(C3MINI)
+  extern U8G2_SSD1306_72X40_ER_F_SW_I2C u8g2;
+#elif defined(HELTEC_V2)
   extern SX1276 radio;
   extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2;
 #elif defined(HELTEC_V3)
@@ -124,8 +132,6 @@
 #elif defined(HELTEC_V4)
   extern SX1262 radio;
   // extern u8g2
-#elif defined(C3MINI)
-  extern U8G2_SSD1306_72X40_ER_F_SW_I2C u8g2;
 #elif defined(LILYGO_TBEAMS3) //
   extern SX1262 radio;
   extern U8G2_SH1106_128X64_NONAME_F_HW_I2C u8g2;
@@ -135,6 +141,9 @@
 #elif defined(LILYGO_T3S3V13) // Lora 2.4Ghz
   extern SX1280 radio;
   extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2;
+#elif defined(SEEED_XIAOS3)
+  extern SX1262 radio;
+  // extern U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2;
 #endif // boards
 
 // eof

@@ -10,11 +10,12 @@ Supported media:
 - ESP-NOW (WiFi-based, but doubtful performance in presence of BLE use)
 - LoRa
 
-Supported ESP32 devices:
+Supported ESP32 devices (see also Gallery at the bottom of this document):
 - Heltec LoRa: v2, v3, v4
 - Lilygo TBeam: Supreme
 - Lilygo T3S3: v1.2, v1.3
 - noname "C3 supermini", w/ and w/o 0.46" OLED
+- Seeedstudio "XIAO ESP32S3 & Wio-SX1262"
 
 
 ## Configuration
@@ -40,6 +41,17 @@ and ```upload``` steps in one go. Upload will work for all devices
 currently attached to the computer, permitting efficient reflashing of
 multiple ESP devices (of the same sort).
 
+The list of supported board names:
+```
+C3mini
+Heltec2
+Heltec3
+Heltec4
+TBeamS
+T3S3v1.2
+T3S3v1.3
+XiaoS3
+```
 
 ## Monitoring the Internal Status
 
@@ -92,4 +104,9 @@ All devices except the C3 supermini can be put into deep-sleep mode by
 double-clicking on the boot button while on the first screen.  Later,
 a click on the boot button wakes up the device.
 
+
+## Gallery of Supported ESP32 Devices
+
+- [...]
+- [Seeedstudio Xiao-S3](https://www.seeedstudio.com/Wio-SX1262-with-XIAO-ESP32S3-p-5982.html) ![](img/Seeed-Xiao-S3.jpg)
 ---

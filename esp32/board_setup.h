@@ -5,7 +5,16 @@
 // ---------------------------------------------------------------------------
 // board-specific setups
 
-#if defined(HELTEC_V2)
+#if defined(C3MINI)
+
+  #define LED_PIN     GPIO_NUM_8
+  #define BUTTON_PIN  GPIO_NUM_9
+
+  #define SDA_OLED    GPIO_NUM_5
+  #define SCL_OLED    GPIO_NUM_6
+  U8G2_SSD1306_72X40_ER_F_SW_I2C u8g2(U8G2_R0, SCL_OLED, SDA_OLED, U8X8_PIN_NONE);
+
+#elif defined(HELTEC_V2)
 
   #define LED_PIN   GPIO_NUM_25
   #define BUTTON_PIN  GPIO_NUM_0
@@ -79,15 +88,6 @@
 
   SX1262 radio = new Module(SS, DIO1, RST_LoRa, BUSY_LoRa);
   U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, RST_OLED, SCL_OLED, SDA_OLED);
-
-#elif defined(C3MINI)
-
-  #define LED_PIN     GPIO_NUM_8
-  #define BUTTON_PIN  GPIO_NUM_9
-
-  #define SDA_OLED    GPIO_NUM_5
-  #define SCL_OLED    GPIO_NUM_6
-  U8G2_SSD1306_72X40_ER_F_SW_I2C u8g2(U8G2_R0, SCL_OLED, SDA_OLED, U8X8_PIN_NONE);
 
 #elif defined(LILYGO_TBEAMS3) // Sx1262
 
@@ -185,14 +185,38 @@
   SX1280 radio = new Module(SS, DIO1, RST_LoRa, BUSY_LoRa);
   U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, U8X8_PIN_NONE, SCL_OLED, SDA_OLED);
 
+#elif defined(SEEED_XIAOS3)
+
+  #define LED_PIN     GPIO_NUM_21
+  #define BUTTON_PIN  GPIO_NUM_0
+/*
+  #define VBAT_ADC    GPIO_NUM_1
+  #define VEXT        U8X8_PIN_NONE // disable
+*/
+
+  #define I2C_SDA   GPIO_NUM_5
+  #define I2C_SCL   GPIO_NUM_6
+
+// SPI pins
+  #define SS	    GPIO_NUM_41
+  #define SCK       GPIO_NUM_7
+  #define MISO      GPIO_NUM_8
+  #define MOSI      GPIO_NUM_9
+  // Radio pins
+  #define RST_LoRa   GPIO_NUM_42
+  #define DIO1       GPIO_NUM_39
+  #define BUSY_LoRa  GPIO_NUM_40
+  // RF SWITCH 	GPIO_NUM_38
+
+  SX1262 radio = new Module(SS, DIO1, RST_LoRa, BUSY_LoRa);
+
 #endif // boards
 
 // ---------------------------------------------------------------------------
 
 void set_led(bool a)
 {
-#if defined(C3MINI)
-    // digitalWrite(LED_PIN, a ? HIGH : LOW);
+#if defined(C3MINI) || defined(SEEED_XIAOS3)
     digitalWrite(LED_PIN, a ? LOW : HIGH);
 #else
     digitalWrite(LED_PIN, a ? HIGH : LOW);
@@ -260,7 +284,7 @@ void set_vext(bool b)
 // deep sleep
 
 #if defined(HELTEC_V2) || defined(HELTEC_V3) || defined(HELTEC_V4) || \
-    defined(LILYGO_T3S3V12) || defined(LILYGO_T3S3V13)
+    defined(LILYGO_T3S3V12) || defined(LILYGO_T3S3V13) || defined(SEEED_XIAOS3)
 
 void go_deep_sleep_now()
 {
@@ -299,10 +323,12 @@ void go_deep_sleep_now()
     pinMode(MOSI, INPUT);
     pinMode(SCK, INPUT);
 #endif
+#if defined(USE_U8G2)
     pinMode(SDA_OLED, INPUT);
     pinMode(SCL_OLED, INPUT);
-#if defined(RST_OLED)
+  #if defined(RST_OLED)
     pinMode(RST_OLED, INPUT);
+  #endif
 #endif
 
     // enable button wakeup
@@ -333,6 +359,8 @@ bool coming_back_from_deep_sleep() { return false; }
 // for 128x64 pixel screens
 
 int current_screen;
+
+#if defined(USE_U8G2)
 
 void display_screen0_stats()
 {
@@ -586,6 +614,12 @@ void display_redraw()
     u8g2.updateDisplay();
 }
 
+#else // no screen
+
+void display_redraw() {}
+
+#endif // USE_U8G2
+
 // ---------------------------------------------------------------------------
 
 void board_setup()
@@ -604,11 +638,13 @@ void board_setup()
     }
 #endif
 
+#if defined(USE_U8G2)
     u8g2.setI2CAddress(2 * 0x3c);
     u8g2.begin();
     u8g2.setContrast(255);
     u8g2.setFont(u8g2_font_6x10_mr); // good size for Heltec devices
     display_redraw();
+#endif
 
     if (Serial) Serial.printf("board_setup() done\r\n");
 }

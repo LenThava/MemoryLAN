@@ -2,7 +2,12 @@
 
 # (c) 2026-08-01 <christian.tschudin@unibas.ch> - MIT license
 
-ifeq ($(BOARD),Heltec2)
+ifeq ($(BOARD),C3mini)
+  FQBN=esp32:esp32:esp32c3:FlashSize=4M,CDCOnBoot=cdc
+  BOARD_MACRO=C3MINI
+  CHIP=esp32c3
+  SERIAL=$(shell ls /dev/tty.usbmodem*)
+else ifeq ($(BOARD),Heltec2)
   FQBN=esp32:esp32:heltec_wifi_lora_32_V2
   BOARD_MACRO=HELTEC_V2
   CHIP=esp32
@@ -17,11 +22,6 @@ else ifeq ($(BOARD),Heltec4)
   BOARD_MACRO=HELTEC_V4
   CHIP=esp32s3
   SERIAL=$(shell ls /dev/tty.usbmodem*)
-else ifeq ($(BOARD),C3mini)
-  FQBN=esp32:esp32:esp32c3:FlashSize=4M,CDCOnBoot=cdc
-  BOARD_MACRO=C3MINI
-  CHIP=esp32c3
-  SERIAL=$(shell ls /dev/tty.usbmodem*)
 else ifeq ($(BOARD),TBeamS) # SX1262, TBeam Supreme
   FQBN=esp32:esp32:esp32s3:FlashSize=8M,CDCOnBoot=cdc
   BOARD_MACRO=LILYGO_TBEAMS3
@@ -35,6 +35,11 @@ else ifeq ($(BOARD),T3S3v1.2) # LR1121 configured for 2.44GHz
 else ifeq ($(BOARD),T3S3v1.3) # SX1280 configured for 2.44GHz
   FQBN=esp32:esp32:esp32s3:FlashSize=4M,CDCOnBoot=cdc
   BOARD_MACRO=LILYGO_T3S3V13
+  CHIP=esp32s3
+  SERIAL=$(shell ls /dev/tty.usbmodem*)
+else ifeq ($(BOARD),XiaoS3) # Seeedstudio, with SX1262
+  FQBN=esp32:esp32:esp32s3:FlashSize=8M,CDCOnBoot=cdc
+  BOARD_MACRO=SEEED_XIAOS3
   CHIP=esp32s3
   SERIAL=$(shell ls /dev/tty.usbmodem*)
 else

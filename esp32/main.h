@@ -47,7 +47,7 @@ void acquire_id()
     // compute our ID by hashing the hardware MAC address
     *(uint64_t*)my_id = ESP.getEfuseMac();
     if (Serial) {
-        Serial.printf("MAC: ");
+        Serial.printf("MAC:  ");
         for (int i = 0; i < 6; i++)
             Serial.printf(i == 0 ? "%02x" : ":%02x", my_id[i]);
         Serial.printf("\r\n");
@@ -159,14 +159,14 @@ void loop() {
     
     if (user_button.isSingleClick()) {
         next_dark_mode = millis() + SCREEN_SAVER;
+      #if defined(USE_U8G2)
         if (dark_mode) {
-            #if defined(USE_U8G2)
               u8g2.setPowerSave(false);
-            #endif
             dark_mode = false;
         } else
             current_screen = (current_screen + 1) % 4;
         display_redraw();
+      #endif
     } else if (current_screen == 0 && user_button.isDoubleClick())
         go_deep_sleep_now();
 
