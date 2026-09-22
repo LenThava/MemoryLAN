@@ -2,6 +2,8 @@
 
 # (c) 2026-08-01 <christian.tschudin@unibas.ch> - MIT license
 
+ARDUINO_CLI ?= arduino-cli
+
 ifeq ($(BOARD),C3mini)
   FQBN=esp32:esp32:esp32c3:FlashSize=4M,CDCOnBoot=cdc
   BOARD_MACRO=C3MINI
@@ -42,8 +44,19 @@ else ifeq ($(BOARD),XiaoS3) # Seeedstudio, with SX1262
   BOARD_MACRO=SEEED_XIAOS3
   CHIP=esp32s3
   SERIAL=$(shell ls /dev/tty.usbmodem*)
+else ifeq ($(BOARD),WaveshareS3Zero) # Waveshare ESP32-S3-Zero, BLE only
+  FQBN=esp32:esp32:waveshare_esp32_s3_zero:PSRAM=enabled,FlashMode=qio,PartitionScheme=default,USBMode=hwcdc,CDCOnBoot=default,UploadMode=default
+  BOARD_MACRO=WAVESHARE_S3ZERO
+  CHIP=esp32s3
+  SERIAL=$(wildcard /dev/tty.usbmodem*)
 else
-  $(error ">> please specify BOARD={Heltec2|Heltec3|Heltec4|C3mini|TBeamS|T3S3v1.2|T3S3v1.3}")
+  $(error ">> please specify BOARD={Heltec2|Heltec3|Heltec4|C3mini|TBeamS|T3S3v1.2|T3S3v1.3|XiaoS3|WaveshareS3Zero}")
+endif
+
+# The default deliberately supports batch flashing, as in the upstream
+# Makefile. Set PORT=/dev/tty.usbmodemXXXX to target exactly one board.
+ifneq ($(strip $(PORT)),)
+  SERIAL=$(PORT)
 endif
 
 $(info SERIAL ports are/is: $(SERIAL))
@@ -55,11 +68,11 @@ $(shell echo \#define COMPILE_DATE \"$(strip $(COMPILE_DATE))\" > compile_date.h
 all:	compile upload
 
 compile:
-	arduino-cli compile -b $(FQBN) --libraries libs \
+	$(ARDUINO_CLI) compile -b $(FQBN) --libraries libs \
 	  --build-property compiler.cpp.extra_flags="-D$(BOARD_MACRO)"
 
 upload:
-	$(foreach var, $(SERIAL), arduino-cli upload -b $(FQBN) -p $(var);)
+	$(foreach var, $(SERIAL), $(ARDUINO_CLI) upload -b $(FQBN) -p $(var);)
 
 clean:
 	rm -rf compile_date.h *~

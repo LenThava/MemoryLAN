@@ -71,6 +71,12 @@
   #define USE_BLE_CO
   // #define USE_ESPNOW
   #define USE_LORA
+#elif defined(WAVESHARE_S3ZERO)
+  #define BOARD_NAME "Waveshare-S3-Zero"
+  #define USE_BLE
+  #define USE_BLE_CO
+  // No LoRa radio is present on the bare board. ESP-NOW remains disabled
+  // because the current implementation warns against combining it with BLE.
 #endif // boards
 
 // ---------------------------------------------------------------------------

@@ -210,6 +210,13 @@
 
   SX1262 radio = new Module(SS, DIO1, RST_LoRa, BUSY_LoRa);
 
+#elif defined(WAVESHARE_S3ZERO)
+
+  // The exact Arduino board variant maps digitalWrite() on LED_BUILTIN to
+  // the onboard addressable WS2812 on GPIO21.
+  #define LED_PIN     LED_BUILTIN
+  #define BUTTON_PIN  GPIO_NUM_0
+
 #endif // boards
 
 // ---------------------------------------------------------------------------
