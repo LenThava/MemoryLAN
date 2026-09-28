@@ -4,6 +4,8 @@
 #define _INCLUDE_BUF_H
 
 #include <stdint.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/queue.h>
 
 class PktQueue { // FIFO
 
@@ -12,15 +14,13 @@ public:
     ~PktQueue();
     bool is_empty();
     bool is_full();
-    void enqueue(const uint8_t *data, int len);
-    void enqueue(const uint8_t *pkt); // -> [N][byte0][byte1]..[byteN]
+    bool enqueue(const uint8_t *data, int len);
+    bool enqueue(const uint8_t *pkt); // ownership transfers only on success
     uint8_t* dequeue();
-    int get_len() { return cnt; };
+    int get_len();
 
 private:
-    uint8_t **queue; // array of pkt pointers
-    volatile short cnt, offs;
-    short max_cnt;
+    QueueHandle_t queue;
 };
 
 

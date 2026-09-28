@@ -4,60 +4,47 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "io_buf.h"
 
 PktQueue::PktQueue(int capacity)
 {
-    queue = (uint8_t**) malloc(capacity * sizeof(uint8_t*));
-    max_cnt = capacity;
-    cnt = offs = 0;
+    queue = capacity > 0 ? xQueueCreate(capacity, sizeof(uint8_t*)) : NULL;
 }
 
 PktQueue::~PktQueue()
 {
-    while (cnt > 0) {
-        free(queue[offs]);
-        offs = (offs + 1) % max_cnt;
-        cnt--;
-    }
-    free(queue);
-    queue = NULL;
+    while (uint8_t *pkt = dequeue()) free(pkt);
+    if (queue) vQueueDelete(queue);
 }
 
-bool PktQueue::is_empty() { return cnt <= 0; }
+bool PktQueue::is_empty() { return get_len() == 0; }
 
-bool PktQueue::is_full()  { return cnt >= max_cnt; }
+bool PktQueue::is_full() { return !queue || uxQueueSpacesAvailable(queue) == 0; }
+int PktQueue::get_len() { return queue ? uxQueueMessagesWaiting(queue) : 0; }
 
-void PktQueue::enqueue(const uint8_t* pkt)
+bool PktQueue::enqueue(const uint8_t* pkt)
 {
-    if (is_full())
-        return;
-    int pos = (offs + cnt) % max_cnt;
-    queue[pos] = (uint8_t*) pkt;
-    cnt++;
+    return pkt && queue && xQueueSend(queue, &pkt, 0) == pdTRUE;
 }
 
-void PktQueue::enqueue(const uint8_t* data, int len)
+bool PktQueue::enqueue(const uint8_t* data, int len)
 {
-    if (is_full())
-        return;
+    if (!data || len < 1 || len > 255) return false;
     uint8_t *pkt = (uint8_t*) malloc(len+1);
-    if (pkt) {
-        pkt[0] = len;
-        memcpy(pkt+1, data, len);
-        enqueue(pkt);
-    }
+    if (!pkt) return false;
+    pkt[0] = len;
+    memcpy(pkt+1, data, len);
+    if (enqueue(pkt)) return true;
+    free(pkt);
+    return false;
 }
 
 uint8_t* PktQueue::dequeue()
 {
-    if (is_empty())
-        return NULL;
-    uint8_t *pkt = queue[offs];
-    queue[offs] = NULL;
-    offs = (offs + 1) % max_cnt;
-    cnt--;
+    uint8_t *pkt = NULL;
+    if (queue) xQueueReceive(queue, &pkt, 0);
     return pkt;
 }
 

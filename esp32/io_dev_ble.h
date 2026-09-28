@@ -2,6 +2,7 @@
 
 #include "io_dev.h"
 #include "io_buf.h"
+#include <atomic>
 
 // ---------------------------------------------------------------------------
 
@@ -16,6 +17,7 @@ public:
     // where pkt -> [N][byte0][byte1]..[byteN][rssi]
 
     PktQueue *from_brcast; // for storing data from broadcast medium
+    std::atomic<uint32_t> rx_drop{0}, rx_bad{0}, tx_fail{0};
     
 #if defined(USE_BLE_CO)
     // client:

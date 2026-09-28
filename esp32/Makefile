@@ -3,6 +3,9 @@
 # (c) 2026-08-01 <christian.tschudin@unibas.ch> - MIT license
 
 ARDUINO_CLI ?= arduino-cli
+EXTRA_FLAGS ?=
+BUILD_DIR ?=
+REV=$(shell git describe --always --dirty)
 
 ifeq ($(BOARD),C3mini)
   FQBN=esp32:esp32:esp32c3:FlashSize=4M,CDCOnBoot=cdc
@@ -69,7 +72,8 @@ all:	compile upload
 
 compile:
 	$(ARDUINO_CLI) compile -b $(FQBN) --libraries libs \
-	  --build-property compiler.cpp.extra_flags="-D$(BOARD_MACRO)"
+	  $(if $(BUILD_DIR),--build-path $(BUILD_DIR)) \
+	  --build-property compiler.cpp.extra_flags="-D$(BOARD_MACRO) -DMLAN_REV=$(REV) $(EXTRA_FLAGS)"
 
 upload:
 	$(foreach var, $(SERIAL), $(ARDUINO_CLI) upload -b $(FQBN) -p $(var);)

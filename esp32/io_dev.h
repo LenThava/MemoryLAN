@@ -3,6 +3,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <atomic>
 
 // #include "io_buf.h"
 
@@ -24,7 +25,8 @@ public:
     // pkt points to [N][byte1][byte2]..[byteN]
     virtual uint8_t* brcast_recv();
     // NULL, or ptr to buf as above, to be freed by consumer
-    int rx_cnt, tx_cnt;
+    int rx_cnt;
+    std::atomic<int> tx_cnt{0};
     char *name;
     uint64_t next_beacon;
 

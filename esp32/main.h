@@ -40,6 +40,10 @@ HotButton user_button(BUTTON_PIN, true, LOW);
   IO_dev_lora *lora_if;
 #endif
 
+#if defined(MLAN_TRIAL)
+  #include "trial.h"
+#endif
+
 // ---------------------------------------------------------------------------
 
 void acquire_id()
@@ -80,17 +84,17 @@ void display_stats()
  
     #if defined(USE_BLE)
       sprintf(stats + strlen(stats), "BLR(n=%d,r=%d,t=%d)",
-              ble_if->get_neigh_cnt(), ble_if->rx_cnt, ble_if->tx_cnt);
+              ble_if->get_neigh_cnt(), ble_if->rx_cnt, ble_if->tx_cnt.load());
     #endif
 
     #if defined(USE_LORA)
       sprintf(stats + strlen(stats), "LORA(n=%d,r=%d,t=%d)",
-              lora_if->get_neigh_cnt(), lora_if->rx_cnt, lora_if->tx_cnt);
+              lora_if->get_neigh_cnt(), lora_if->rx_cnt, lora_if->tx_cnt.load());
     #endif
 
     #if defined(USE_ESPNOW)
     sprintf(stats + strlen(stats), "ESPNOW(n=%d,r=%d,t=%d)",
-            espnow_if->get_neigh_cnt(), espnow_if->rx_cnt, espnow_if->tx_cnt);
+            espnow_if->get_neigh_cnt(), espnow_if->rx_cnt, espnow_if->tx_cnt.load());
     #endif
  
     sprintf(stats + strlen(stats), "MLAN(h=%d,c=%d)", mlan->hash_cnt,
@@ -151,11 +155,27 @@ void setup() {
     mlan->attach_if(lora_if);
 #endif
 
+#if defined(MLAN_TRIAL)
+    trial_setup();
+#endif
     if (Serial) Serial.print("setup() done\r\n\n");
 }
 
 void loop() {
     user_button.update();
+
+#if defined(MLAN_TRIAL)
+    trial_loop();
+    if (user_button.isSingleClick()) {
+        if (trial.state == READY) trial_begin();
+        else if (trial.state == RUNNING) trial_stop(1);
+    }
+    if (trial.state == EMPTY || trial.state == RUNNING) {
+        if (mlan->loop()) { display_stats(); display_redraw(); }
+    }
+    trial_led();
+    return;
+#endif
     
     if (user_button.isSingleClick()) {
         next_dark_mode = millis() + SCREEN_SAVER;

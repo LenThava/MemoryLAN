@@ -223,6 +223,9 @@
 
 void set_led(bool a)
 {
+#if defined(MLAN_TRIAL) && defined(WAVESHARE_S3ZERO)
+    return; // trial state owns the LED instead of packet activity
+#endif
 #if defined(C3MINI) || defined(SEEED_XIAOS3)
     digitalWrite(LED_PIN, a ? LOW : HIGH);
 #else

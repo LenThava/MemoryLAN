@@ -13,6 +13,7 @@
 #endif
 
 #include "io_buf.h"
+#include "ble_frame.h"
 
 #define MAX_PKT_LENGTH  128
 
@@ -43,7 +44,7 @@ PktQueue *from_client; // for storing data from connected BT client
 static IO_dev_ble *ble_interface;
 
 // forward declarations
-void _lr_recv_enqueue(const uint8_t *buf, uint8_t len, int rssi);
+void _lr_recv_enqueue(const uint8_t *buf, size_t len, int rssi);
 
 NimBLEScan           *lr_receiver; // "nimBLE scanner"
 NimBLEExtAdvertising *lr_sender;   // "nimBLE advertiser"
@@ -74,7 +75,7 @@ class BLE_ScanCallbacks : public NimBLEScanCallbacks {
                                   adv->getSetId(), adv->getAdvLength());
         */
         if (!adv->isLegacyAdvertisement() && adv->getDataStatus() == 0) {
-            _lr_recv_enqueue( &adv->getPayload()[0], adv->getAdvLength(),
+            _lr_recv_enqueue( adv->getPayload().data(), adv->getAdvLength(),
                               adv->getRSSI() );
             // if (ble_interface)
             //     ble_interface->rx_cnt++; // one LR broadcast was received
@@ -139,10 +140,17 @@ class AdvCallbacks : public NimBLEExtAdvertisingCallbacks {
 
 // ---------------------------------------------------------------------------
 
-void _lr_recv_enqueue(const uint8_t *buf, uint8_t len, int rssi)
+void _lr_recv_enqueue(const uint8_t *buf, size_t len, int rssi)
 {
-    if (!ble_interface || ble_interface->from_brcast->is_full()) // tail drop
+    if (!ble_interface || !ble_interface->from_brcast) return;
+    if (!valid_ble_frame(buf, len)) {
+        ble_interface->rx_bad++;
         return;
+    }
+    if (ble_interface->from_brcast->is_full()) {
+        ble_interface->rx_drop++;
+        return;
+    }
     len -= 2; // remove BLE AD  length and payload type bytes
     if (len > MAX_PKT_LENGTH) // ignore
         return;
@@ -152,8 +160,11 @@ void _lr_recv_enqueue(const uint8_t *buf, uint8_t len, int rssi)
         memcpy(pkt+1, buf + 2, len);
         if (rssi < -128) rssi = -128;
         *(int8_t*) (pkt+len+1) = (int8_t) rssi;
-        ble_interface->from_brcast->enqueue(pkt);
-    }
+        if (!ble_interface->from_brcast->enqueue(pkt)) {
+            free(pkt);
+            ble_interface->rx_drop++;
+        }
+    } else ble_interface->rx_drop++;
 }
 
 // ----------------------------------------------------------------------
@@ -161,6 +172,7 @@ void _lr_recv_enqueue(const uint8_t *buf, uint8_t len, int rssi)
 IO_dev_ble::IO_dev_ble(uint8_t *my_id, char *ssid)
 {
     name = "BleLR"; // long range
+    from_brcast = NULL;
     rx_cnt = tx_cnt = 0;
     memset(neigh_tab, 0, sizeof(neigh_tab));
 
@@ -269,11 +281,14 @@ void IO_dev_ble::brcast_send(const uint8_t *pkt, char *comment)
 
         static uint8_t buf[2 + MAX_PKT_LENGTH];
         buf[0] = 1 + *pkt; // BLE payload len
-        buf[1] = '\x31';   // BLE payload type: encrypted, closest to "BYTES"
+        buf[1] = '\x31';   // BleBC-compatible tag; payload is not encrypted
         memcpy(buf + 2, pkt + 1, *pkt);
-        if (!ext_adv.setData(buf, 2 + *pkt))
+        if (!ext_adv.setData(buf, 2 + *pkt)) {
+            tx_fail++;
             if (Serial)
                 Serial.printf("failed to set data for ext_adv\r\n");
+            return;
+        }
 
         if (!lr_sender)
             return;
@@ -283,13 +298,19 @@ void IO_dev_ble::brcast_send(const uint8_t *pkt, char *comment)
         if (ble_server)
             ble_server->stopAdvertising(LEGACY_ADV_INST);
 #endif
-        lr_sender->setInstanceData(EXTENDED_ADV_INST, ext_adv);
+        if (!lr_sender->setInstanceData(EXTENDED_ADV_INST, ext_adv)) {
+            tx_fail++;
+            return;
+        }
         if (lr_receiver)
             lr_receiver->stop(); // scanner
-        if (!lr_sender->start(EXTENDED_ADV_INST, 0, 1)) // (instID, dur, #evt)
+        if (!lr_sender->start(EXTENDED_ADV_INST, 0, 1)) { // (instID, dur, #evt)
                                     // this will also restart the receiver
             if (Serial)
                 Serial.printf("failed to start extd advertising\r\n");
+            tx_fail++;
+            if (lr_receiver) lr_receiver->start(0);
+        }
     }
 }
 

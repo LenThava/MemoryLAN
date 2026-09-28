@@ -20,7 +20,7 @@ void onDataRecv(const uint8_t *mac, const uint8_t *data, int len)
         *pkt = len;
         memcpy(pkt+1, data, len);
         *(int8_t*) (pkt+len+1) = 0; // fake rssi
-        espnow_if->from_brcast->enqueue(pkt);
+        if (!espnow_if->from_brcast->enqueue(pkt)) free(pkt);
     }
 }
 
