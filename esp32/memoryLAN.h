@@ -27,8 +27,8 @@ public:
     bool loop(); // serve MemoryLAN protocol on all interfaces, true if changes
 
     // in case we have applications on top of this MemoryLAN switch:
-    void add(uint8_t *mempg); // mempg points to [N][byte1][byte2]..[byteN]
-    uint8_t* set_update_cb(callback_fct* update_cb);
+    bool add(const uint8_t *mempg); // borrowed [N][byte1]..[byteN], true if accepted
+    void set_update_cb(callback_fct* update_cb);
     // uint8_t* get_update();    // NULL or ptr to buffer as above, to be freed
 
     // --------------------------------------------------

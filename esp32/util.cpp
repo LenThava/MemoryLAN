@@ -1,6 +1,7 @@
 // util.cpp
 
 #include <cstring>
+#include <cstdio>
 #include <stdint.h>
 #include <arpa/inet.h>
 
@@ -84,10 +85,10 @@ bool bf_absent(uint8_t *vect, int bit_cnt, int num_hash, int seed,
 {
     for (int i = 0; i < num_hash; i++) {
         uint32_t pos = murmur3_32(item, item_len, seed + i) % bit_cnt;
-        if ( (vect[pos / 8] >> (pos % 8)) & 0x01 )
-            return false;
+        if ( !((vect[pos / 8] >> (pos % 8)) & 0x01) )
+            return true;
     }
-    return true;
+    return false;
 }
 
 // ---------------------------------------------------------------------------

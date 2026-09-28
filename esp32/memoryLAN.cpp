@@ -77,7 +77,21 @@ bool MemoryLAN::loop(void) // return true if some counters changed
     return chg;
 }
 
-uint8_t* MemoryLAN::set_update_cb(callback_fct* update_cb)
+bool MemoryLAN::add(const uint8_t *mempg)
+{
+    if (!mempg || *mempg < 7 || *mempg > MEMLAN_PKT_LEN ||
+        !memcmp(dmx_hdr, mempg + 1, 7))
+        return false;
+
+    uint8_t pkt[MEMLAN_CLSZ];
+    memcpy(pkt, mempg, *mempg + 1);
+    if (on_mempage(NULL, pkt))
+        for (int i = 0; i < if_cnt; i++)
+            broadcast(if_table[i], pkt, false, "mempage");
+    return true;
+}
+
+void MemoryLAN::set_update_cb(callback_fct* update_cb)
 {
     update = update_cb;
 }
@@ -98,7 +112,7 @@ uint8_t* MemoryLAN::on_mempage(IO_device *iod, uint8_t *pkt)
 {
 
     int len = *pkt;
-    if (len > 120) return NULL;
+    if (len < 7 || len > MEMLAN_PKT_LEN) return NULL;
 
     // add to cache, or move to front if already in cache
     int i;
@@ -174,7 +188,11 @@ uint8_t* MemoryLAN::on_beacon(IO_device *iod, uint8_t *pkt)
     // beacon format:  DMX(7B) | STAT(3B) | filter | SIGN(16B) where
     // - stat is: ID(2B) | #NEIGHB(1B)
     // - filter is: BC|HC|SEED|VECT // bit count (1B), hash count (1B), seed (2B), VECT Bytes
-    // - SIGN is HMAC-MD5
+    // - SIGN is reserved (not authenticated)
+
+    if (*pkt != 14 + (BLOOM_BIT_COUNT + 7) / 8 + 16 ||
+        pkt[1+10] != BLOOM_BIT_COUNT || pkt[1+11] != BLOOM_HASH_COUNT)
+        return NULL;
 
     if (Serial) Serial.printf("   on_beacon");
 
@@ -190,9 +208,8 @@ uint8_t* MemoryLAN::on_beacon(IO_device *iod, uint8_t *pkt)
         return NULL;
     }
 
-    int BC = pkt[1+10], HC=pkt[1+11], VL = *pkt - 14 - 16;
-    // FIXME: do sanity checks of BC, HC, VL
-    int seed = *(uint16_t*)(pkt+1+12);
+    uint16_t seed;
+    memcpy(&seed, pkt + 1 + 12, sizeof(seed));
     uint8_t *bfilter = pkt + 1 + 14;
     // Serial.printf("%s ..", to_hex(bfilter, 10));
 
@@ -217,14 +234,14 @@ void MemoryLAN::emit_beacon(IO_device *iod)
 {   // pkt format: see above
 
     uint16_t seed = esp_random();
-    uint8_t buf[1 + 7 + 3 + 1 + 1 + 2 + (BLOOM_BIT_COUNT + 7) / 8 + 16];
+    uint8_t buf[1 + 7 + 3 + 1 + 1 + 2 + (BLOOM_BIT_COUNT + 7) / 8 + 16] = {};
     buf[0] = sizeof(buf) - 1;
     memcpy(buf + 1, dmx_hdr, sizeof(dmx_hdr)); // DMX and id[:2]
 
     buf[1+9] = iod->get_neigh_cnt();
     buf[1+10] = BLOOM_BIT_COUNT;
     buf[1+11] = BLOOM_HASH_COUNT;
-    *(uint16_t*) (buf+1+12) = seed;
+    memcpy(buf + 1 + 12, &seed, sizeof(seed));
     uint8_t *vect = buf + 1 + 14;
 
     bf_init(vect, BLOOM_BIT_COUNT);
@@ -238,17 +255,18 @@ void MemoryLAN::emit_beacon(IO_device *iod)
 
 void MemoryLAN::on_recv(IO_device *iod, uint8_t *pkt)
 {   // pkt format:  points at [N][byte1][byte2]...[byteN][rssi], N<=120
-    if (*pkt >= 7) {
+    if (!pkt) return;
+    if (*pkt >= 7 && *pkt <= MEMLAN_PKT_LEN) {
         if (!memcmp(dmx_hdr, pkt+1, 7)) {
-            pkt = on_beacon(iod, pkt);
-            if (pkt)
+            uint8_t *response = on_beacon(iod, pkt);
+            if (response)
                 for (int i = 0; i < if_cnt; i++)  // backoff for response to BF
-                    broadcast(if_table[i], pkt, true, "BF response");
+                    broadcast(if_table[i], response, true, "BF response");
         } else {
-            pkt = on_mempage(iod, pkt);
-            if (pkt)
+            uint8_t *response = on_mempage(iod, pkt);
+            if (response)
                 for (int i = 0; i < if_cnt; i++)
-                    broadcast(if_table[i], pkt, false, "mempage");
+                    broadcast(if_table[i], response, false, "mempage");
         }
     }
     free(pkt);
@@ -263,7 +281,7 @@ void MemoryLAN::broadcast(IO_device *iod, uint8_t *pkt, bool backoff,
         int nc = iod->get_neigh_cnt();
         if (nc > 1) {
             // tune probability such that chance of nobody sending is approx 1/2
-            int dice = esp_random() % int(1.5 * (nc+1));
+            dice = esp_random() % int(1.5 * (nc+1));
         }
     }
     if (dice > 0) {
