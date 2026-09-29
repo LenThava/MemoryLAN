@@ -5,6 +5,7 @@
 #include "Arduino.h"
 
 #include "board_config.h"
+#include "util.h"
 
 #if defined(USE_BLE) || defined(USE_BLE_CO)
 
@@ -83,7 +84,7 @@ class BLE_ScanCallbacks : public NimBLEScanCallbacks {
     }
 
     void onScanEnd(const NimBLEScanResults& results, int reason) override {
-        if (Serial)
+        if (MLAN_DEBUG && Serial)
             Serial.printf("Scan ended, reason=%d\r\n", reason);
     }
 };
@@ -93,13 +94,13 @@ class BLE_ScanCallbacks : public NimBLEScanCallbacks {
 
 class ServerCallbacks : public NimBLEServerCallbacks {
     void onConnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo) override {
-        if (Serial) Serial.printf("** BLE device connected\r\n");
+        if (MLAN_DEBUG && Serial) Serial.printf("** BLE device connected\r\n");
         // Serial.println(connInfo.toString().c_str());
         if (ble_interface)
             ble_interface->client_cnt += 1;
     };
     void onDisconnect(NimBLEServer* pServer, NimBLEConnInfo& connInfo, int reasno) {
-        if (Serial) Serial.printf("** BLE device disconnected\r\n");
+        if (MLAN_DEBUG && Serial) Serial.printf("** BLE device disconnected\r\n");
         if (ble_interface)
             ble_interface->client_cnt -= 1;
         // theUI->refresh();
@@ -134,7 +135,7 @@ class AdvCallbacks : public NimBLEExtAdvertisingCallbacks {
                 lr_receiver->start(0);
         } else
             if (reason == BLE_HS_ETIMEOUT)
-                if (Serial) Serial.printf("*  AdvCallback: timeout\r\n");
+                if (MLAN_DEBUG && Serial) Serial.printf("*  AdvCallback: timeout\r\n");
     }
 };
 
@@ -226,7 +227,7 @@ IO_dev_ble::IO_dev_ble(uint8_t *my_id, char *ssid)
 
         // if (Serial) Serial.println("BLE init 5");
         if(!lr_sender->setInstanceData(LEGACY_ADV_INST, lgc_adv))
-            if (Serial) Serial.printf("lgcy set inst data\r\n");
+            if (MLAN_DEBUG && Serial) Serial.printf("lgcy set inst data\r\n");
         // if (Serial) Serial.println("BLE init 6");
     }
 #endif
@@ -242,13 +243,13 @@ IO_dev_ble::IO_dev_ble(uint8_t *my_id, char *ssid)
     // must set type to BLE_HCI_ADV_RPT_EVTYPE_NONCONN_IND, how?
 
     if (!lr_sender->setInstanceData(EXTENDED_ADV_INST, ext_adv))
-        if (Serial) Serial.printf("failed: extd set inst data\r\n");
+        if (MLAN_DEBUG && Serial) Serial.printf("failed: extd set inst data\r\n");
     // if (Serial) Serial.println("BLE init 7");
 
 #if defined(USE_BLE_CO)
     if (ssid) {
         if (!lr_sender->start(LEGACY_ADV_INST,0,0))
-            if (Serial) Serial.printf("lgcy adv start failed\r\n");
+            if (MLAN_DEBUG && Serial) Serial.printf("lgcy adv start failed\r\n");
         // if (Serial) Serial.println("BLE init 8");
     }
 #endif
@@ -267,7 +268,7 @@ IO_dev_ble::IO_dev_ble(uint8_t *my_id, char *ssid)
     lr_receiver->setMaxResults(1);
     lr_receiver->setPhy(NimBLEScan::Phy::SCAN_CODED); // force PHY_CODED
     if (!lr_receiver->start(0)) // must start AFTER starting legacy adverisment!
-        if (Serial) Serial.printf("cannot start scanner\r\n");
+        if (MLAN_DEBUG && Serial) Serial.printf("cannot start scanner\r\n");
 
     // if (Serial) Serial.println("BLE init 9");
 }
@@ -276,7 +277,7 @@ void IO_dev_ble::brcast_send(const uint8_t *pkt, char *comment)
 // pkt -> [N][byte0][byte1]..[byteN]
 {
     if (*pkt <= MAX_PKT_LENGTH) {
-        if (Serial) Serial.printf(comment ? "b< %dB (%s)\r\n" : "b< %dB\r\n",
+        if (MLAN_DEBUG && Serial) Serial.printf(comment ? "b< %dB (%s)\r\n" : "b< %dB\r\n",
                                   *pkt, comment);
 
         static uint8_t buf[2 + MAX_PKT_LENGTH];
@@ -285,7 +286,7 @@ void IO_dev_ble::brcast_send(const uint8_t *pkt, char *comment)
         memcpy(buf + 2, pkt + 1, *pkt);
         if (!ext_adv.setData(buf, 2 + *pkt)) {
             tx_fail++;
-            if (Serial)
+            if (MLAN_DEBUG && Serial)
                 Serial.printf("failed to set data for ext_adv\r\n");
             return;
         }
@@ -306,7 +307,7 @@ void IO_dev_ble::brcast_send(const uint8_t *pkt, char *comment)
             lr_receiver->stop(); // scanner
         if (!lr_sender->start(EXTENDED_ADV_INST, 0, 1)) { // (instID, dur, #evt)
                                     // this will also restart the receiver
-            if (Serial)
+            if (MLAN_DEBUG && Serial)
                 Serial.printf("failed to start extd advertising\r\n");
             tx_fail++;
             if (lr_receiver) lr_receiver->start(0);
@@ -320,7 +321,7 @@ uint8_t* IO_dev_ble::brcast_recv()
     
     if (pkt) {
         rx_cnt++;
-        if (Serial) Serial.printf("b> %dB rssi=%hhd\r\n",
+        if (MLAN_DEBUG && Serial) Serial.printf("b> %dB rssi=%hhd\r\n",
                                   *pkt, *(pkt + *pkt + 1));
     }
     return pkt;
@@ -332,7 +333,7 @@ void IO_dev_ble::client_send(const uint8_t *pkt) // update external client
 {
     if (client_cnt == 0) return;
 
-    if (Serial) Serial.printf("c< %dB\r\n", *pkt);
+    if (MLAN_DEBUG && Serial) Serial.printf("c< %dB\r\n", *pkt);
     txChar->setValue(pkt+1, *pkt);
     txChar->notify();
     co_upd_cnt++;
@@ -346,7 +347,7 @@ uint8_t* IO_dev_ble::client_recv() // client had data, get it
     uint8_t* pkt = from_client->dequeue();
     if (pkt) {
         co_add_cnt++;
-        if (Serial) Serial.printf("c> %dB\r\n", *pkt);
+        if (MLAN_DEBUG && Serial) Serial.printf("c> %dB\r\n", *pkt);
     }
     return pkt;
 }
@@ -357,7 +358,7 @@ void IO_dev_ble::client_stats(const char *cp)
 
     stChar->setValue((uint8_t*) cp, strlen(cp));
     stChar->notify();
-    if (Serial)
+    if (MLAN_DEBUG && Serial)
         Serial.printf("c< %dB stats <%s>\r\n", strlen(cp), cp);
 }
 #endif // USE_BLE_CO

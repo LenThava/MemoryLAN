@@ -35,7 +35,7 @@ MemoryLAN::MemoryLAN(uint8_t *mac, callback_fct *update_cb)
 void MemoryLAN::attach_if(IO_device *d)
 {
     if (if_cnt >= MEMLAN_MAX_IF) {
-        if (Serial) Serial.printf("max # of interfaces exhausted for %s\r\n",
+        if (MLAN_DEBUG && Serial) Serial.printf("max # of interfaces exhausted for %s\r\n",
                                   d->name);
         return;
     }
@@ -49,7 +49,7 @@ void MemoryLAN::attach_if(IO_device *d)
             if_table[i]->next_beacon = base + MEMLAN_NEXT_BEACON / if_cnt;
     }
 
-    if (Serial) Serial.printf("mlan: attached %s interface\r\n", d->name);
+    if (MLAN_DEBUG && Serial) Serial.printf("mlan: attached %s interface\r\n", d->name);
 }
 
 bool MemoryLAN::loop(void) // return true if some counters changed
@@ -154,13 +154,13 @@ uint8_t* MemoryLAN::on_mempage(IO_device *iod, uint8_t *pkt)
             }
             // too old: remove it (pretend to not know it), we add it just below
             if (millis() - old_time > MEMLAN_HASH_TIMEOUT) {
-                if (Serial) Serial.printf("   retiring hash,");
+                if (MLAN_DEBUG && Serial) Serial.printf("   retiring hash,");
                 hash_cnt--;
                 break;
             }
             hashfifo[hash_cnt-1] = h;
             timefifo[hash_cnt-1] = millis();
-            if (Serial) Serial.printf("   hash %08x known, not flooding\r\n", h);
+            if (MLAN_DEBUG && Serial) Serial.printf("   hash %08x known, not flooding\r\n", h);
             return NULL;
         }
     }
@@ -178,7 +178,7 @@ uint8_t* MemoryLAN::on_mempage(IO_device *iod, uint8_t *pkt)
         hash_cnt++;
     }
 
-    if (Serial) Serial.printf("   new cache entry h=%08x, flood it\r\n", h);
+    if (MLAN_DEBUG && Serial) Serial.printf("   new cache entry h=%08x, flood it\r\n", h);
     return pkt;
 }
 
@@ -194,17 +194,17 @@ uint8_t* MemoryLAN::on_beacon(IO_device *iod, uint8_t *pkt)
         pkt[1+10] != BLOOM_BIT_COUNT || pkt[1+11] != BLOOM_HASH_COUNT)
         return NULL;
 
-    if (Serial) Serial.printf("   on_beacon");
+    if (MLAN_DEBUG && Serial) Serial.printf("   on_beacon");
 
     if (pkt[1+7] || pkt[1+8]) {
         int8_t rssi = *(pkt + 1 + *pkt);
-        if (Serial) Serial.printf("  from <%02x:%02x>: n=%d", //  rssi=%hhd",
+        if (MLAN_DEBUG && Serial) Serial.printf("  from <%02x:%02x>: n=%d", //  rssi=%hhd",
                                   pkt[8], pkt[9], pkt[10]);   //, rssi);
         iod->neigh_add(pkt+1+7, pkt[1+9], rssi);
     }
 
     if (cache_cnt == 0) {
-        if (Serial) Serial.printf("\r\n");
+        if (MLAN_DEBUG && Serial) Serial.printf("\r\n");
         return NULL;
     }
 
@@ -219,14 +219,14 @@ uint8_t* MemoryLAN::on_beacon(IO_device *iod, uint8_t *pkt)
         int ndx = (i + offs) % cache_cnt;
         uint8_t *e = cache + ndx * MEMLAN_CLSZ; // cache entry
         if (bf_absent(bfilter, BLOOM_BIT_COUNT, BLOOM_HASH_COUNT, seed, e+1, *e)) {
-            if (Serial) Serial.printf(" --> send entry %d with h=0x", i+offs);
+            if (MLAN_DEBUG && Serial) Serial.printf(" --> send entry %d with h=0x", i+offs);
             uint32_t h = murmur3_32(e+1, *e, 9876);
-            if (Serial) Serial.printf("%08x\r\n", h);
+            if (MLAN_DEBUG && Serial) Serial.printf("%08x\r\n", h);
 
             return e; //flood(e, *e + 1);
         }
     }
-    if (Serial) Serial.printf(" --> no Bloom filter deficit\r\n");
+    if (MLAN_DEBUG && Serial) Serial.printf(" --> no Bloom filter deficit\r\n");
     return NULL;
 }
 
@@ -285,7 +285,7 @@ void MemoryLAN::broadcast(IO_device *iod, uint8_t *pkt, bool backoff,
         }
     }
     if (dice > 0) {
-        if (Serial) Serial.printf("   voluntarily not sending %s pkt\r\n",
+        if (MLAN_DEBUG && Serial) Serial.printf("   voluntarily not sending %s pkt\r\n",
                                   iod->name);
         pkt = 0;
     }

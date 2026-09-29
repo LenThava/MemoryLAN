@@ -105,7 +105,7 @@ void display_stats()
     #endif
 
     if (millis() > next_stats) {
-        if (Serial) Serial.printf("  *%s\r\n", stats);
+        if (MLAN_DEBUG && Serial) Serial.printf("  *%s\r\n", stats);
         next_stats = millis() + 10000; // refresh only every 10 seconds
     }
 }
@@ -166,10 +166,7 @@ void loop() {
 
 #if defined(MLAN_TRIAL)
     trial_loop();
-    if (user_button.isSingleClick()) {
-        if (trial.state == READY) trial_begin();
-        else if (trial.state == RUNNING) trial_stop(1);
-    }
+    trial_start_button(user_button.pressedFor(50));
     if (trial.state == EMPTY || trial.state == RUNNING) {
         if (mlan->loop()) { display_stats(); display_redraw(); }
     }

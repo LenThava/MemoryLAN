@@ -10,7 +10,8 @@ inline unsigned long millis() { return test_millis; }
 inline uint32_t esp_random() { return test_random; }
 inline void delay(unsigned long) {}
 struct SerialStub {
-    explicit operator bool() const { return false; }
-    template<class... Args> void printf(const char*, Args...) {}
+    unsigned writes = 0;
+    explicit operator bool() const { return true; }
+    template<class... Args> void printf(const char*, Args...) { ++writes; }
 };
 extern SerialStub Serial;

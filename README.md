@@ -1,5 +1,14 @@
 # MemoryLAN - A Local Area Content Replication Mesh
 
+## ESP32 trial branch
+
+This branch adds Waveshare ESP32-S3-Zero support, core correctness fixes and an
+optional single-source measurement mode. See [trial instructions](test/README.md)
+for building, testing and retrieving results. The trial measures application-page
+delivery; it does not establish a working five-node radio path by itself.
+
+---
+
 This repository contains working implementations of a "memory switch"
 (in analogy to an "Ethernet switch") for forming a configuration-less
 MemoryLAN that assists in replicating content within a confined

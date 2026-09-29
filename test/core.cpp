@@ -217,5 +217,6 @@ int main()
     local_content();
     emitted_beacon();
     assert(live.empty());
+    assert(MLAN_DEBUG ? Serial.writes > 0 : Serial.writes == 0);
     puts("core: all tests passed");
 }

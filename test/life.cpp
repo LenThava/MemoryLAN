@@ -1,4 +1,5 @@
 #include <atomic>
+#include <algorithm>
 #include <cassert>
 #include <cstdio>
 #include <cstdlib>
@@ -18,6 +19,14 @@ static void rgbLedWrite(unsigned, unsigned r, unsigned g, unsigned b)
 { led_r = r; led_g = g; led_b = b; }
 static uint32_t now_ms = 1000;
 static uint32_t millis() { return now_ms; }
+static void delay(unsigned long ms) { now_ms += ms; }
+static bool boot_pressed;
+constexpr int LOW = 0, INPUT = 0, INPUT_PULLUP = 1;
+static void pinMode(int, int) {}
+static int digitalRead(int) { return boot_pressed ? LOW : 1; }
+using std::min;
+#include "libs/HotButton-0.1.1/src/HotButton.h"
+static HotButton boot_button(0, true, LOW);
 static uint8_t my_id[8] = {0x12, 0x34};
 
 struct TestSerial {
@@ -208,6 +217,41 @@ static void led_states()
     assert(led_r && !led_g && !led_b);
 }
 
+static void button_step(bool pressed, uint32_t elapsed)
+{
+    now_ms += elapsed;
+    boot_pressed = pressed;
+    boot_button.update();
+    trial_start_button(boot_button.pressedFor(50));
+}
+
+static void start_only_button()
+{
+    reset(); trial_setup();
+    trial_command("prep 12 1234 1 1000 10");
+    button_step(false, 30);
+    button_step(true, 30);
+    assert(trial.state == READY);
+    button_step(true, 60);
+    assert(trial.state == RUNNING);
+    uint32_t started = trial_start_ms;
+    button_step(true, 1000);
+    button_step(false, 30);
+    for (uint32_t pause : {30u, 500u}) {
+        button_step(true, pause);
+        button_step(true, 100);
+        button_step(false, 30);
+        assert(trial.state == RUNNING && trial_start_ms == started);
+    }
+    now_ms = started + trial.limit_ms;
+    trial_loop();
+    assert(trial.state == DONE && saved().stop_reason == 2);
+    button_step(true, 30);
+    button_step(true, 60);
+    assert(trial.state == DONE);
+    button_step(false, 30);
+}
+
 int main()
 {
     prepare_and_finish();
@@ -215,5 +259,6 @@ int main()
     storage_errors();
     commands_and_peers();
     led_states();
+    start_only_button();
     puts("trial lifecycle: all tests passed");
 }

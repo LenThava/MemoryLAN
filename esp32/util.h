@@ -1,5 +1,13 @@
 // util.h
 
+#pragma once
+
+#if defined(MLAN_TRIAL)
+constexpr bool MLAN_DEBUG = false;
+#else
+constexpr bool MLAN_DEBUG = true;
+#endif
+
 // crc
 extern uint32_t crc32_ieee(uint8_t *pkt, int len);
 extern int crc_check(uint8_t *pkt, int len);

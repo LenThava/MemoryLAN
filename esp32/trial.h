@@ -101,6 +101,11 @@ static void trial_begin()
     trial_reply(true, "running");
 }
 
+static void trial_start_button(bool pressed)
+{
+    if (pressed && trial.state == READY) trial_begin();
+}
+
 static void trial_dump()
 {
     if (!Serial) return;
@@ -157,7 +162,7 @@ static void trial_command(const char *line)
         #define MLAN_STR(x) MLAN_STR_(x)
         snprintf(trial.build, sizeof(trial.build), "%s %s", MLAN_STR(MLAN_REV), COMPILE_DATE);
         bool ok = trial_save();
-        trial_reply(ok, ok ? "prepared; move to final power, then click BOOT once" : "prepare save failed"); return;
+        trial_reply(ok, ok ? "prepared; move to final power, then hold BOOT briefly" : "prepare save failed"); return;
     }
     trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC; start; stop; dump; clear");
 }
