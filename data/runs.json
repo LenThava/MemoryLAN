@@ -1,0 +1,133 @@
+{
+  "schema": 1,
+  "kind": "mlan-evidence",
+  "origin": "Historical exports from ~/mlan/log; copied byte-for-byte, not new measurements.",
+  "boards": {
+    "9135": {
+      "label": 4,
+      "location": "Keller, bottom floor"
+    },
+    "5d60": {
+      "label": 1,
+      "location": "laptop/source"
+    },
+    "18c7": {
+      "label": 2,
+      "location": "corridor outside laptop room"
+    },
+    "8e5a": {
+      "label": 3,
+      "location": "living room, one floor below"
+    },
+    "c3f1": {
+      "label": 5,
+      "location": "hobby room, bottom floor"
+    }
+  },
+  "runs": [
+    {
+      "run": 2026092801,
+      "source": "5d60",
+      "setting": "Two-board nearby trial; 60-second local windows.",
+      "notes": [
+        "Five distinct application pages reached the receiver; this is one physical trial",
+        "The physical labels 1 and 2 were assigned later; the original run called these boards D and E"
+      ],
+      "records": [
+        {
+          "file": "pair-1.json",
+          "sha256": "210189849cd48ba6673fda09f5dc41831b81dca4bdc88dc3fd61f0f113ebeb38",
+          "original": "log/2026092801-5d60-1790617874622421000.json"
+        },
+        {
+          "file": "pair-2.json",
+          "sha256": "5872fa2817833bb7889c6d68e107f70644d907aeab43eddf3e21c2d630737388",
+          "original": "log/2026092801-18c7-1790617871956088000.json"
+        }
+      ],
+      "evidence": [
+        {
+          "file": "keep.txt",
+          "sha256": "aa52cf20badda219ab3d20cc468d196d872a7c8b51fa5d07fefc2c7fef1962c8",
+          "original": "log/2026092801-ret.txt",
+          "description": "Historical transcript records a user-reported physical unplug/reconnect and before/after USB exports matching byte-for-byte on both boards. This is separate observational evidence of finished-record retention; it does not establish RAM-cache persistence or power-loss survival during a run."
+        }
+      ]
+    },
+    {
+      "run": 2026092901,
+      "source": "5d60",
+      "setting": "Five boards nearby on laptop/hub; not apartment placement.",
+      "notes": [
+        "User requested manual termination after approximately one minute; the configured maximum remained 300 seconds",
+        "Each receiver observed two of five pages; local queue drops occurred on all five boards",
+        "This nearby failure means later house underdelivery cannot be attributed only to distance"
+      ],
+      "records": [
+        {
+          "file": "desk-1.json",
+          "sha256": "6ba934610fe78ef27749a36c021bd28b45410e4548193e7069b9fbd31659e68a",
+          "original": "log/2026092901-5d60-bench.json"
+        },
+        {
+          "file": "desk-2.json",
+          "sha256": "8055d57fa6a1b106ce1facc79ba4a1d89984933e69f4e577e1257d5d96612f40",
+          "original": "log/2026092901-18c7-bench.json"
+        },
+        {
+          "file": "desk-3.json",
+          "sha256": "df207240d2815d183dd10d03eaaf99dbc05c34687d0ba1a843eb9a760fe813e3",
+          "original": "log/2026092901-8e5a-bench.json"
+        },
+        {
+          "file": "desk-4.json",
+          "sha256": "41d224e16ac5c598d7bf414a9459455ff0eeb6e9bc3a68017fcce3b7032b76fb",
+          "original": "log/2026092901-9135-bench.json"
+        },
+        {
+          "file": "desk-5.json",
+          "sha256": "59d591a42b48e07b91fca05d631e52249556886dffca2e0d78423a603f7cf6a1",
+          "original": "log/2026092901-c3f1-bench.json"
+        }
+      ]
+    },
+    {
+      "run": 2026092902,
+      "source": "5d60",
+      "setting": "User-reported house placement; battery/USB power, independent local windows.",
+      "notes": [
+        "Node 3 stopped after 433 ms through the manual-stop path; its exact physical trigger is unproven",
+        "All five saved records were retrieved after the user reported unplugging and reconnecting them",
+        "Only peer pairs 1-2 and 4-5 were observed; a working five-node data path was not established",
+        "The source's 17 local queue drops and 12639 ms timer overrun remain diagnostic concerns"
+      ],
+      "records": [
+        {
+          "file": "home-1.json",
+          "sha256": "51313b46ca3986c4584975087dcfc16276da98278606b3405669fa703b3dfb6e",
+          "original": "log/2026092902-5d60-1790638411700126000.json"
+        },
+        {
+          "file": "home-2.json",
+          "sha256": "79a2da56548feb103d00778ff8f3c0171c28b23162eb05ae7d22cea6a442a0e0",
+          "original": "log/2026092902-18c7-1790638413525307000.json"
+        },
+        {
+          "file": "home-3.json",
+          "sha256": "ad509ee4c0e32165186540e5932c53e6fbb4ca11eca47c3721045399593916cd",
+          "original": "log/2026092902-8e5a-1790638412810930000.json"
+        },
+        {
+          "file": "home-4.json",
+          "sha256": "973b28a9f55baf66410b6860941e0e5ec710a4f0830a934bf48721fd22e3dd82",
+          "original": "log/2026092902-9135-1790638412957430000.json"
+        },
+        {
+          "file": "home-5.json",
+          "sha256": "f58b2e0bcfc7003f9d60ab2c39b3eed1fa74b03ddb729624a9c5a3078c235878",
+          "original": "log/2026092902-c3f1-1790638413228757000.json"
+        }
+      ]
+    }
+  ]
+}

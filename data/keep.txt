@@ -1,0 +1,27 @@
+MemoryLAN completed-result retention check
+Checked: 2026-09-28 17:54 UTC
+Run: 2026092801
+Physical step: user was instructed to unplug both boards at their USB cables, wait five seconds and reconnect; user then reported 'connected again'.
+Verification: both expected hardware serials were present after reconnection.
+Commands used: ./go dump on /dev/cu.usbmodem1301 and /dev/cu.usbmodem1401.
+No start, clear, stop, flash or reset command was sent during this check.
+
+Board D: node 5d60, hardware MAC ac:27:6e:b0:f9:b4
+Before: /Users/lenthava/mlan/log/2026092801-5d60-1790617874622421000.json
+After: /Users/lenthava/mlan/log/2026092801-5d60-1790618037843903000.json
+cmp exit status: 0 (byte-for-byte identical)
+SHA-256 of both: 210189849cd48ba6673fda09f5dc41831b81dca4bdc88dc3fd61f0f113ebeb38
+
+Board E: node 18c7, hardware MAC ac:27:6e:b0:f9:fc
+Before: /Users/lenthava/mlan/log/2026092801-18c7-1790617871956088000.json
+After: /Users/lenthava/mlan/log/2026092801-18c7-1790618041580906000.json
+cmp exit status: 0 (byte-for-byte identical)
+SHA-256 of both: 5872fa2817833bb7889c6d68e107f70644d907aeab43eddf3e21c2d630737388
+
+Both state=done, storage_ok=true, stop_reason=2, elapsed_ms=60000.
+Both retain received=[0,1,2,3,4]; source D sent=5; receiver E sent=0.
+All exported fields, including peer summaries and diagnostic counters, remained unchanged.
+Conclusion: the completed trial records on D and E survived the user-reported physical power cycle.
+Limit: this does not demonstrate persistence of the RAM content cache, unfinished observations, battery endurance, or retention on the other three boards.
+Next hardware gates: interrupted-run detection, three-node source-off cache recovery, five-node power/topology and repeated delivery trials.
+

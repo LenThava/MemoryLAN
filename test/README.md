@@ -110,6 +110,60 @@ not a new experiment result.
 - Host tests use Arduino, SHA marker, FreeRTOS and NVS substitutes. They do not
   test actual radio behaviour, FreeRTOS scheduling or flash power-loss durability.
 
+## Persistent files and uuencoded retrieval
+
+The local `logs` work adds a LittleFS archive alongside the existing NVS record.
+The NVS record layout is unchanged. Preparation/start/final NVS writes still work
+if LittleFS is unavailable; use the original `dump` command to export that record.
+Finished/interrupted records are archived at stop or next boot when the filesystem
+is mounted. Archive names are `NODE-RUN.log`; their contents are the same JSON
+representation used by `dump`. `clear` removes the NVS record but keeps archived
+files. Reusing an archived run number is rejected. Existing log files are never
+overwritten with different content.
+
+From a checkout (replace `PORT` with the actual USB-modem path):
+
+```
+python3 tool/files.py id PORT
+python3 tool/files.py list PORT
+python3 tool/files.py get PORT RUN --out log
+```
+
+On the prepared Mac these are `./go id PORT`, `./go files PORT`, and
+`./go get PORT RUN`. The firmware commands are `id`, `files`, and `dump RUN`.
+The latter emits a JSON envelope followed by traditional uuencode data. The
+laptop checks framing, byte count, CRC32, filename, node and run before saving
+the original JSON bytes. Repeated exports get new filenames rather than replacing
+an earlier copy. CRC32 detects accidental transfer changes; it is not authentication.
+
+LittleFS mounts with `begin(false)`: failed mounting never triggers automatic
+formatting. A newly used filesystem may need explicit initialisation. First
+export and inspect the existing NVS record, then clear that record. Only when
+NVS is EMPTY and LittleFS is unmounted may `ctl PORT fsinit` initialise its
+partition. This formats the filesystem partition and may erase pre-existing
+filesystem data; inspect the board before issuing it. It does not erase NVS.
+Do not change partition schemes or upload a filesystem image during this workflow.
+
+File operations are refused while a trial is running. Archives are small final
+summaries, not continuous per-packet logs; there is still no periodic RAM recovery
+checkpoint. A failed archive leaves NVS available and reports that the file is
+unavailable. Green still means the NVS result was saved; use `id`/`files` to check
+the archive separately. The new file path has host coverage and a firmware build;
+actual LittleFS retention and USB retrieval still require a board test.
+
+## Reproducible analysis without boards
+
+```
+python3 tool/report.py data/runs.json --out /path/to/new/report/folder
+python3 tool/cache.py --out /path/to/cache/results
+```
+
+The first command verifies original input hashes, labels physical boards and
+flags short/manual windows, overruns and local drops in the three historical
+setup trials. The second runs deterministic cache scenarios against the actual
+C++ core. Neither command performs a new hardware experiment. `PLAN.md` records
+the hypotheses and the proposed hardware sequence.
+
 ## Hardware validation checklist
 
 The start-only BOOT and quiet-debug changes pass host tests and compile, but

@@ -19,4 +19,7 @@ clang++ -std=c++17 -O1 -fsanitize=address,undefined -Iesp32 test/trial.cpp -o "$
 "$tmp/trial"
 clang++ -std=c++17 -O1 -fsanitize=address,undefined -Itest/life -Iesp32 test/life.cpp -o "$tmp/life"
 "$tmp/life"
+"$tmp/life" --transfer | PYTHONDONTWRITEBYTECODE=1 python3 test/wire.py
 PYTHONDONTWRITEBYTECODE=1 python3 test/lab.py
+PYTHONDONTWRITEBYTECODE=1 python3 test/files.py
+PYTHONDONTWRITEBYTECODE=1 python3 test/report.py

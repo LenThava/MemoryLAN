@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "kind": "mlan-run",
+  "state": "done",
+  "storage_ok": true,
+  "node": "5d60",
+  "source": "5d60",
+  "run": 2026092801,
+  "total": 5,
+  "sent": 5,
+  "gap_ms": 1000,
+  "limit_ms": 60000,
+  "elapsed_ms": 60000,
+  "stop_reason": 2,
+  "cutoff": "local",
+  "build": "e216ee9 2026-09-28 05:44",
+  "duplicates": 3,
+  "invalid": 0,
+  "rx": 7,
+  "tx": 19,
+  "rx_drop": 0,
+  "rx_bad": 0,
+  "tx_fail": 0,
+  "received": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "peers": [
+    {
+      "id": "18c7",
+      "rssi": -27,
+      "samples": 4,
+      "last_ms": 41097
+    }
+  ]
+}

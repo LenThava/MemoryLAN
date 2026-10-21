@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "kind": "mlan-run",
+  "state": "done",
+  "storage_ok": true,
+  "node": "c3f1",
+  "source": "5d60",
+  "run": 2026092901,
+  "total": 5,
+  "sent": 0,
+  "gap_ms": 1000,
+  "limit_ms": 300000,
+  "elapsed_ms": 60766,
+  "stop_reason": 1,
+  "cutoff": "local",
+  "build": "e216ee9 2026-09-28 05:44",
+  "duplicates": 1,
+  "invalid": 0,
+  "rx": 8,
+  "tx": 10,
+  "rx_drop": 12,
+  "rx_bad": 0,
+  "tx_fail": 0,
+  "received": [
+    0,
+    2
+  ],
+  "peers": [
+    {
+      "id": "8e5a",
+      "rssi": -60,
+      "samples": 2,
+      "last_ms": 34965
+    },
+    {
+      "id": "18c7",
+      "rssi": -46,
+      "samples": 2,
+      "last_ms": 46986
+    },
+    {
+      "id": "5d60",
+      "rssi": -64,
+      "samples": 1,
+      "last_ms": 22944
+    }
+  ]
+}

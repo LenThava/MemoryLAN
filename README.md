@@ -6,6 +6,9 @@ This branch adds Waveshare ESP32-S3-Zero support, core correctness fixes and an
 optional single-source measurement mode. See [trial instructions](test/README.md)
 for building, testing and retrieving results. The trial measures application-page
 delivery; it does not establish a working five-node radio path by itself.
+The [experiment plan](PLAN.md) separates saved setup results, deterministic cache
+experiments and the hardware work still required. Historical inputs are under
+`data/`; `tool/report.py` verifies their hashes before generating reports.
 
 ---
 

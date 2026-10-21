@@ -31,6 +31,8 @@ static void trial_reply(bool ok, const char *message)
     if (Serial) Serial.printf("@MLAN {\"ok\":%s,\"message\":\"%s\"}\n", ok ? "true" : "false", message);
 }
 
+#include "trial_log.h"
+
 static bool trial_save()
 {
     trial.checksum = trial_checksum(trial);
@@ -83,7 +85,9 @@ static void trial_stop(uint32_t reason)
     trial.state = DONE;
     trial.stop_reason = reason;
     bool ok = trial_save();
-    trial_reply(ok, ok ? "saved; safe to unplug" : "save failed; keep power and dump");
+    bool archived = ok && trial_archive(trial);
+    trial_reply(ok, !ok ? "save failed; keep power and dump" : archived ?
+        "saved to NVS and log; safe to unplug" : "saved to NVS; log unavailable; use dump");
 }
 
 static void trial_begin()
@@ -110,32 +114,37 @@ static void trial_dump()
 {
     if (!Serial) return;
     if (trial.state == RUNNING) { trial_stats(); trial_peers(); }
-    const char *states[] = {"empty", "ready", "running", "done", "interrupted"};
-    Serial.printf("@MLAN {\"schema\":1,\"kind\":\"mlan-run\",\"state\":\"%s\",\"storage_ok\":%s,",
-        states[trial.state], trial_storage_ok ? "true" : "false");
-    Serial.printf("\"node\":\"%04x\",\"source\":\"%04x\",\"run\":%u,\"total\":%u,\"sent\":%u,",
-        (uint16_t(my_id[0]) << 8) | my_id[1], trial.source, trial.run, trial.total, trial.sent);
-    Serial.printf("\"gap_ms\":%u,\"limit_ms\":%u,\"elapsed_ms\":%u,\"stop_reason\":%u,\"cutoff\":\"local\",",
-        trial.gap_ms, trial.limit_ms, trial.elapsed_ms, trial.stop_reason);
-    Serial.printf("\"build\":\"%s\",\"duplicates\":%u,\"invalid\":%u,\"rx\":%u,\"tx\":%u,",
-        trial.build, trial.duplicates, trial.invalid, trial.rx, trial.tx);
-    Serial.printf("\"rx_drop\":%u,\"rx_bad\":%u,\"tx_fail\":%u,\"received\":[",
-        trial.rx_drop, trial.rx_bad, trial.tx_fail);
-    bool comma = false;
-    for (unsigned i = 0; i < trial.total; i++) if (trial_seen(trial, i)) {
-        Serial.printf("%s%u", comma ? "," : "", i); comma = true;
-    }
-    Serial.print("],\"peers\":["); comma = false;
-    for (const auto &p : trial.peers) if (p.id) {
-        Serial.printf("%s{\"id\":\"%04x\",\"rssi\":%d,\"samples\":%u,\"last_ms\":%u}",
-            comma ? "," : "", p.id, p.rssi, p.samples, p.last_ms);
-        comma = true;
-    }
-    Serial.println("]}");
+    Serial.print("@MLAN ");
+    trial_json(Serial, trial, trial_storage_ok, (uint16_t(my_id[0]) << 8) | my_id[1]);
 }
 
 static void trial_command(const char *line)
 {
+    uint16_t node = (uint16_t(my_id[0]) << 8) | my_id[1];
+    if (!strcmp(line, "id")) {
+        Serial.printf("@MLAN {\"ok\":true,\"node\":\"%04x\",\"files_ok\":%s}\n", node, trial_files_ok ? "true" : "false");
+        return;
+    }
+    if (!strcmp(line, "files") || !strncmp(line, "dump ", 5) || !strcmp(line, "fsinit")) {
+        if (trial.state == RUNNING) { trial_reply(false, "stop before file access"); return; }
+        if (!strcmp(line, "files")) { trial_files_list(node); return; }
+        if (!strcmp(line, "fsinit")) {
+            if (!trial_store_open || !trial_storage_ok || trial_store.isKey("run") ||
+                trial.state != EMPTY || trial_files_ok) {
+                trial_reply(false, "requires healthy empty NVS and unmounted LittleFS"); return;
+            }
+            trial_files_ok = LittleFS.format() && LittleFS.begin(false);
+            trial_reply(trial_files_ok, trial_files_ok ? "LittleFS initialised" : "LittleFS initialisation failed");
+            return;
+        }
+        const char *p = line + 5; char *end;
+        errno = 0;
+        unsigned long run = strtoul(p, &end, 10);
+        if (*p < '0' || *p > '9' || errno || !run || run > UINT32_MAX || *end) {
+            trial_reply(false, "use dump RUN with a positive decimal run number"); return;
+        }
+        trial_file_dump(node, uint32_t(run)); return;
+    }
     if (!strcmp(line, "start")) { trial_begin(); return; }
     if (!strcmp(line, "stop")) { trial_stop(1); return; }
     if (!strcmp(line, "dump")) { trial_dump(); return; }
@@ -154,6 +163,8 @@ static void trial_command(const char *line)
             seconds < 1 || seconds > 3600 || uint64_t(total) * gap >= uint64_t(seconds) * 1000) {
             trial_reply(false, "invalid run, source, count, interval or duration"); return;
         }
+        char path[40]; trial_log_path(path, sizeof(path), node, run);
+        if (trial_files_ok && LittleFS.exists(path)) { trial_reply(false, "run number already archived; choose a new one"); return; }
         memset(&trial, 0, sizeof(trial));
         trial.version = 1; trial.run = run; trial.source = source; trial.total = total;
         trial.node = (uint16_t(my_id[0]) << 8) | my_id[1];
@@ -164,12 +175,13 @@ static void trial_command(const char *line)
         bool ok = trial_save();
         trial_reply(ok, ok ? "prepared; move to final power, then hold BOOT briefly" : "prepare save failed"); return;
     }
-    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC; start; stop; dump; clear");
+    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC; start; stop; dump [RUN]; clear; id; files; fsinit");
 }
 
 static void trial_setup()
 {
     mlan->set_update_cb(trial_update);
+    trial_files_ok = LittleFS.begin(false);
     trial_store_open = trial_storage_ok = trial_store.begin("mlan_lab", false);
     if (!trial_storage_ok) { trial_reply(false, "NVS unavailable"); return; }
     if (trial_store.isKey("run")) {
@@ -181,6 +193,7 @@ static void trial_setup()
         }
         trial = saved;
         if (trial.state == RUNNING) { trial.state = INTERRUPTED; trial_save(); }
+        if (trial_storage_ok && (trial.state == DONE || trial.state == INTERRUPTED)) trial_archive(trial);
     }
     trial_reply(true, "trial firmware; use dump for status");
 }
