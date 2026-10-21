@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Identify boards and retrieve checked LittleFS logs over USB serial."""
 
 import argparse
 import binascii
@@ -81,7 +80,6 @@ def next_line(lines):
 
 
 def decode_uu(lines, info):
-    """Decode the traditional uuencode stream after its JSON envelope."""
     lines = iter(lines)
     if next_line(lines) != f'begin 644 {info["name"]}'.encode("ascii"):
         raise ValueError("Invalid uuencode header")
@@ -210,7 +208,7 @@ def save_file(info, data, directory):
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description="MemoryLAN log retrieval")
     sub = parser.add_subparsers(dest="action", required=True)
     for action in ("id", "list", "get"):
         command = sub.add_parser(action)

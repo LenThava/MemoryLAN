@@ -112,7 +112,7 @@ not a new experiment result.
 
 ## Persistent files and uuencoded retrieval
 
-The local `logs` work adds a LittleFS archive alongside the existing NVS record.
+The trial build adds a LittleFS archive alongside the existing NVS record.
 The NVS record layout is unchanged. Preparation/start/final NVS writes still work
 if LittleFS is unavailable; use the original `dump` command to export that record.
 Finished/interrupted records are archived at stop or next boot when the filesystem

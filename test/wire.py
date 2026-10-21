@@ -1,4 +1,3 @@
-"""Check real firmware uuencode output through the laptop's decoder."""
 import json
 from pathlib import Path
 import sys

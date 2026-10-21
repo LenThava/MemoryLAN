@@ -57,7 +57,6 @@ static void trial_log_path(char *path, size_t capacity, uint16_t node, uint32_t 
 static bool trial_archive(const TrialRecord &r)
 {
     if (!trial_files_ok || !trial_valid(r) || (r.state != DONE && r.state != INTERRUPTED)) return false;
-    // Static buffer keeps the JSON off the small Arduino loop task's stack.
     static TrialText text;
     text.used = 0; text.ok = true;
     trial_json(text, r, true, r.node);
@@ -118,7 +117,7 @@ static void trial_file_dump(uint16_t node, uint32_t run)
     uint8_t chunk[45];
     while (file.available()) {
         size_t n = file.read(chunk, sizeof(chunk));
-        if (!n) return; // no end marker: host must reject an incomplete read
+        if (!n) return;
         char line[63]; unsigned pos = 0;
         line[pos++] = trial_uu_char(n);
         for (size_t i = 0; i < n; i += 3) {

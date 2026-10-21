@@ -9,6 +9,10 @@ delivery; it does not establish a working five-node radio path by itself.
 The [experiment plan](PLAN.md) separates saved setup results, deterministic cache
 experiments and the hardware work still required. Historical inputs are under
 `data/`; `tool/report.py` verifies their hashes before generating reports.
+Saved reports and visualisation prototypes are in [res/](res/README.md).
+LittleFS/uuencode retrieval passes host tests and compiles; its board validation
+is still pending. The published working branch is `prep`; `main` retains the
+upstream baseline for comparison.
 
 ---
 

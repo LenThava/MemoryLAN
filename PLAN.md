@@ -126,9 +126,10 @@ local convenience wrapper. It does not implement the radio protocol.
 - [MemoryLAN upstream](https://github.com/tschudin/MemoryLAN)
 - [Whitepaper](https://github.com/tschudin/MemoryLAN/blob/main/docs/memoryLAN-whitepaper-20260723.pdf)
 - [BleBC](https://github.com/tschudin/BleBC)
-- [Public fork, previously published trial branch](https://github.com/LenThava/MemoryLAN/tree/prep)
+- [Public fork, current work](https://github.com/LenThava/MemoryLAN/tree/prep)
 - [Previous trial changes](https://github.com/LenThava/MemoryLAN/compare/waveshare...prep)
 
-New work on local branch `logs` needs hardware validation and review before
-publication. Passing host tests or compiling firmware does not establish BLE
-delivery, flash power-loss durability or a working five-node deployment.
+The current software and result prototypes are published on `prep`, with saved
+outputs under `res/`. New firmware still needs board validation. Passing host
+tests or compiling firmware does not establish BLE delivery, flash power-loss
+durability or a working five-node deployment.

@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Run the actual C++ cache core with deterministic hardware substitutes."""
 
 import argparse
 import csv
@@ -91,7 +90,7 @@ def refresh_figure(rows):
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description="MemoryLAN cache experiment")
     parser.add_argument("--out", type=Path, default=Path("out/cache"))
     args = parser.parse_args()
     outputs = ["cache.json", "cache.csv", "cache.svg", "refresh.svg"]

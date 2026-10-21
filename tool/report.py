@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Report saved setup trials from an explicit, checksummed evidence manifest."""
 
 import argparse
 import hashlib
@@ -67,8 +66,6 @@ def load_manifest(path):
 def summarize(records, boards, run):
     source = validate(records)
     total = source["sent"]
-    # Screening rule for setup pilots, not a lower bound on transfer time:
-    # a receiver could obtain already-cached pages in a shorter burst.
     minimum_ms = max(1000, (total - 1) * source["gap_ms"])
     rows = []
     for record in records:
@@ -195,7 +192,7 @@ def write_reports(reports, out):
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description="MemoryLAN trial reports")
     parser.add_argument("manifest", type=Path)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
