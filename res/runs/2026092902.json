@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "kind": "mlan-diagnostic-report",
+  "run": 2026092902,
+  "source": "5d60",
+  "injected": 5,
+  "setting": "User-reported house placement; battery/USB power, independent local windows.",
+  "build": "e216ee9 2026-09-28 05:44",
+  "minimum_window_ms": 4000,
+  "limitations": [
+    "Historical setup pilot; one physical trial, not independent repeated exports",
+    "Local start/stop windows are unsynchronised; overlap is unverified",
+    "Short-window screening uses the nominal injection span; it is a diagnostic rule, not a minimum transfer time",
+    "Missing application pages do not measure physical-link packet loss",
+    "Direct-heard peers do not establish data routes or continuous connectivity",
+    "No per-page arrival timestamps; no recovery-time curve can be reconstructed"
+  ],
+  "notes": [
+    "Node 3 stopped after 433 ms through the manual-stop path; its exact physical trigger is unproven",
+    "All five saved records were retrieved after the user reported unplugging and reconnecting them",
+    "Only peer pairs 1-2 and 4-5 were observed; a working five-node data path was not established",
+    "The source's 17 local queue drops and 12639 ms timer overrun remain diagnostic concerns"
+  ],
+  "provenance": [
+    {
+      "file": "home-1.json",
+      "sha256": "51313b46ca3986c4584975087dcfc16276da98278606b3405669fa703b3dfb6e",
+      "original": "log/2026092902-5d60-1790638411700126000.json"
+    },
+    {
+      "file": "home-2.json",
+      "sha256": "79a2da56548feb103d00778ff8f3c0171c28b23162eb05ae7d22cea6a442a0e0",
+      "original": "log/2026092902-18c7-1790638413525307000.json"
+    },
+    {
+      "file": "home-3.json",
+      "sha256": "ad509ee4c0e32165186540e5932c53e6fbb4ca11eca47c3721045399593916cd",
+      "original": "log/2026092902-8e5a-1790638412810930000.json"
+    },
+    {
+      "file": "home-4.json",
+      "sha256": "973b28a9f55baf66410b6860941e0e5ec710a4f0830a934bf48721fd22e3dd82",
+      "original": "log/2026092902-9135-1790638412957430000.json"
+    },
+    {
+      "file": "home-5.json",
+      "sha256": "f58b2e0bcfc7003f9d60ab2c39b3eed1fa74b03ddb729624a9c5a3078c235878",
+      "original": "log/2026092902-c3f1-1790638413228757000.json"
+    }
+  ],
+  "observational_evidence": [],
+  "nodes": [
+    {
+      "label": 1,
+      "node": "5d60",
+      "location": "laptop/source",
+      "role": "source",
+      "observed_pages": 5,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_by_local_cutoff": [],
+      "delivery_percent": null,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 312639,
+      "limit_ms": 300000,
+      "stop_reason": 2,
+      "sent": 5,
+      "duplicates": 3,
+      "invalid": 0,
+      "rx": 13,
+      "tx": 57,
+      "rx_drop": 17,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "18c7",
+          "rssi": -92,
+          "samples": 10,
+          "last_ms": 302597
+        }
+      ],
+      "warnings": [
+        "Local timer overrun: 12639 ms",
+        "Local receive queue dropped 17 frames"
+      ]
+    },
+    {
+      "label": 2,
+      "node": "18c7",
+      "location": "corridor outside laptop room",
+      "role": "receiver",
+      "observed_pages": 5,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_by_local_cutoff": [],
+      "delivery_percent": 100.0,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 300000,
+      "limit_ms": 300000,
+      "stop_reason": 2,
+      "sent": 0,
+      "duplicates": 4,
+      "invalid": 0,
+      "rx": 17,
+      "tx": 70,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "5d60",
+          "rssi": -89,
+          "samples": 8,
+          "last_ms": 195349
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "label": 3,
+      "node": "8e5a",
+      "location": "living room, one floor below",
+      "role": "receiver",
+      "observed_pages": 0,
+      "received": [],
+      "missing_by_local_cutoff": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "delivery_percent": null,
+      "window_assessment": "inadequate",
+      "elapsed_ms": 433,
+      "limit_ms": 300000,
+      "stop_reason": 1,
+      "sent": 0,
+      "duplicates": 0,
+      "invalid": 0,
+      "rx": 0,
+      "tx": 1,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [],
+      "warnings": [
+        "Inadequate window: shorter than the nominal source injection span",
+        "Manual stop: local observation ended explicitly"
+      ]
+    },
+    {
+      "label": 4,
+      "node": "9135",
+      "location": "Keller, bottom floor",
+      "role": "receiver",
+      "observed_pages": 0,
+      "received": [],
+      "missing_by_local_cutoff": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "delivery_percent": 0.0,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 300000,
+      "limit_ms": 300000,
+      "stop_reason": 2,
+      "sent": 0,
+      "duplicates": 0,
+      "invalid": 0,
+      "rx": 40,
+      "tx": 60,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "c3f1",
+          "rssi": -86,
+          "samples": 40,
+          "last_ms": 264749
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "label": 5,
+      "node": "c3f1",
+      "location": "hobby room, bottom floor",
+      "role": "receiver",
+      "observed_pages": 0,
+      "received": [],
+      "missing_by_local_cutoff": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "delivery_percent": 0.0,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 300000,
+      "limit_ms": 300000,
+      "stop_reason": 2,
+      "sent": 0,
+      "duplicates": 0,
+      "invalid": 0,
+      "rx": 37,
+      "tx": 60,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "9135",
+          "rssi": -84,
+          "samples": 37,
+          "last_ms": 296344
+        }
+      ],
+      "warnings": []
+    }
+  ]
+}

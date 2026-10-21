@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+<rect width="800" height="450" fill="white"/>
+<g font-family="sans-serif" fill="#17212b">
+<text x="40" y="34" font-size="22">Content retained in a 10-page cache</text>
+<text x="40" y="58" font-size="13">Deterministic host experiment using the actual C++ MemoryLAN core</text>
+<text x="40" y="79" font-size="12">No radio, topology, packet-loss or hardware power-cycle measurement</text>
+<path d="M80 325 H740" stroke="#e0e5e9"/>
+<text x="65" y="329" text-anchor="end" font-size="12">0</text>
+<path d="M80 275 H740" stroke="#e0e5e9"/>
+<text x="65" y="279" text-anchor="end" font-size="12">5</text>
+<path d="M80 225 H740" stroke="#e0e5e9"/>
+<text x="65" y="229" text-anchor="end" font-size="12">10</text>
+<path d="M80 175 H740" stroke="#e0e5e9"/>
+<text x="65" y="179" text-anchor="end" font-size="12">15</text>
+<path d="M80 125 H740" stroke="#e0e5e9"/>
+<text x="65" y="129" text-anchor="end" font-size="12">20</text>
+<rect x="150" y="275" width="48" height="50" fill="#c5ccd2"/>
+<text x="174" y="265" text-anchor="middle" font-size="14">5</text>
+<rect x="210" y="275" width="48" height="50" fill="#26759e"/>
+<text x="234" y="265" text-anchor="middle" font-size="14">5</text>
+<text x="204" y="350" text-anchor="middle" font-size="14">5 unique pages</text>
+<rect x="360" y="225" width="48" height="100" fill="#c5ccd2"/>
+<text x="384" y="215" text-anchor="middle" font-size="14">10</text>
+<rect x="420" y="225" width="48" height="100" fill="#26759e"/>
+<text x="444" y="215" text-anchor="middle" font-size="14">10</text>
+<text x="414" y="350" text-anchor="middle" font-size="14">10 unique pages</text>
+<rect x="570" y="125" width="48" height="200" fill="#c5ccd2"/>
+<text x="594" y="115" text-anchor="middle" font-size="14">20</text>
+<rect x="630" y="225" width="48" height="100" fill="#26759e"/>
+<text x="654" y="215" text-anchor="middle" font-size="14">10</text>
+<text x="624" y="350" text-anchor="middle" font-size="14">20 unique pages</text>
+<rect x="85" y="374" width="14" height="14" fill="#c5ccd2"/>
+<text x="107" y="386" font-size="13">Injected</text>
+<rect x="220" y="374" width="14" height="14" fill="#26759e"/>
+<text x="242" y="386" font-size="13">Resident after injection</text>
+<text x="40" y="423" font-size="12">These are cache snapshots, not delivery percentages. Full scenario details are in cache.json / cache.csv.</text>
+</g></svg>

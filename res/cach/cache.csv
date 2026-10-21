@@ -1,0 +1,7 @@
+scenario,cache_capacity,unique_injected,duplicate_injections,idle_ms,resident_count,page0_resident,resident_ids
+cold_5,10,5,0,0,5,True,0;1;2;3;4
+cold_10,10,10,0,0,10,True,0;1;2;3;4;5;6;7;8;9
+cold_20,10,20,0,0,10,False,10;11;12;13;14;15;16;17;18;19
+refreshed_20,10,20,10,0,10,True,11;12;13;14;15;16;17;18;0;19
+idle_5,10,5,0,3600000,5,True,0;1;2;3;4
+reset_5,10,5,0,0,0,False,

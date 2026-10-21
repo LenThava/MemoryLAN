@@ -1,0 +1,144 @@
+{
+  "schema": 1,
+  "kind": "mlan-cache-host",
+  "revision": "537c5903ff2163f5dd082c01c249a01ebffc372f",
+  "core_worktree_changed": false,
+  "implementation": "esp32/memoryLAN.cpp, compiled with existing test/inc substitutes",
+  "source_sha256": {
+    "esp32/memoryLAN.cpp": "f0594533e1e1761433fe4bb29241ccc150e8a84ea378d7b9236b6aa5ad9b01db",
+    "esp32/memoryLAN.h": "e238f5fdf34f2d805d7393f7df83645137ff1c96aad46f73638e28c71c123757",
+    "esp32/io_dev.cpp": "e4db25a60ecbb17888601151975f46c0e000a5e4d1e5cfdd809f36262a6461b6",
+    "esp32/util.cpp": "d178c2e56a546f34897dedc1d2b49b56e34fd042bbbdb07d5d54a452ec0af730",
+    "esp32/trial_data.h": "e172840130df5bfd81f0824833492a42a17e7c08ab982bf42885edab8e30615d",
+    "esp32/io_dev.h": "0e2beb2e15c3f7bf0e2650500199a4437a9f15b2fbe321df689124b5844ed4c9",
+    "esp32/io_buf.h": "17e23110dc138b40d726a8d0a18599b242c1123d201f98b94b56f8377a1c3338",
+    "esp32/util.h": "9aaed07c6804b1b57c360611411f1375fa9e913416961db945cc24602a640a37",
+    "test/cache.cpp": "ffa75881f179581f64295dce35aa0c78d7129dd8732b3b5634d848082859ae30",
+    "tool/cache.py": "6c51c0129634ad9bddf3f8fa125f18e22b32a7d0cea86fd544fe527669f432d4",
+    "test/inc/Arduino.h": "c67a6f544ebd0e758a974535ecdd67568bf03c81eb92d33b8fa6c60afb7313e1",
+    "test/inc/sodium/crypto_hash_sha256.h": "7fd7002c5728dab5d7b05bfcf0bf699850dea918d4be6a1f1b5d8d2afc9ddade"
+  },
+  "conditions": {
+    "cache_capacity": 10,
+    "payload_bytes": 32,
+    "random_value": 0,
+    "beacons": "disabled",
+    "radio": "stubbed; no frames arrive",
+    "idle": "test millis advanced by one hour; no wall-clock wait",
+    "reset": "new MemoryLAN object; models RAM initialization only"
+  },
+  "limitations": [
+    "Single-switch cache experiment, not a network simulation or radio test.",
+    "No NVS, LittleFS, real clock, hardware reset, power-loss durability or BLE is exercised.",
+    "unique_injected counts distinct pages presented before any scenario transition.",
+    "resident_ids are ordered oldest to newest; they do not mean pages delivered to another node.",
+    "refreshed_20 reinserts page 0 before each of pages 10 through 19."
+  ],
+  "results": [
+    {
+      "scenario": "cold_5",
+      "cache_capacity": 10,
+      "unique_injected": 5,
+      "duplicate_injections": 0,
+      "idle_ms": 0,
+      "resident_count": 5,
+      "page0_resident": true,
+      "resident_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "scenario": "cold_10",
+      "cache_capacity": 10,
+      "unique_injected": 10,
+      "duplicate_injections": 0,
+      "idle_ms": 0,
+      "resident_count": 10,
+      "page0_resident": true,
+      "resident_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "scenario": "cold_20",
+      "cache_capacity": 10,
+      "unique_injected": 20,
+      "duplicate_injections": 0,
+      "idle_ms": 0,
+      "resident_count": 10,
+      "page0_resident": false,
+      "resident_ids": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ]
+    },
+    {
+      "scenario": "refreshed_20",
+      "cache_capacity": 10,
+      "unique_injected": 20,
+      "duplicate_injections": 10,
+      "idle_ms": 0,
+      "resident_count": 10,
+      "page0_resident": true,
+      "resident_ids": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        0,
+        19
+      ]
+    },
+    {
+      "scenario": "idle_5",
+      "cache_capacity": 10,
+      "unique_injected": 5,
+      "duplicate_injections": 0,
+      "idle_ms": 3600000,
+      "resident_count": 5,
+      "page0_resident": true,
+      "resident_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "scenario": "reset_5",
+      "cache_capacity": 10,
+      "unique_injected": 5,
+      "duplicate_injections": 0,
+      "idle_ms": 0,
+      "resident_count": 0,
+      "page0_resident": false,
+      "resident_ids": []
+    }
+  ]
+}

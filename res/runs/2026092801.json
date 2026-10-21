@@ -1,0 +1,118 @@
+{
+  "schema": 1,
+  "kind": "mlan-diagnostic-report",
+  "run": 2026092801,
+  "source": "5d60",
+  "injected": 5,
+  "setting": "Two-board nearby trial; 60-second local windows.",
+  "build": "e216ee9 2026-09-28 05:44",
+  "minimum_window_ms": 4000,
+  "limitations": [
+    "Historical setup pilot; one physical trial, not independent repeated exports",
+    "Local start/stop windows are unsynchronised; overlap is unverified",
+    "Short-window screening uses the nominal injection span; it is a diagnostic rule, not a minimum transfer time",
+    "Missing application pages do not measure physical-link packet loss",
+    "Direct-heard peers do not establish data routes or continuous connectivity",
+    "No per-page arrival timestamps; no recovery-time curve can be reconstructed"
+  ],
+  "notes": [
+    "Five distinct application pages reached the receiver; this is one physical trial",
+    "The physical labels 1 and 2 were assigned later; the original run called these boards D and E"
+  ],
+  "provenance": [
+    {
+      "file": "pair-1.json",
+      "sha256": "210189849cd48ba6673fda09f5dc41831b81dca4bdc88dc3fd61f0f113ebeb38",
+      "original": "log/2026092801-5d60-1790617874622421000.json"
+    },
+    {
+      "file": "pair-2.json",
+      "sha256": "5872fa2817833bb7889c6d68e107f70644d907aeab43eddf3e21c2d630737388",
+      "original": "log/2026092801-18c7-1790617871956088000.json"
+    }
+  ],
+  "observational_evidence": [
+    {
+      "file": "keep.txt",
+      "sha256": "aa52cf20badda219ab3d20cc468d196d872a7c8b51fa5d07fefc2c7fef1962c8",
+      "original": "log/2026092801-ret.txt",
+      "description": "Historical transcript records a user-reported physical unplug/reconnect and before/after USB exports matching byte-for-byte on both boards. This is separate observational evidence of finished-record retention; it does not establish RAM-cache persistence or power-loss survival during a run."
+    }
+  ],
+  "nodes": [
+    {
+      "label": 1,
+      "node": "5d60",
+      "location": "laptop/source",
+      "role": "source",
+      "observed_pages": 5,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_by_local_cutoff": [],
+      "delivery_percent": null,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 60000,
+      "limit_ms": 60000,
+      "stop_reason": 2,
+      "sent": 5,
+      "duplicates": 3,
+      "invalid": 0,
+      "rx": 7,
+      "tx": 19,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "18c7",
+          "rssi": -27,
+          "samples": 4,
+          "last_ms": 41097
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "label": 2,
+      "node": "18c7",
+      "location": "corridor outside laptop room",
+      "role": "receiver",
+      "observed_pages": 5,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_by_local_cutoff": [],
+      "delivery_percent": 100.0,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 60000,
+      "limit_ms": 60000,
+      "stop_reason": 2,
+      "sent": 0,
+      "duplicates": 1,
+      "invalid": 0,
+      "rx": 12,
+      "tx": 15,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "5d60",
+          "rssi": -33,
+          "samples": 6,
+          "last_ms": 58976
+        }
+      ],
+      "warnings": []
+    }
+  ]
+}

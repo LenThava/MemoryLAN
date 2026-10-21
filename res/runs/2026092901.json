@@ -1,0 +1,311 @@
+{
+  "schema": 1,
+  "kind": "mlan-diagnostic-report",
+  "run": 2026092901,
+  "source": "5d60",
+  "injected": 5,
+  "setting": "Five boards nearby on laptop/hub; not apartment placement.",
+  "build": "e216ee9 2026-09-28 05:44",
+  "minimum_window_ms": 4000,
+  "limitations": [
+    "Historical setup pilot; one physical trial, not independent repeated exports",
+    "Local start/stop windows are unsynchronised; overlap is unverified",
+    "Short-window screening uses the nominal injection span; it is a diagnostic rule, not a minimum transfer time",
+    "Missing application pages do not measure physical-link packet loss",
+    "Direct-heard peers do not establish data routes or continuous connectivity",
+    "No per-page arrival timestamps; no recovery-time curve can be reconstructed"
+  ],
+  "notes": [
+    "User requested manual termination after approximately one minute; the configured maximum remained 300 seconds",
+    "Each receiver observed two of five pages; local queue drops occurred on all five boards",
+    "This nearby failure means later house underdelivery cannot be attributed only to distance"
+  ],
+  "provenance": [
+    {
+      "file": "desk-1.json",
+      "sha256": "6ba934610fe78ef27749a36c021bd28b45410e4548193e7069b9fbd31659e68a",
+      "original": "log/2026092901-5d60-bench.json"
+    },
+    {
+      "file": "desk-2.json",
+      "sha256": "8055d57fa6a1b106ce1facc79ba4a1d89984933e69f4e577e1257d5d96612f40",
+      "original": "log/2026092901-18c7-bench.json"
+    },
+    {
+      "file": "desk-3.json",
+      "sha256": "df207240d2815d183dd10d03eaaf99dbc05c34687d0ba1a843eb9a760fe813e3",
+      "original": "log/2026092901-8e5a-bench.json"
+    },
+    {
+      "file": "desk-4.json",
+      "sha256": "41d224e16ac5c598d7bf414a9459455ff0eeb6e9bc3a68017fcce3b7032b76fb",
+      "original": "log/2026092901-9135-bench.json"
+    },
+    {
+      "file": "desk-5.json",
+      "sha256": "59d591a42b48e07b91fca05d631e52249556886dffca2e0d78423a603f7cf6a1",
+      "original": "log/2026092901-c3f1-bench.json"
+    }
+  ],
+  "observational_evidence": [],
+  "nodes": [
+    {
+      "label": 1,
+      "node": "5d60",
+      "location": "laptop/source",
+      "role": "source",
+      "observed_pages": 5,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing_by_local_cutoff": [],
+      "delivery_percent": null,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 57774,
+      "limit_ms": 300000,
+      "stop_reason": 1,
+      "sent": 5,
+      "duplicates": 5,
+      "invalid": 0,
+      "rx": 11,
+      "tx": 18,
+      "rx_drop": 8,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "c3f1",
+          "rssi": -63,
+          "samples": 1,
+          "last_ms": 3285
+        },
+        {
+          "id": "18c7",
+          "rssi": -72,
+          "samples": 2,
+          "last_ms": 48940
+        },
+        {
+          "id": "8e5a",
+          "rssi": -68,
+          "samples": 1,
+          "last_ms": 24856
+        },
+        {
+          "id": "9135",
+          "rssi": -70,
+          "samples": 1,
+          "last_ms": 57752
+        }
+      ],
+      "warnings": [
+        "Manual stop: local observation ended explicitly",
+        "Local receive queue dropped 8 frames"
+      ]
+    },
+    {
+      "label": 2,
+      "node": "18c7",
+      "location": "corridor outside laptop room",
+      "role": "receiver",
+      "observed_pages": 2,
+      "received": [
+        0,
+        1
+      ],
+      "missing_by_local_cutoff": [
+        2,
+        3,
+        4
+      ],
+      "delivery_percent": 40.0,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 60979,
+      "limit_ms": 300000,
+      "stop_reason": 1,
+      "sent": 0,
+      "duplicates": 4,
+      "invalid": 0,
+      "rx": 9,
+      "tx": 11,
+      "rx_drop": 13,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "c3f1",
+          "rssi": -49,
+          "samples": 2,
+          "last_ms": 18815
+        },
+        {
+          "id": "8e5a",
+          "rssi": -47,
+          "samples": 1,
+          "last_ms": 46899
+        }
+      ],
+      "warnings": [
+        "Manual stop: local observation ended explicitly",
+        "Local receive queue dropped 13 frames"
+      ]
+    },
+    {
+      "label": 3,
+      "node": "8e5a",
+      "location": "living room, one floor below",
+      "role": "receiver",
+      "observed_pages": 2,
+      "received": [
+        0,
+        1
+      ],
+      "missing_by_local_cutoff": [
+        2,
+        3,
+        4
+      ],
+      "delivery_percent": 40.0,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 61197,
+      "limit_ms": 300000,
+      "stop_reason": 1,
+      "sent": 0,
+      "duplicates": 3,
+      "invalid": 0,
+      "rx": 8,
+      "tx": 12,
+      "rx_drop": 15,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "c3f1",
+          "rssi": -49,
+          "samples": 2,
+          "last_ms": 42860
+        },
+        {
+          "id": "18c7",
+          "rssi": -51,
+          "samples": 1,
+          "last_ms": 18797
+        }
+      ],
+      "warnings": [
+        "Manual stop: local observation ended explicitly",
+        "Local receive queue dropped 15 frames"
+      ]
+    },
+    {
+      "label": 4,
+      "node": "9135",
+      "location": "Keller, bottom floor",
+      "role": "receiver",
+      "observed_pages": 2,
+      "received": [
+        0,
+        1
+      ],
+      "missing_by_local_cutoff": [
+        2,
+        3,
+        4
+      ],
+      "delivery_percent": 40.0,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 60556,
+      "limit_ms": 300000,
+      "stop_reason": 1,
+      "sent": 0,
+      "duplicates": 2,
+      "invalid": 0,
+      "rx": 8,
+      "tx": 10,
+      "rx_drop": 11,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "c3f1",
+          "rssi": -53,
+          "samples": 2,
+          "last_ms": 55155
+        },
+        {
+          "id": "18c7",
+          "rssi": -54,
+          "samples": 1,
+          "last_ms": 19071
+        },
+        {
+          "id": "5d60",
+          "rssi": -68,
+          "samples": 1,
+          "last_ms": 43134
+        }
+      ],
+      "warnings": [
+        "Manual stop: local observation ended explicitly",
+        "Local receive queue dropped 11 frames"
+      ]
+    },
+    {
+      "label": 5,
+      "node": "c3f1",
+      "location": "hobby room, bottom floor",
+      "role": "receiver",
+      "observed_pages": 2,
+      "received": [
+        0,
+        2
+      ],
+      "missing_by_local_cutoff": [
+        1,
+        3,
+        4
+      ],
+      "delivery_percent": 40.0,
+      "window_assessment": "minimum duration met; overlap unverified",
+      "elapsed_ms": 60766,
+      "limit_ms": 300000,
+      "stop_reason": 1,
+      "sent": 0,
+      "duplicates": 1,
+      "invalid": 0,
+      "rx": 8,
+      "tx": 10,
+      "rx_drop": 12,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "direct_heard_peers": [
+        {
+          "id": "8e5a",
+          "rssi": -60,
+          "samples": 2,
+          "last_ms": 34965
+        },
+        {
+          "id": "18c7",
+          "rssi": -46,
+          "samples": 2,
+          "last_ms": 46986
+        },
+        {
+          "id": "5d60",
+          "rssi": -64,
+          "samples": 1,
+          "last_ms": 22944
+        }
+      ],
+      "warnings": [
+        "Manual stop: local observation ended explicitly",
+        "Local receive queue dropped 12 frames"
+      ]
+    }
+  ]
+}

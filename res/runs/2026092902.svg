@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="700" viewBox="0 0 1080 700">
+<rect width="1080" height="700" fill="white"/>
+<style>text{font-family:Arial,sans-serif;fill:#17232c}.small{font-size:12px}</style>
+<text x="24" y="32" font-size="22">Setup pilot 2026092902: observed application pages</text>
+<text x="24" y="56" class="small">User-reported house placement; battery/USB power, independent local windows.</text>
+<text x="24" y="78" class="small">Independent local windows; no physical-link loss or page-route inference. Source row shows injection.</text>
+<text x="24" y="122" font-size="15">Board 1 (5d60)</text>
+<rect x="195" y="104" width="400" height="25" fill="#e6edf0"/>
+<rect x="195" y="104" width="400.00" height="25" fill="#176b87"/>
+<text x="610" y="122" font-size="15">5/5 injected</text>
+<text x="195" y="148" class="small">Local window 312.639s; queue drops 17; tx failures 0; invalid pages 0</text>
+<text x="195" y="169" class="small">Local timer overrun: 12639 ms; Local receive queue dropped 17 frames</text>
+<text x="24" y="232" font-size="15">Board 2 (18c7)</text>
+<rect x="195" y="214" width="400" height="25" fill="#e6edf0"/>
+<rect x="195" y="214" width="400.00" height="25" fill="#176b87"/>
+<text x="610" y="232" font-size="15">5/5 observed</text>
+<text x="195" y="258" class="small">Local window 300.000s; queue drops 0; tx failures 0; invalid pages 0</text>
+<text x="195" y="279" class="small">Minimum window met; actual overlap remains unverified</text>
+<text x="24" y="342" font-size="15">Board 3 (8e5a)</text>
+<rect x="195" y="324" width="400" height="25" fill="#e6edf0"/>
+<text x="610" y="342" font-size="15">0/5 observed; INADEQUATE WINDOW</text>
+<text x="195" y="368" class="small">Local window 0.433s; queue drops 0; tx failures 0; invalid pages 0</text>
+<text x="195" y="389" class="small">Inadequate window: shorter than the nominal source injection span; Manual stop: local observation ended explicitly</text>
+<text x="24" y="452" font-size="15">Board 4 (9135)</text>
+<rect x="195" y="434" width="400" height="25" fill="#e6edf0"/>
+<rect x="195" y="434" width="0.00" height="25" fill="#176b87"/>
+<text x="610" y="452" font-size="15">0/5 observed</text>
+<text x="195" y="478" class="small">Local window 300.000s; queue drops 0; tx failures 0; invalid pages 0</text>
+<text x="195" y="499" class="small">Minimum window met; actual overlap remains unverified</text>
+<text x="24" y="562" font-size="15">Board 5 (c3f1)</text>
+<rect x="195" y="544" width="400" height="25" fill="#e6edf0"/>
+<rect x="195" y="544" width="0.00" height="25" fill="#176b87"/>
+<text x="610" y="562" font-size="15">0/5 observed</text>
+<text x="195" y="588" class="small">Local window 300.000s; queue drops 0; tx failures 0; invalid pages 0</text>
+<text x="195" y="609" class="small">Minimum window met; actual overlap remains unverified</text>
+<text x="24" y="685" class="small">Original records and provenance retained; repeated exports count as one run. See accompanying JSON and Markdown.</text>
+</svg>

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="370" viewBox="0 0 1080 370">
+<rect width="1080" height="370" fill="white"/>
+<style>text{font-family:Arial,sans-serif;fill:#17232c}.small{font-size:12px}</style>
+<text x="24" y="32" font-size="22">Setup pilot 2026092801: observed application pages</text>
+<text x="24" y="56" class="small">Two-board nearby trial; 60-second local windows.</text>
+<text x="24" y="78" class="small">Independent local windows; no physical-link loss or page-route inference. Source row shows injection.</text>
+<text x="24" y="122" font-size="15">Board 1 (5d60)</text>
+<rect x="195" y="104" width="400" height="25" fill="#e6edf0"/>
+<rect x="195" y="104" width="400.00" height="25" fill="#176b87"/>
+<text x="610" y="122" font-size="15">5/5 injected</text>
+<text x="195" y="148" class="small">Local window 60.000s; queue drops 0; tx failures 0; invalid pages 0</text>
+<text x="195" y="169" class="small">Minimum window met; actual overlap remains unverified</text>
+<text x="24" y="232" font-size="15">Board 2 (18c7)</text>
+<rect x="195" y="214" width="400" height="25" fill="#e6edf0"/>
+<rect x="195" y="214" width="400.00" height="25" fill="#176b87"/>
+<text x="610" y="232" font-size="15">5/5 observed</text>
+<text x="195" y="258" class="small">Local window 60.000s; queue drops 0; tx failures 0; invalid pages 0</text>
+<text x="195" y="279" class="small">Minimum window met; actual overlap remains unverified</text>
+<text x="24" y="355" class="small">Original records and provenance retained; repeated exports count as one run. See accompanying JSON and Markdown.</text>
+</svg>
