@@ -96,6 +96,11 @@ void MemoryLAN::set_update_cb(callback_fct* update_cb)
     update = update_cb;
 }
 
+bool MemoryLAN::is_beacon(const uint8_t *pkt) const
+{
+    return pkt && *pkt >= 7 && !memcmp(dmx_hdr, pkt + 1, 7);
+}
+
 int MemoryLAN::get_BFwidth()   // in bits
 {
     return BLOOM_BIT_COUNT;

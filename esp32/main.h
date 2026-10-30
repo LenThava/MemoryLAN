@@ -4,6 +4,7 @@
 
 #include <Arduino.h>
 #include <Wire.h>
+#include <esp_mac.h>
 
 #include <sodium/crypto_hash_sha256.h>
 
@@ -11,6 +12,7 @@
 #include "util.h"
 
 unsigned char my_id[sizeof(uint64_t)];
+uint8_t hardware_mac[6];
 
 #include "board_config.h"
 
@@ -48,8 +50,9 @@ HotButton user_button(BUTTON_PIN, true, LOW);
 
 void acquire_id()
 {
-    // compute our ID by hashing the hardware MAC address
-    *(uint64_t*)my_id = ESP.getEfuseMac();
+    ESP_ERROR_CHECK(esp_efuse_mac_get_default(hardware_mac));
+    memset(my_id, 0, sizeof(my_id));
+    memcpy(my_id, hardware_mac, sizeof(hardware_mac));
     if (Serial) {
         Serial.printf("MAC:  ");
         for (int i = 0; i < 6; i++)
@@ -142,6 +145,7 @@ void setup() {
 
 #if defined(USE_BLE) || defined(USE_BLE_CO)
     ble_if = new IO_dev_ble(my_id, ssid);
+    memcpy(ble_if->hardware_mac, hardware_mac, sizeof(hardware_mac));
     mlan->attach_if(ble_if);
 #endif
 

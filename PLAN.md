@@ -3,25 +3,38 @@
 The five ESP32-S3-Zero boards have been tested successfully. The setup uses BLE
 and one data source.
 
-I want to test what a node can still receive after the source disappears, and
-how the amount of cached data affects this.
+First, establish which nodes can hear each other and keep every log clearly
+assigned to its board and test run. The intended topology is 1-2-3-4-5.
+Extra links are acceptable if they are recorded.
 
 ## Next steps
 
-1. Check that LittleFS logs survive unplugging and can be retrieved with uuencode.
-2. Place the five boards around the house and note which neighbours they hear.
-3. Send numbered test pages and compare what each board receives.
-4. Let a relay receive the pages, disconnect the source, then start another
-   receiver. Keep the relay powered and running until the receiver finishes.
-5. Compare 5, 10 and 20 pages with the current 10-page cache. Repeat each case
-   three times, keeping placement, firmware and sending interval fixed.
+1. Flash the same new firmware on all five boards. It uses a new BLE envelope.
+2. Read each board's full hardware MAC address and match it to its physical
+   label, 1 through 5. Enter the actual addresses and locations in
+   `data/boards.json`.
+3. Check that saved result and topology files survive unplugging and can be
+   retrieved with uuencode.
+4. Run a nearby baseline, using one fresh run ID shared by all participating
+   boards. Keep firmware, placement, power and sending interval fixed.
+5. Place the boards around the house and plot the directed links actually
+   observed. Record unexpected links as well as gaps in the intended chain.
 
 ## Measurements
 
-Save received page IDs, duplicates, queue drops and run duration for each board.
-Add cache snapshots and first-arrival times for the later recovery tests.
+Each new log identifies the board by its full six-byte default MAC address.
+Topology observations record the sender, receiving board, run ID, local time,
+signal strength and transmission sequence. A heard packet is a directed
+observation, not proof of a bidirectional connection or an entire page route.
+Record buffer overflow and observations from other runs remain visible.
 
-Afterwards, consider comparing the current cache policy with strict FIFO.
+For Monday, 2 November at 10:00, the target is a reliable identity/retrieval
+workflow and a measured topology graph. The new firmware still needs flashing
+and hardware validation. Speed tuning comes later.
+
+After that, test source-off cache recovery and compare 5, 10 and 20 pages with
+the ten-page cache. Cache policy comparisons also wait until the baseline is
+stable.
 
 ## Files
 

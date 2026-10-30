@@ -5,6 +5,7 @@
 
 static bool trial_files_ok;
 static const unsigned TRIAL_LOG_BYTES = 4096;
+static const unsigned TRIAL_FILE_BYTES = 65536;
 
 static uint32_t trial_crc32(const uint8_t *data, size_t len, uint32_t crc = 0xffffffffu)
 {
@@ -15,8 +16,9 @@ static uint32_t trial_crc32(const uint8_t *data, size_t len, uint32_t crc = 0xff
     return crc;
 }
 
-struct TrialText {
-    char data[TRIAL_LOG_BYTES];
+template<size_t Capacity>
+struct TrialBuffer {
+    char data[Capacity];
     size_t used = 0;
     bool ok = true;
     void printf(const char *fmt, ...)
@@ -31,11 +33,12 @@ struct TrialText {
     }
     void print(const char *s) { printf("%s", s); }
 };
+using TrialText = TrialBuffer<TRIAL_LOG_BYTES>;
 
 static bool trial_file_info(File &file, size_t &bytes, uint32_t &crc)
 {
     bytes = file.size();
-    if (!file || !bytes || bytes >= TRIAL_LOG_BYTES || !file.seek(0)) return false;
+    if (!file || !bytes || bytes > TRIAL_FILE_BYTES || !file.seek(0)) return false;
     uint8_t chunk[128];
     crc = 0xffffffffu;
     size_t count = 0;
@@ -49,9 +52,45 @@ static bool trial_file_info(File &file, size_t &bytes, uint32_t &crc)
     return count == bytes && file.seek(0);
 }
 
-static void trial_log_path(char *path, size_t capacity, uint16_t node, uint32_t run)
+static void trial_log_path(char *path, size_t capacity, uint16_t node, uint32_t run,
+                           bool topology = false, bool legacy = false)
 {
-    snprintf(path, capacity, "/%04x-%lu.log", node, (unsigned long)run);
+    if (legacy) snprintf(path, capacity, "/%04x-%lu.log", node, (unsigned long)run);
+    else {
+        char address[13]; mac_text(hardware_mac, address);
+        snprintf(path, capacity, "/%s-%lu.%s", address, (unsigned long)run, topology ? "top" : "log");
+    }
+}
+
+static bool trial_run_exists(uint16_t node, uint32_t run)
+{
+    char path[40];
+    trial_log_path(path, sizeof(path), node, run);
+    if (LittleFS.exists(path)) return true;
+    trial_log_path(path, sizeof(path), node, run, true);
+    if (LittleFS.exists(path)) return true;
+    trial_log_path(path, sizeof(path), node, run, false, true);
+    return LittleFS.exists(path);
+}
+
+static bool trial_write_archive(const char *path, const char *data, size_t length)
+{
+    uint32_t expected = trial_crc32((const uint8_t*)data, length) ^ 0xffffffffu;
+    if (LittleFS.exists(path)) {
+        File existing = LittleFS.open(path, "r");
+        size_t bytes; uint32_t crc;
+        return trial_file_info(existing, bytes, crc) && bytes == length && crc == expected;
+    }
+    char temp[44];
+    snprintf(temp, sizeof(temp), "%s.tmp", path);
+    File file = LittleFS.open(temp, "w");
+    if (!file || file.write((const uint8_t*)data, length) != length) return false;
+    file.flush(); file.close();
+    file = LittleFS.open(temp, "r");
+    size_t bytes; uint32_t crc;
+    bool ok = trial_file_info(file, bytes, crc) && bytes == length && crc == expected;
+    file.close();
+    return ok && LittleFS.rename(temp, path);
 }
 
 static bool trial_archive(const TrialRecord &r)
@@ -59,25 +98,41 @@ static bool trial_archive(const TrialRecord &r)
     if (!trial_files_ok || !trial_valid(r) || (r.state != DONE && r.state != INTERRUPTED)) return false;
     static TrialText text;
     text.used = 0; text.ok = true;
-    trial_json(text, r, true, r.node);
+    trial_json(text, r, true, r.node, hardware_mac);
     if (!text.ok) return false;
-    uint32_t expected = trial_crc32((const uint8_t*)text.data, text.used) ^ 0xffffffffu;
-    char path[40], temp[44];
-    trial_log_path(path, sizeof(path), r.node, r.run);
-    if (LittleFS.exists(path)) {
-        File existing = LittleFS.open(path, "r");
-        size_t bytes; uint32_t crc;
-        return trial_file_info(existing, bytes, crc) && bytes == text.used && crc == expected;
-    }
-    snprintf(temp, sizeof(temp), "%s.tmp", path);
-    File file = LittleFS.open(temp, "w");
-    if (!file || file.write((const uint8_t*)text.data, text.used) != text.used) return false;
-    file.flush(); file.close();
-    file = LittleFS.open(temp, "r");
-    size_t bytes; uint32_t crc;
-    bool ok = trial_file_info(file, bytes, crc) && bytes == text.used && crc == expected;
-    file.close();
-    return ok && LittleFS.rename(temp, path);
+    char path[40]; trial_log_path(path, sizeof(path), r.node, r.run);
+    return trial_write_archive(path, text.data, text.used);
+}
+
+static bool trial_archive_topology(const TrialRecord &r)
+{
+    if (!trial_files_ok || !trial_valid(r) || r.state != DONE || trial_topology.run != r.run) return false;
+    static TrialBuffer<TRIAL_FILE_BYTES> text;
+    text.used = 0; text.ok = true;
+    trial_topology_json(text, r, trial_topology, hardware_mac);
+    if (!text.ok) return false;
+    char path[40]; trial_log_path(path, sizeof(path), r.node, r.run, true);
+    return trial_write_archive(path, text.data, text.used);
+}
+
+static bool trial_file_name(const char *name, uint16_t node, uint32_t &run, bool &topology, bool &legacy)
+{
+    char address[13], alias[5]; mac_text(hardware_mac, address);
+    snprintf(alias, sizeof(alias), "%04x", node);
+    const char *dash = strchr(name, '-');
+    if (!dash) return false;
+    size_t prefix = dash - name;
+    legacy = prefix == 4 && !strncmp(name, alias, 4);
+    if (!legacy && !(prefix == 12 && !strncmp(name, address, 12))) return false;
+    const char *p = dash + 1;
+    if (*p < '1' || *p > '9') return false;
+    char *end; errno = 0;
+    unsigned long value = strtoul(p, &end, 10);
+    if (errno || !value || value > UINT32_MAX) return false;
+    topology = !strcmp(end, ".top");
+    if (strcmp(end, ".log") && !(topology && !legacy)) return false;
+    run = value;
+    return true;
 }
 
 static void trial_files_list(uint16_t node)
@@ -85,18 +140,20 @@ static void trial_files_list(uint16_t node)
     if (!trial_files_ok) { trial_reply(false, "LittleFS unavailable; export NVS with dump first"); return; }
     File root = LittleFS.open("/");
     if (!root) { trial_reply(false, "cannot list LittleFS"); return; }
-    Serial.printf("@MLAN {\"ok\":true,\"kind\":\"mlan-files\",\"node\":\"%04x\",\"files\":[", node);
+    char address[13]; mac_text(hardware_mac, address);
+    Serial.printf("@MLAN {\"mac\":\"%s\",\"ok\":true,\"kind\":\"mlan-files\",\"node\":\"%04x\",\"files\":[", address, node);
     bool comma = false;
     for (File file = root.openNextFile(); file; file = root.openNextFile()) {
-        unsigned id; unsigned long run; int used = 0;
+        uint32_t run; bool topology, legacy;
         const char *name = file.name();
         if (*name == '/') name++;
-        if (sscanf(name, "%4x-%lu.log%n", &id, &run, &used) != 2 || name[used] || id != node || !run || run > UINT32_MAX)
-            continue;
+        if (!trial_file_name(name, node, run, topology, legacy)) continue;
         size_t bytes; uint32_t crc;
         if (!trial_file_info(file, bytes, crc)) continue;
-        Serial.printf("%s{\"run\":%lu,\"name\":\"%s\",\"bytes\":%u,\"crc32\":\"%08lx\"}",
-            comma ? "," : "", run, name, unsigned(bytes), (unsigned long)crc);
+        Serial.printf("%s{", comma ? "," : "");
+        if (!legacy) Serial.printf("\"mac\":\"%s\",", address);
+        Serial.printf("\"run\":%lu,\"name\":\"%s\",\"type\":\"%s\",\"bytes\":%u,\"crc32\":\"%08lx\"}",
+            (unsigned long)run, name, topology ? "topology" : "result", unsigned(bytes), (unsigned long)crc);
         comma = true;
     }
     Serial.print("]}\n");
@@ -104,15 +161,20 @@ static void trial_files_list(uint16_t node)
 
 static char trial_uu_char(unsigned n) { n &= 63; return n ? char(n + 32) : '`'; }
 
-static void trial_file_dump(uint16_t node, uint32_t run)
+static void trial_file_dump(uint16_t node, uint32_t run, bool topology = false)
 {
     if (!trial_files_ok) { trial_reply(false, "LittleFS unavailable"); return; }
-    char path[40]; trial_log_path(path, sizeof(path), node, run);
+    char path[40]; trial_log_path(path, sizeof(path), node, run, topology);
+    bool legacy = !topology && !LittleFS.exists(path);
+    if (legacy) trial_log_path(path, sizeof(path), node, run, false, true);
     File file = LittleFS.open(path, "r");
     size_t bytes; uint32_t crc;
     if (!trial_file_info(file, bytes, crc)) { trial_reply(false, "log missing or unreadable"); return; }
-    Serial.printf("@MLAN {\"ok\":true,\"kind\":\"mlan-file\",\"node\":\"%04x\",\"run\":%lu,\"name\":\"%s\",\"bytes\":%u,\"crc32\":\"%08lx\"}\n",
-        node, (unsigned long)run, path + 1, unsigned(bytes), (unsigned long)crc);
+    Serial.print("@MLAN {");
+    char address[13]; mac_text(hardware_mac, address);
+    if (!legacy) Serial.printf("\"mac\":\"%s\",", address);
+    Serial.printf("\"ok\":true,\"kind\":\"mlan-file\",\"node\":\"%04x\",\"run\":%lu,\"name\":\"%s\",\"type\":\"%s\",\"bytes\":%u,\"crc32\":\"%08lx\"}\n",
+        node, (unsigned long)run, path + 1, topology ? "topology" : "result", unsigned(bytes), (unsigned long)crc);
     Serial.printf("begin 644 %s\n", path + 1);
     uint8_t chunk[45];
     while (file.available()) {

@@ -38,7 +38,7 @@ class FileTest(unittest.TestCase):
         self.assertEqual(files.decode_uu(lines, info), b"Cat")
 
     def test_all_bytes_and_boundaries(self):
-        for size in (0, 1, 2, 3, 44, 45, 46, 90, 256, 4096):
+        for size in (0, 1, 2, 3, 44, 45, 46, 90, 256, 4096, 65536):
             data = bytes(i % 256 for i in range(size))
             with self.subTest(size=size):
                 self.assertEqual(files.decode_uu(encode(data), info_for(data)), data)
@@ -58,7 +58,7 @@ class FileTest(unittest.TestCase):
     def test_bad_checksum_and_size(self):
         info, _, lines = fixture()
         for key, value in (("crc32", "00000000"), ("bytes", info["bytes"] + 1),
-                           ("bytes", info["bytes"] - 1), ("bytes", 4097), ("bytes", True)):
+                           ("bytes", info["bytes"] - 1), ("bytes", files.MAX_BYTES + 1), ("bytes", True)):
             altered = dict(info, **{key: value})
             wire = [b"@MLAN " + json.dumps(altered).encode(), *lines[1:]]
             with self.subTest(key=key, value=value), self.assertRaises(ValueError):
@@ -172,6 +172,70 @@ class FileTest(unittest.TestCase):
                 for operation in (files.identify, files.list_files):
                     with self.subTest(reply=reply, operation=operation), self.assertRaises(ValueError):
                         operation("unused")
+
+    def hardware_fixture(self, topology=False):
+        record = dict(mac="aabbccddeeff", node="1234", run=7, schema=1,
+                      kind="mlan-topology" if topology else "mlan-run")
+        data = json.dumps(record).encode()
+        name = "aabbccddeeff-7.top" if topology else "aabbccddeeff-7.log"
+        info = dict(info_for(data, name), mac=record["mac"])
+        if topology:
+            info["type"] = "topology"
+        return record, info, data
+
+    def test_full_mac_transfer_and_identity(self):
+        record, info, data = self.hardware_fixture()
+        wire = [b"@MLAN " + json.dumps(info).encode(), *encode(data, info["name"])]
+        self.assertEqual(files.read_transfer(wire, 7), (info, data))
+        for mac in ("AABBCCDDEEFF", "aabbccddeef", "aabbccddeeff00", "aabbccddeefg", None):
+            altered = dict(info, mac=mac)
+            with self.subTest(mac=mac), self.assertRaises(ValueError):
+                files.read_transfer([b"@MLAN " + json.dumps(altered).encode(), *wire[1:]], 7)
+        for replacement in ({**record, "mac": "112233445566"},
+                            {k: v for k, v in record.items() if k != "mac"}):
+            altered = json.dumps(replacement).encode()
+            envelope = dict(info, bytes=len(altered), crc32=f"{zlib.crc32(altered):08x}")
+            with self.assertRaisesRegex(ValueError, "MAC"):
+                files.read_transfer([b"@MLAN " + json.dumps(envelope).encode(),
+                                     *encode(altered, info["name"])], 7)
+
+    def test_topology_requires_requested_type_and_matching_schema(self):
+        record, info, data = self.hardware_fixture(True)
+        wire = [b"@MLAN " + json.dumps(info).encode(), *encode(data, info["name"])]
+        self.assertEqual(files.read_transfer(wire, 7, topology=True), (info, data))
+        with self.assertRaisesRegex(ValueError, "file type"):
+            files.read_transfer(wire, 7)
+        for kind, schema in (("mlan-run", 1), ("mlan-topology", 2), ("mlan-topology", True)):
+            altered = json.dumps(dict(record, kind=kind, schema=schema)).encode()
+            envelope = dict(info, bytes=len(altered), crc32=f"{zlib.crc32(altered):08x}")
+            with self.assertRaises(ValueError):
+                files.read_transfer([b"@MLAN " + json.dumps(envelope).encode(),
+                                     *encode(altered, info["name"])], 7, topology=True)
+
+    def test_list_result_topology_and_legacy_from_one_run(self):
+        entries = []
+        for topology in (False, True):
+            _, info, _ = self.hardware_fixture(topology)
+            entries.append({k: v for k, v in info.items() if k not in ("kind", "node", "mac", "ok")})
+        old = info_for(b"old")
+        entries.append({k: old[k] for k in ("run", "name", "bytes", "crc32")})
+        reply = dict(ok=True, kind="mlan-files", node="1234", mac="aabbccddeeff", files=entries)
+        with patch.object(files, "exchange", return_value=reply):
+            self.assertEqual(files.list_files("unused"), reply)
+        entries.append(dict(entries[0]))
+        with patch.object(files, "exchange", return_value=reply), self.assertRaises(ValueError):
+            files.list_files("unused")
+
+    def test_topology_collision_keeps_suffix_and_original(self):
+        _, info, data = self.hardware_fixture(True)
+        with tempfile.TemporaryDirectory(prefix="mlan-files-") as temp:
+            first = files.save_file(info, data, temp)
+            second = files.save_file(info, data, temp)
+            self.assertNotEqual(first, second)
+            self.assertEqual(first.suffix, ".top")
+            self.assertEqual(second.suffix, ".top")
+            self.assertEqual(first.read_bytes(), data)
+            self.assertEqual(second.read_bytes(), data)
 
 
 if __name__ == "__main__":

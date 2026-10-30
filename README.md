@@ -10,6 +10,9 @@ The [experiment plan](PLAN.md) separates saved setup results, deterministic cach
 experiments and the hardware work still required. Historical inputs are under
 `data/`; `tool/report.py` verifies their hashes before generating reports.
 Saved reports and visualisation prototypes are in [res/](res/README.md).
+New trials identify boards by their full hardware MAC and record directed
+reception observations in separate `.top` files. `tool/topo.py` draws the
+observed topology. All boards need the same new firmware before testing.
 LittleFS/uuencode retrieval passes host tests and compiles; its board validation
 is still pending. The published working branch is `prep`; `main` retains the
 upstream baseline for comparison.

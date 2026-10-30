@@ -1,11 +1,18 @@
 #pragma once
 #include "trial_data.h"
+#include "mac_id.h"
 
 template<class Output>
-static void trial_json(Output &out, const TrialRecord &r, bool storage_ok, uint16_t node)
+static void trial_json(Output &out, const TrialRecord &r, bool storage_ok, uint16_t node,
+                       const uint8_t *mac = nullptr)
 {
     const char *states[] = {"empty", "ready", "running", "done", "interrupted"};
-    out.printf("{\"schema\":1,\"kind\":\"mlan-run\",\"state\":\"%s\",\"storage_ok\":%s,",
+    out.print("{");
+    if (mac) {
+        char address[13]; mac_text(mac, address);
+        out.printf("\"mac\":\"%s\",", address);
+    }
+    out.printf("\"schema\":1,\"kind\":\"mlan-run\",\"state\":\"%s\",\"storage_ok\":%s,",
         states[r.state], storage_ok ? "true" : "false");
     out.printf("\"node\":\"%04x\",\"source\":\"%04x\",\"run\":%u,\"total\":%u,\"sent\":%u,",
         node, r.source, r.run, r.total, r.sent);

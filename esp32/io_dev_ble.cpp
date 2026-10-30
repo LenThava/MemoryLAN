@@ -144,23 +144,26 @@ class AdvCallbacks : public NimBLEExtAdvertisingCallbacks {
 void _lr_recv_enqueue(const uint8_t *buf, size_t len, int rssi)
 {
     if (!ble_interface || !ble_interface->from_brcast) return;
-    if (!valid_ble_frame(buf, len)) {
+    BleMeta meta;
+    const uint8_t *content;
+    size_t content_len;
+    if (!ble_decode_frame(buf, len, meta, content, content_len)) {
         ble_interface->rx_bad++;
         return;
     }
+    meta.received_ms = millis();
     if (ble_interface->from_brcast->is_full()) {
         ble_interface->rx_drop++;
         return;
     }
-    len -= 2; // remove BLE AD  length and payload type bytes
-    if (len > MAX_PKT_LENGTH) // ignore
-        return;
-    uint8_t *pkt = (uint8_t*) malloc(len+2);
-    if (pkt) { // [N][byte1][byte[2]..[byteN][rssi]
-        *pkt = len;
-        memcpy(pkt+1, buf + 2, len);
+    uint8_t *pkt = (uint8_t*) malloc(content_len + 2 + BLE_META_BYTES);
+    if (pkt) { // [N][content][rssi][metadata]
+        *pkt = content_len;
+        memcpy(pkt + 1, content, content_len);
         if (rssi < -128) rssi = -128;
-        *(int8_t*) (pkt+len+1) = (int8_t) rssi;
+        if (rssi > 127) rssi = 127;
+        *(int8_t*) (pkt + content_len + 1) = (int8_t) rssi;
+        ble_store_meta(pkt + content_len + 2, meta);
         if (!ble_interface->from_brcast->enqueue(pkt)) {
             free(pkt);
             ble_interface->rx_drop++;
@@ -276,15 +279,17 @@ IO_dev_ble::IO_dev_ble(uint8_t *my_id, char *ssid)
 void IO_dev_ble::brcast_send(const uint8_t *pkt, char *comment)
 // pkt -> [N][byte0][byte1]..[byteN]
 {
-    if (*pkt <= MAX_PKT_LENGTH) {
+    if (pkt && *pkt >= 7 && *pkt <= MAX_PKT_LENGTH) {
         if (MLAN_DEBUG && Serial) Serial.printf(comment ? "b< %dB (%s)\r\n" : "b< %dB\r\n",
                                   *pkt, comment);
 
-        static uint8_t buf[2 + MAX_PKT_LENGTH];
-        buf[0] = 1 + *pkt; // BLE payload len
-        buf[1] = '\x31';   // BleBC-compatible tag; payload is not encrypted
-        memcpy(buf + 2, pkt + 1, *pkt);
-        if (!ext_adv.setData(buf, 2 + *pkt)) {
+        static uint8_t buf[BLE_FRAME_MAX];
+        BleMeta meta = {};
+        memcpy(meta.sender, hardware_mac, 6);
+        meta.run = run_id;
+        meta.sequence = ++send_sequence; // Attempt counter; wraps modulo 2^32.
+        size_t len = ble_encode_frame(buf, sizeof(buf), pkt, meta);
+        if (!len || !ext_adv.setData(buf, len)) {
             tx_fail++;
             if (MLAN_DEBUG && Serial)
                 Serial.printf("failed to set data for ext_adv\r\n");
@@ -321,6 +326,12 @@ uint8_t* IO_dev_ble::brcast_recv()
     
     if (pkt) {
         rx_cnt++;
+        BleMeta meta = ble_load_meta(pkt + *pkt + 2);
+        if (observe) observe(pkt, meta, *(int8_t*) (pkt + *pkt + 1));
+        if (!ble_run_matches(meta, run_id)) {
+            free(pkt);
+            return nullptr;
+        }
         if (MLAN_DEBUG && Serial) Serial.printf("b> %dB rssi=%hhd\r\n",
                                   *pkt, *(pkt + *pkt + 1));
     }

@@ -29,6 +29,7 @@ public:
     // in case we have applications on top of this MemoryLAN switch:
     bool add(const uint8_t *mempg); // borrowed [N][byte1]..[byteN], true if accepted
     void set_update_cb(callback_fct* update_cb);
+    bool is_beacon(const uint8_t *pkt) const;
     // uint8_t* get_update();    // NULL or ptr to buffer as above, to be freed
 
     // --------------------------------------------------

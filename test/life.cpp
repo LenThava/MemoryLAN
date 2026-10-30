@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "trial_data.h"
+#include "ble_meta.h"
 
 #define MLAN_REV host_test
 #define COMPILE_DATE "host test"
@@ -28,6 +29,7 @@ using std::min;
 #include "libs/HotButton-0.1.1/src/HotButton.h"
 static HotButton boot_button(0, true, LOW);
 static uint8_t my_id[8] = {0x12, 0x34};
+static uint8_t hardware_mac[6] = {0x12, 0x34, 0x56, 0x78, 0x9a, 0xbc};
 
 struct TestSerial {
     std::string output, input;
@@ -55,7 +57,9 @@ struct TestQueue {
 };
 struct TestBle {
     struct Peer { uint8_t id[2]; uint32_t last_heard; int16_t rssi; } neigh_tab[16] = {};
-    uint32_t rx_cnt = 0;
+    uint32_t rx_cnt = 0, run_id = 0;
+    uint8_t hardware_mac[6] = {};
+    void (*observe)(const uint8_t*, const BleMeta&, int8_t) = nullptr;
     std::atomic<int> tx_cnt{0};
     std::atomic<uint32_t> rx_drop{0}, rx_bad{0}, tx_fail{0};
     TestQueue queue;
@@ -68,6 +72,8 @@ struct TestLAN {
     void (*callback)(uint8_t*) = nullptr;
     std::vector<std::vector<uint8_t>> sent;
     bool accept = true;
+    bool is_beacon(const uint8_t* pkt) const
+    { return pkt && pkt[0] == 48 && pkt[1] == 'B'; }
     void set_update_cb(void (*cb)(uint8_t*)) { callback = cb; }
     bool add(const uint8_t* pkt)
     {
@@ -89,13 +95,16 @@ static void reset()
     Preferences::reset();
     LittleFS.reset();
     memset(&trial, 0, sizeof(trial));
+    memset(&trial_topology, 0, sizeof(trial_topology));
     trial_storage_ok = trial_store_open = false;
     trial_files_ok = false;
     now_ms = 1000;
     lan.callback = nullptr; lan.sent.clear(); lan.accept = true;
     lan.cache_cnt = lan.hash_cnt = 0;
     while (auto* p = radio.queue.dequeue()) free(p);
-    radio.rx_cnt = radio.tx_cnt = 0;
+    radio.rx_cnt = radio.tx_cnt = radio.run_id = 0;
+    radio.observe = nullptr;
+    memcpy(radio.hardware_mac, hardware_mac, 6);
     radio.rx_drop = radio.rx_bad = radio.tx_fail = 0;
     memset(radio.neigh_tab, 0, sizeof(radio.neigh_tab));
     Serial.input.clear(); Serial.output.clear();
@@ -278,13 +287,13 @@ static void retained_layout_and_archive()
     static_assert(sizeof(TrialRecord) == 356, "Retained NVS layout changed");
     static_assert(offsetof(TrialRecord, checksum) == 352, "Retained checksum offset changed");
     reset(); trial_setup(); finish_for_archive();
-    assert(LittleFS.exists("/1234-7.log"));
-    std::string original = LittleFS.contents("/1234-7.log");
+    assert(LittleFS.exists("/123456789abc-7.log"));
+    std::string original = LittleFS.contents("/123456789abc-7.log");
     assert(original == raw_json());
-    assert(!LittleFS.exists("/1234-7.log.tmp"));
+    assert(!LittleFS.exists("/123456789abc-7.log.tmp"));
     assert(LittleFS.format_calls == 0 && LittleFS.begin_arguments == std::vector<bool>{false});
     trial_command("clear");
-    assert(Preferences::bytes.empty() && LittleFS.contents("/1234-7.log") == original);
+    assert(Preferences::bytes.empty() && LittleFS.contents("/123456789abc-7.log") == original);
     trial_command("prep 7 1234 3 1000 10");
     assert(trial.state == EMPTY && Preferences::bytes.empty());
     assert(Serial.output.find("run number already archived") != std::string::npos);
@@ -297,27 +306,27 @@ static void archive_reboot_and_conflict()
     reset(); trial_setup();
     LittleFS.fail_rename = true;
     finish_for_archive();
-    assert(!LittleFS.exists("/1234-7.log") && LittleFS.exists("/1234-7.log.tmp"));
+    assert(!LittleFS.exists("/123456789abc-7.log") && LittleFS.exists("/123456789abc-7.log.tmp"));
     auto nvs = Preferences::bytes;
     std::string original = raw_json();
     LittleFS.fail_rename = false;
     memset(&trial, 0, sizeof(trial)); trial_setup();
-    assert(LittleFS.contents("/1234-7.log") == original && Preferences::bytes == nvs);
+    assert(LittleFS.contents("/123456789abc-7.log") == original && Preferences::bytes == nvs);
     unsigned writes = LittleFS.write_calls, renames = LittleFS.rename_calls;
     memset(&trial, 0, sizeof(trial)); trial_setup();
     assert(LittleFS.write_calls == writes && LittleFS.rename_calls == renames);
 
     reset(); trial_setup();
     trial_command("prep 7 1234 3 1000 10"); trial_begin(); trial_loop();
-    LittleFS.put("/1234-7.log", "earlier conflicting result\n");
+    LittleFS.put("/123456789abc-7.log", "earlier conflicting result\n");
     trial_stop(1);
-    assert(LittleFS.contents("/1234-7.log") == "earlier conflicting result\n");
+    assert(LittleFS.contents("/123456789abc-7.log") == "earlier conflicting result\n");
     assert(saved().state == DONE && trial_storage_ok);
     assert(Serial.output.find("saved to NVS; log unavailable") != std::string::npos);
     original = raw_json();
     memset(&trial, 0, sizeof(trial)); trial_setup();
     assert(raw_json() == original);
-    assert(LittleFS.contents("/1234-7.log") == "earlier conflicting result\n");
+    assert(LittleFS.contents("/123456789abc-7.log") == "earlier conflicting result\n");
 }
 
 static void archive_failures()
@@ -333,7 +342,7 @@ static void archive_failures()
         if (failure == 5) LittleFS.fail_seek = true;
         finish_for_archive();
         assert(trial_storage_ok && saved().state == DONE);
-        assert(!LittleFS.exists("/1234-7.log"));
+        assert(!LittleFS.exists("/123456789abc-7.log"));
         assert(raw_json().find("\"state\":\"done\"") != std::string::npos);
         assert(LittleFS.format_calls == 0);
         assert(std::all_of(LittleFS.begin_arguments.begin(), LittleFS.begin_arguments.end(), [](bool a) { return !a; }));
@@ -390,7 +399,7 @@ static void largest_archive()
         trial.peers[i].last_ms = UINT32_MAX;
     }
     assert(trial_save() && trial_archive(trial));
-    std::string json = LittleFS.contents("/1234-4294967295.log");
+    std::string json = LittleFS.contents("/123456789abc-4294967295.log");
     assert(json.size() < 4096 && json == raw_json());
     assert(json.find("254,255]") != std::string::npos);
     assert(json.find("\"id\":\"ff0f\"") != std::string::npos);
@@ -400,36 +409,36 @@ static void largest_archive()
 static void file_commands()
 {
     reset(); trial_setup(); finish_for_archive();
-    std::string json = LittleFS.contents("/1234-7.log");
+    std::string json = LittleFS.contents("/123456789abc-7.log");
     uint32_t crc = trial_crc32((const uint8_t*)json.data(), json.size()) ^ 0xffffffffu;
     char checksum[32]; snprintf(checksum, sizeof(checksum), "\"crc32\":\"%08lx\"", (unsigned long)crc);
     Serial.output.clear(); trial_command("id");
-    assert(Serial.output == "@MLAN {\"ok\":true,\"node\":\"1234\",\"files_ok\":true}\n");
-    LittleFS.put("/1234-7.log.tmp", "partial");
+    assert(Serial.output == "@MLAN {\"mac\":\"123456789abc\",\"ok\":true,\"node\":\"1234\",\"files_ok\":true}\n");
+    LittleFS.put("/123456789abc-7.log.tmp", "partial");
     LittleFS.put("/abcd-8.log", "other node");
-    LittleFS.put("/1234-9.log.bad", "not a log");
+    LittleFS.put("/123456789abc-9.log.bad", "not a log");
     Serial.output.clear(); trial_command("files");
     assert(Serial.output.find("\"kind\":\"mlan-files\"") != std::string::npos);
-    assert(Serial.output.find("\"name\":\"1234-7.log\"") != std::string::npos);
+    assert(Serial.output.find("\"name\":\"123456789abc-7.log\"") != std::string::npos);
     assert(Serial.output.find(checksum) != std::string::npos);
     assert(Serial.output.find("abcd") == std::string::npos && Serial.output.find(".tmp") == std::string::npos);
     Serial.output.clear(); trial_command("dump 7");
     assert(Serial.output.find("\"kind\":\"mlan-file\"") != std::string::npos);
     assert(Serial.output.find(checksum) != std::string::npos);
-    assert(Serial.output.find("\nbegin 644 1234-7.log\n") != std::string::npos);
+    assert(Serial.output.find("\nbegin 644 123456789abc-7.log\n") != std::string::npos);
     assert(Serial.output.substr(Serial.output.size() - 6) == "`\nend\n");
 
     LittleFS.read_calls = 0;
     LittleFS.fail_read_after = (json.size() + 127) / 128 + 1;
     Serial.output.clear(); trial_command("dump 7");
-    assert(Serial.output.find("\nbegin 644 1234-7.log\n") != std::string::npos);
+    assert(Serial.output.find("\nbegin 644 123456789abc-7.log\n") != std::string::npos);
     assert(Serial.output.find("\nend\n") == std::string::npos);
-    assert(saved().state == DONE && LittleFS.contents("/1234-7.log") == json);
+    assert(saved().state == DONE && LittleFS.contents("/123456789abc-7.log") == json);
     LittleFS.fail_read_after = std::numeric_limits<size_t>::max();
 
-    LittleFS.put("/1234-8.log", "Cat");
+    LittleFS.put("/123456789abc-8.log", "Cat");
     Serial.output.clear(); trial_command("dump 8");
-    assert(Serial.output.find("\nbegin 644 1234-8.log\n#0V%T\n`\nend\n") != std::string::npos);
+    assert(Serial.output.find("\nbegin 644 123456789abc-8.log\n#0V%T\n`\nend\n") != std::string::npos);
     const uint8_t check[] = "123456789";
     assert((trial_crc32(check, 9) ^ 0xffffffffu) == 0xcbf43926u);
     for (const char* command : {"dump 0", "dump -1", "dump 7 extra", "dump 4294967296", "dump 99"}) {
@@ -445,8 +454,185 @@ static void file_commands()
     assert(raw_json().find("\"state\":\"running\"") != std::string::npos);
 }
 
+static BleMeta peer_frame(uint32_t run, uint32_t sequence, uint32_t time)
+{
+    return {{0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff}, run, sequence, time};
+}
+
+static void topology_lifecycle()
+{
+    reset(); trial_setup();
+    assert(radio.observe == trial_observe);
+    trial_command("prep 71 9999 3 1000 10");
+    uint8_t beacon[49] = {48, 'B'};
+    BleMeta meta = peer_frame(71, 1, now_ms);
+    radio.observe(beacon, meta, -51);
+    assert(trial_topology.count == 0);
+    trial_begin();
+    assert(radio.run_id == 71 && trial_topology.run == 71);
+    meta.run = 72;
+    radio.observe(beacon, meta, -51);
+    assert(trial_topology.count == 0 && trial_topology.ignored_run == 1);
+    meta.run = 71;
+    meta.received_ms = trial_start_ms - 1;
+    radio.observe(beacon, meta, -51);
+    assert(trial_topology.count == 0);
+    meta.received_ms = trial_start_ms;
+    unsigned writes = LittleFS.write_calls;
+    radio.observe(beacon, meta, -51);
+    assert(trial_topology.count == 1 && LittleFS.write_calls == writes);
+    uint8_t page[TRIAL_BYTES + 1];
+    trial_page(page, trial, 2);
+    meta.sequence++;
+    meta.received_ms += 15;
+    radio.observe(page, meta, -61);
+    assert(trial_topology.count == 2 && LittleFS.write_calls == writes);
+    now_ms = meta.received_ms;
+    trial_stop(1);
+    assert(LittleFS.exists("/123456789abc-71.top"));
+    std::string top = LittleFS.contents("/123456789abc-71.top");
+    assert(top.find("\"kind\":\"mlan-topology\"") != std::string::npos);
+    assert(top.find("\"mac\":\"123456789abc\"") != std::string::npos);
+    assert(top.find("aabbccddeeff") != std::string::npos);
+    assert(top.find("\"run\":71") != std::string::npos);
+    auto count = trial_topology.count;
+    meta.sequence++;
+    radio.observe(beacon, meta, -70);
+    assert(trial_topology.count == count);
+    Serial.output.clear(); trial_command("topo 71");
+    assert(Serial.output.find("\nbegin 644 123456789abc-71.top\n") != std::string::npos);
+    assert(Serial.output.find("\nend\n") != std::string::npos);
+    trial_command("clear");
+    assert(LittleFS.contents("/123456789abc-71.top") == top);
+    trial_command("prep 72 9999 3 1000 10");
+    now_ms = 0;
+    trial_begin();
+    meta = peer_frame(72, 1, 0);
+    radio.observe(beacon, meta, -45);
+    assert(trial_topology.run == 72 && trial_topology.count == 1);
+    assert(trial_topology.overflow == 0 && trial_topology.ignored_run == 0);
+    Serial.output.clear(); trial_command("topo 71");
+    assert(Serial.output.find("stop before file access") != std::string::npos);
+}
+
+static void topology_overflow()
+{
+    reset(); trial_setup();
+    trial_command("prep 73 9999 3 1000 10"); trial_begin();
+    uint8_t beacon[49] = {48, 'B'};
+    size_t capacity = sizeof(trial_topology.events) / sizeof(trial_topology.events[0]);
+    unsigned writes = LittleFS.write_calls;
+    for (unsigned i = 0; i < capacity + 3; i++) {
+        BleMeta meta = peer_frame(73, i + 1, trial_start_ms + i);
+        now_ms = meta.received_ms;
+        radio.observe(beacon, meta, -60);
+    }
+    assert(trial_topology.count == capacity && trial_topology.overflow == 3);
+    assert(LittleFS.write_calls == writes);
+    trial_stop(1);
+    std::string top = LittleFS.contents("/123456789abc-73.top");
+    assert(top.find("\"overflow\":3") != std::string::npos);
+    assert(top.size() < 65536);
+}
+
+static void topology_reboot_and_conflict()
+{
+    reset(); trial_setup();
+    trial_command("prep 74 9999 3 1000 10"); trial_begin();
+    uint8_t beacon[49] = {48, 'B'};
+    BleMeta meta = peer_frame(74, 1, now_ms);
+    radio.observe(beacon, meta, -50);
+    LittleFS.fail_rename = true;
+    trial_stop(1);
+    assert(saved().state == DONE && !LittleFS.exists("/123456789abc-74.top"));
+    auto nvs = Preferences::bytes;
+    memset(&trial, 0, sizeof(trial));
+    memset(&trial_topology, 0, sizeof(trial_topology));
+    LittleFS.fail_rename = false;
+    trial_setup();
+    assert(trial.state == DONE && Preferences::bytes == nvs);
+    assert(!LittleFS.exists("/123456789abc-74.top"));
+    Serial.output.clear(); trial_command("topo 74");
+    assert(Serial.output.find("\"ok\":false") != std::string::npos);
+
+    reset(); trial_setup();
+    trial_command("prep 75 9999 3 1000 10"); trial_begin();
+    meta = peer_frame(75, 1, now_ms);
+    radio.observe(beacon, meta, -50);
+    LittleFS.put("/123456789abc-75.top", "earlier topology file\n");
+    trial_stop(1);
+    assert(saved().state == DONE && LittleFS.exists("/123456789abc-75.log"));
+    assert(LittleFS.contents("/123456789abc-75.top") == "earlier topology file\n");
+}
+
+static void legacy_archive()
+{
+    reset(); trial_setup();
+    const std::string legacy = "{\"kind\":\"mlan-run\",\"node\":\"1234\",\"run\":99}\n";
+    LittleFS.put("/1234-99.log", legacy);
+    Serial.output.clear(); trial_command("dump 99");
+    assert(Serial.output.find("\nbegin 644 1234-99.log\n") != std::string::npos);
+    assert(Serial.output.find("\nend\n") != std::string::npos);
+    assert(LittleFS.contents("/1234-99.log") == legacy);
+    Serial.output.clear(); trial_command("topo 99");
+    assert(Serial.output.find("\"ok\":false") != std::string::npos);
+    assert(!LittleFS.exists("/123456789abc-99.top"));
+}
+
+static void legacy_reboot_archive()
+{
+    for (auto state : {DONE, INTERRUPTED}) {
+        reset();
+        TrialRecord old = {};
+        old.version = 1; old.run = state == DONE ? 80 : 81;
+        old.node = 0x1234; old.source = 0x9999; old.total = 3; old.state = state;
+        old.gap_ms = 1000; old.limit_ms = old.elapsed_ms = 10000;
+        strcpy(old.build, "old firmware");
+        old.checksum = trial_checksum(old);
+        assert(trial_valid(old));
+        const auto *bytes = reinterpret_cast<const unsigned char*>(&old);
+        Preferences::bytes.assign(bytes, bytes + sizeof(old));
+        auto original_nvs = Preferences::bytes;
+        TrialText text;
+        trial_json(text, old, true, old.node);
+        std::string legacy(text.data, text.used);
+        assert(text.ok && legacy.find("\"mac\"") == std::string::npos);
+        char legacy_path[40], new_path[40], command[24];
+        snprintf(legacy_path, sizeof(legacy_path), "/1234-%u.log", old.run);
+        snprintf(new_path, sizeof(new_path), "/123456789abc-%u.log", old.run);
+        snprintf(command, sizeof(command), "dump %u", old.run);
+        LittleFS.put(legacy_path, legacy);
+        trial_setup();
+        assert(trial.state == state && Preferences::bytes == original_nvs);
+        assert(!LittleFS.exists(new_path));
+        assert(LittleFS.contents(legacy_path) == legacy);
+        Serial.output.clear(); trial_command(command);
+        std::string envelope = Serial.output.substr(0, Serial.output.find('\n'));
+        assert(envelope.find("\"mac\"") == std::string::npos);
+        assert(envelope.find(std::string("\"name\":\"") + (legacy_path + 1) + "\"") != std::string::npos);
+        assert(Serial.output.find(std::string("\nbegin 644 ") + (legacy_path + 1) + "\n") != std::string::npos);
+        assert(Serial.output.find("\nend\n") != std::string::npos);
+        assert(raw_json().find("\"mac\":\"123456789abc\"") != std::string::npos);
+        assert(LittleFS.contents(legacy_path) == legacy && !LittleFS.exists(new_path));
+    }
+}
+
 int main(int argc, char **argv)
 {
+    if (argc == 2 && !strcmp(argv[1], "--topology-transfer")) {
+        reset(); trial_setup();
+        trial_command("prep 7 9999 3 1000 10"); trial_begin();
+        uint8_t beacon[49] = {48, 'B'};
+        BleMeta meta = peer_frame(7, 9, trial_start_ms + 123);
+        radio.observe(beacon, meta, -51);
+        uint8_t page[TRIAL_BYTES + 1]; trial_page(page, trial, 2);
+        meta.sequence = 10; meta.received_ms = trial_start_ms + 200;
+        radio.observe(page, meta, -61);
+        now_ms = trial_start_ms + 200; trial_stop(1);
+        Serial.output.clear(); trial_command("topo 7");
+        fwrite(Serial.output.data(), 1, Serial.output.size(), stdout);
+        return 0;
+    }
     if (argc == 2 && !strcmp(argv[1], "--transfer")) {
         reset(); trial_setup(); finish_for_archive();
         Serial.output.clear(); trial_command("dump 7");
@@ -465,5 +651,10 @@ int main(int argc, char **argv)
     filesystem_initialisation();
     largest_archive();
     file_commands();
+    topology_lifecycle();
+    topology_overflow();
+    topology_reboot_and_conflict();
+    legacy_archive();
+    legacy_reboot_archive();
     puts("trial lifecycle: all tests passed");
 }

@@ -2,6 +2,7 @@
 
 #include "io_dev.h"
 #include "io_buf.h"
+#include "ble_meta.h"
 #include <atomic>
 
 // ---------------------------------------------------------------------------
@@ -18,6 +19,9 @@ public:
 
     PktQueue *from_brcast; // for storing data from broadcast medium
     std::atomic<uint32_t> rx_drop{0}, rx_bad{0}, tx_fail{0};
+    uint8_t hardware_mac[6] = {};
+    uint32_t run_id = 0;
+    void (*observe)(const uint8_t *pkt, const BleMeta &meta, int8_t rssi) = nullptr;
     
 #if defined(USE_BLE_CO)
     // client:
@@ -28,6 +32,8 @@ public:
     volatile int client_cnt;
     volatile int co_add_cnt, co_upd_cnt; // BLE client: # of add() and update() events
 #endif
+private:
+    uint32_t send_sequence = 0;
 };
 
 // eof

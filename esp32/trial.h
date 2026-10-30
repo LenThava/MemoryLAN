@@ -1,6 +1,7 @@
 #pragma once
 #include <Preferences.h>
 #include "trial_data.h"
+#include "trial_topology.h"
 
 static Preferences trial_store;
 static TrialRecord trial;
@@ -8,6 +9,28 @@ static bool trial_storage_ok;
 static bool trial_store_open;
 static uint32_t trial_start_ms, trial_next_ms, trial_peer_ms;
 static uint32_t trial_rx0, trial_tx0, trial_drop0, trial_bad0, trial_fail0;
+static TrialTopology trial_topology;
+
+static void trial_observe(const uint8_t *pkt, const BleMeta &meta, int8_t rssi)
+{
+    if (trial.state != RUNNING || int32_t(meta.received_ms - trial_start_ms) < 0) return;
+    if (meta.run != trial.run) { trial_topology.ignored_run++; return; }
+    if (trial_topology.count == TRIAL_EVENTS) { trial_topology.overflow++; return; }
+    auto &event = trial_topology.events[trial_topology.count++];
+    memcpy(event.sender, meta.sender, 6);
+    event.rssi = rssi; event.sequence = meta.sequence;
+    event.ms = meta.received_ms - trial_start_ms;
+    event.type = mlan->is_beacon(pkt) ? 1 : 0;
+    event.page = -1;
+    if (pkt && pkt[0] == TRIAL_BYTES && !memcmp(pkt + 1, "MLT1", 4)) {
+        uint16_t seq = pkt[11] | (uint16_t(pkt[12]) << 8);
+        uint8_t expected[TRIAL_BYTES + 1];
+        trial_page(expected, trial, seq);
+        if (seq < trial.total && !memcmp(expected, pkt, sizeof(expected))) {
+            event.type = 2; event.page = seq;
+        }
+    }
+}
 
 static void trial_led()
 {
@@ -86,8 +109,11 @@ static void trial_stop(uint32_t reason)
     trial.stop_reason = reason;
     bool ok = trial_save();
     bool archived = ok && trial_archive(trial);
+    bool topology_saved = ok && trial_archive_topology(trial);
     trial_reply(ok, !ok ? "save failed; keep power and dump" : archived ?
-        "saved to NVS and log; safe to unplug" : "saved to NVS; log unavailable; use dump");
+        (topology_saved ? "saved to NVS, log and topology; safe to unplug" :
+         "saved to NVS and log; topology unavailable; keep power and retry topo RUN") :
+        "saved to NVS; log unavailable; use dump");
 }
 
 static void trial_begin()
@@ -102,6 +128,9 @@ static void trial_begin()
     trial_drop0 = ble_if->rx_drop.load(); trial_bad0 = ble_if->rx_bad.load();
     trial_fail0 = ble_if->tx_fail.load();
     trial_start_ms = trial_next_ms = trial_peer_ms = millis();
+    memset(&trial_topology, 0, sizeof(trial_topology));
+    trial_topology.run = trial.run;
+    ble_if->run_id = trial.run;
     trial_reply(true, "running");
 }
 
@@ -115,17 +144,19 @@ static void trial_dump()
     if (!Serial) return;
     if (trial.state == RUNNING) { trial_stats(); trial_peers(); }
     Serial.print("@MLAN ");
-    trial_json(Serial, trial, trial_storage_ok, (uint16_t(my_id[0]) << 8) | my_id[1]);
+    trial_json(Serial, trial, trial_storage_ok, (uint16_t(my_id[0]) << 8) | my_id[1], hardware_mac);
 }
 
 static void trial_command(const char *line)
 {
     uint16_t node = (uint16_t(my_id[0]) << 8) | my_id[1];
     if (!strcmp(line, "id")) {
-        Serial.printf("@MLAN {\"ok\":true,\"node\":\"%04x\",\"files_ok\":%s}\n", node, trial_files_ok ? "true" : "false");
+        char address[13]; mac_text(hardware_mac, address);
+        Serial.printf("@MLAN {\"mac\":\"%s\",\"ok\":true,\"node\":\"%04x\",\"files_ok\":%s}\n",
+            address, node, trial_files_ok ? "true" : "false");
         return;
     }
-    if (!strcmp(line, "files") || !strncmp(line, "dump ", 5) || !strcmp(line, "fsinit")) {
+    if (!strcmp(line, "files") || !strncmp(line, "dump ", 5) || !strncmp(line, "topo ", 5) || !strcmp(line, "fsinit")) {
         if (trial.state == RUNNING) { trial_reply(false, "stop before file access"); return; }
         if (!strcmp(line, "files")) { trial_files_list(node); return; }
         if (!strcmp(line, "fsinit")) {
@@ -141,9 +172,11 @@ static void trial_command(const char *line)
         errno = 0;
         unsigned long run = strtoul(p, &end, 10);
         if (*p < '0' || *p > '9' || errno || !run || run > UINT32_MAX || *end) {
-            trial_reply(false, "use dump RUN with a positive decimal run number"); return;
+            trial_reply(false, "use dump RUN or topo RUN with a positive decimal run number"); return;
         }
-        trial_file_dump(node, uint32_t(run)); return;
+        bool topology = !strncmp(line, "topo ", 5);
+        if (topology && run == trial.run) trial_archive_topology(trial);
+        trial_file_dump(node, uint32_t(run), topology); return;
     }
     if (!strcmp(line, "start")) { trial_begin(); return; }
     if (!strcmp(line, "stop")) { trial_stop(1); return; }
@@ -152,7 +185,11 @@ static void trial_command(const char *line)
         if (trial.state == RUNNING) { trial_reply(false, "stop and export first"); return; }
         if (!trial_store_open) { trial_reply(false, "NVS unavailable"); return; }
         bool ok = !trial_store.isKey("run") || trial_store.remove("run");
-        if (ok) { memset(&trial, 0, sizeof(trial)); trial_storage_ok = true; }
+        if (ok) {
+            memset(&trial, 0, sizeof(trial));
+            memset(&trial_topology, 0, sizeof(trial_topology));
+            ble_if->run_id = 0; trial_storage_ok = true;
+        }
         trial_reply(ok, ok ? "cleared" : "clear failed"); return;
     }
     uint32_t fields[5];
@@ -164,7 +201,7 @@ static void trial_command(const char *line)
             trial_reply(false, "invalid run, source, count, interval or duration"); return;
         }
         char path[40]; trial_log_path(path, sizeof(path), node, run);
-        if (trial_files_ok && LittleFS.exists(path)) { trial_reply(false, "run number already archived; choose a new one"); return; }
+        if (trial_files_ok && trial_run_exists(node, run)) { trial_reply(false, "run number already archived; choose a new one"); return; }
         memset(&trial, 0, sizeof(trial));
         trial.version = 1; trial.run = run; trial.source = source; trial.total = total;
         trial.node = (uint16_t(my_id[0]) << 8) | my_id[1];
@@ -173,14 +210,18 @@ static void trial_command(const char *line)
         #define MLAN_STR(x) MLAN_STR_(x)
         snprintf(trial.build, sizeof(trial.build), "%s %s", MLAN_STR(MLAN_REV), COMPILE_DATE);
         bool ok = trial_save();
+        if (ok) ble_if->run_id = trial.run;
         trial_reply(ok, ok ? "prepared; move to final power, then hold BOOT briefly" : "prepare save failed"); return;
     }
-    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC; start; stop; dump [RUN]; clear; id; files; fsinit");
+    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC; start; stop; dump [RUN]; topo RUN; clear; id; files; fsinit");
 }
 
 static void trial_setup()
 {
     mlan->set_update_cb(trial_update);
+    ble_if->observe = trial_observe;
+    ble_if->run_id = 0;
+    memset(&trial_topology, 0, sizeof(trial_topology));
     trial_files_ok = LittleFS.begin(false);
     trial_store_open = trial_storage_ok = trial_store.begin("mlan_lab", false);
     if (!trial_storage_ok) { trial_reply(false, "NVS unavailable"); return; }
@@ -192,8 +233,13 @@ static void trial_setup()
             trial_reply(false, "invalid saved record; preserved until explicit clear"); return;
         }
         trial = saved;
+        ble_if->run_id = trial.run;
         if (trial.state == RUNNING) { trial.state = INTERRUPTED; trial_save(); }
-        if (trial_storage_ok && (trial.state == DONE || trial.state == INTERRUPTED)) trial_archive(trial);
+        if (trial_storage_ok && (trial.state == DONE || trial.state == INTERRUPTED)) {
+            char legacy[40];
+            trial_log_path(legacy, sizeof(legacy), trial.node, trial.run, false, true);
+            if (!LittleFS.exists(legacy)) trial_archive(trial);
+        }
     }
     trial_reply(true, "trial firmware; use dump for status");
 }

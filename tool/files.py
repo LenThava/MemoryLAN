@@ -14,13 +14,19 @@ import zlib
 from lab import exchange
 
 
-MAX_BYTES = 4096
-MAX_WIRE = 65536
+MAX_BYTES = 65536
+MAX_WIRE = 131072
 
 
 def node_id(value):
     if not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{4}", value):
         raise ValueError("Invalid board identity")
+    return value
+
+
+def mac_id(value):
+    if not isinstance(value, str) or not re.fullmatch(r"[0-9a-f]{12}", value):
+        raise ValueError("Invalid hardware MAC")
     return value
 
 
@@ -30,13 +36,28 @@ def number(value, maximum=0xffffffff):
     return value
 
 
-def file_info(info, node=None):
+def file_info(info, node=None, mac=None):
     if not isinstance(info, dict):
         raise ValueError("Invalid file information")
     node = node_id(info.get("node") if node is None else node)
+    if "node" in info and info["node"] != node:
+        raise ValueError("File node differs from board identity")
+    if "mac" in info:
+        value = mac_id(info["mac"])
+        if mac is not None and value != mac:
+            raise ValueError("File MAC differs from board identity")
+        mac = value
+    if mac is not None:
+        mac_id(mac)
     run = number(info.get("run"))
-    if info.get("name") != f"{node}-{run}.log":
+    names = {f"{node}-{run}.log"}
+    if mac is not None:
+        names.update((f"{mac}-{run}.log", f"{mac}-{run}.top"))
+    if info.get("name") not in names:
         raise ValueError("Invalid filename or file identity")
+    kind = "topology" if info["name"].endswith(".top") else "result"
+    if info.get("type", kind) != kind:
+        raise ValueError("File type differs from filename")
     length = info.get("bytes")
     if type(length) is not int or not 0 <= length <= MAX_BYTES:
         raise ValueError("Invalid file length")
@@ -50,6 +71,8 @@ def identify(port):
     if not isinstance(reply, dict):
         raise ValueError("Invalid identity response")
     node_id(reply.get("node"))
+    if "mac" in reply:
+        mac_id(reply["mac"])
     if reply.get("ok") is not True or type(reply.get("files_ok")) is not bool:
         raise ValueError("Invalid identity response")
     return reply
@@ -60,15 +83,16 @@ def list_files(port):
     if not isinstance(reply, dict) or reply.get("ok") is not True or reply.get("kind") != "mlan-files":
         raise ValueError("Invalid file-list response")
     node = node_id(reply.get("node"))
+    mac = mac_id(reply["mac"]) if "mac" in reply else None
     entries = reply.get("files")
     if not isinstance(entries, list):
         raise ValueError("Invalid file list")
-    runs = set()
+    names = set()
     for info in entries:
-        file_info(info, node)
-        if info["run"] in runs:
-            raise ValueError("Duplicate run in file list")
-        runs.add(info["run"])
+        file_info(info, node, mac)
+        if info["name"] in names:
+            raise ValueError("Duplicate filename in file list")
+        names.add(info["name"])
     return reply
 
 
@@ -112,7 +136,7 @@ def decode_uu(lines, info):
     return bytes(data)
 
 
-def read_transfer(lines, run):
+def read_transfer(lines, run, topology=False):
     run = number(run)
     lines = iter(lines)
     for line in lines:
@@ -130,12 +154,23 @@ def read_transfer(lines, run):
         file_info(info)
         if info["run"] != run:
             raise ValueError("Board returned another run")
+        if info["name"].endswith(".top") != topology:
+            raise ValueError("Board returned another file type")
         data = decode_uu(lines, info)
         record = json.loads(data)
-        if (not isinstance(record, dict) or record.get("kind") != "mlan-run" or
+        expected = "mlan-topology" if topology else "mlan-run"
+        if (not isinstance(record, dict) or record.get("kind") != expected or
                 type(record.get("run")) is not int or record["run"] != run or
                 record.get("node") != info["node"]):
             raise ValueError("Log identity does not match transfer envelope")
+        if "mac" in info and record.get("mac") != info["mac"]:
+            raise ValueError("Log MAC does not match transfer envelope")
+        if "mac" in record:
+            mac_id(record["mac"])
+            if "mac" not in info:
+                raise ValueError("Transfer envelope is missing the log MAC")
+        if topology and (type(record.get("schema")) is not int or record["schema"] != 1 or "mac" not in info):
+            raise ValueError("Invalid topology log schema or identity")
         return info, data
     raise ValueError("No file response; check firmware and command")
 
@@ -163,7 +198,7 @@ def serial_lines(fd, deadline):
     raise RuntimeError("File transfer timed out; no complete file was saved")
 
 
-def fetch_file(port, run):
+def fetch_file(port, run, topology=False):
     if not re.fullmatch(r"/dev/(cu|tty)\.usbmodem[\w.-]+", port):
         raise ValueError("Use the exact USB-modem port reported by ./go port")
     run = number(run)
@@ -175,8 +210,8 @@ def fetch_file(port, run):
         attrs[4] = attrs[5] = termios.B115200
         termios.tcsetattr(fd, termios.TCSANOW, attrs)
         termios.tcflush(fd, termios.TCIFLUSH)
-        deadline = time.monotonic() + 15
-        command = f"dump {run}\n".encode("ascii")
+        deadline = time.monotonic() + 30
+        command = f'{"topo" if topology else "dump"} {run}\n'.encode("ascii")
         while command:
             if time.monotonic() >= deadline:
                 raise RuntimeError("Timed out sending file request")
@@ -186,7 +221,7 @@ def fetch_file(port, run):
                     command = command[os.write(fd, command):]
                 except BlockingIOError:
                     continue
-        return read_transfer(serial_lines(fd, deadline), run)
+        return read_transfer(serial_lines(fd, deadline), run, topology)
     finally:
         os.close(fd)
 
@@ -204,7 +239,8 @@ def save_file(info, data, directory):
                 file.write(data)
             return path
         except FileExistsError:
-            path = directory / f'{Path(info["name"]).stem}-{time.time_ns()}.log'
+            name = Path(info["name"])
+            path = directory / f'{name.stem}-{time.time_ns()}{name.suffix}'
 
 
 def main():
@@ -216,10 +252,11 @@ def main():
         if action == "get":
             command.add_argument("run", type=int)
             command.add_argument("--out", default="log")
+            command.add_argument("--topology", action="store_true")
     args = parser.parse_args()
     try:
         if args.action == "get":
-            info, data = fetch_file(args.port, args.run)
+            info, data = fetch_file(args.port, args.run, args.topology)
             print(save_file(info, data, args.out))
         else:
             print(json.dumps(identify(args.port) if args.action == "id" else list_files(args.port), indent=2))

@@ -50,13 +50,22 @@ It is not required when using the commands above. From `~/mlan`:
 ```
 
 `load` flashes one Waveshare ESP32-S3-Zero. Identify the board first.
-The `node` field in `dump` identifies it. Label physical boards 1 through 5.
-Use the same firmware binary on all participating boards. Keep other test
-firmware and BleBC demos off during a run.
+The `mac` field is the full default six-byte hardware address. The four-digit
+`node` field remains a legacy alias used by the existing trial source selector.
+Label physical boards 1 through 5 and record the actual full addresses and
+locations in `data/boards.json`. It starts empty; do not infer an address from
+an old short ID. Its format is a JSON object keyed by twelve lowercase MAC hex
+digits, with `label` and `location` fields for each board.
+
+Use the same firmware binary on all five boards. The new BLE envelope carries
+the current transmitter's full MAC, run ID and transmission sequence outside
+the unchanged MemoryLAN page. Old and new radio firmware must not be mixed.
+Keep other test firmware and BleBC demos off during a run.
 
 ## First bench run
 
-Choose a fresh run number and the source's four-digit hexadecimal node ID.
+Choose a fresh run number shared by every board in that physical run, and the
+source's four-digit hexadecimal legacy node ID. Give repetitions new run IDs.
 Prepare each board, including the source (example source ID `1234`):
 
 ```
@@ -76,10 +85,11 @@ An existing record must be exported and explicitly cleared before preparation.
 4. Let each local timer expire to finish and save in place. Wait for green before
    unplugging. Red means keep power and inspect with `dump`.
    Do not move active boards together for collection.
-5. Connect each board to USB and run `./go dump PORT`. Reboot never resumes a
-   finished/interrupted run. Files are saved under `~/mlan/log` without overwrite.
-6. Include the source record when plotting:
-   `./go plot log/SOURCE.json log/B.json log/C.json`.
+5. Connect each board to USB, identify it and retrieve both archived files with
+   the commands below. Reboot never resumes a finished/interrupted run.
+   Use `./go dump PORT` as the NVS fallback if the result archive is unavailable.
+6. Plot topology files first. For the existing page-count plots, include the
+   source result: `./go plot log/SOURCE.json log/B.json log/C.json`.
 7. After checking exports, `./go ctrl PORT clear` removes only this trial record.
 
 `./go ctrl PORT stop` can finish early over USB. BOOT only starts a prepared run.
@@ -93,7 +103,9 @@ not a new experiment result.
   RUNNING becomes INTERRUPTED. There are no periodic data checkpoints; an
   interrupted run loses its latest RAM observations and is excluded from plots.
 - Start/final writes are outside normal packet collection. No per-packet flash
-  writes, cache persistence, extra application retransmissions or hop headers.
+  writes, persistent content cache or extra application retransmissions are added.
+  Sender metadata is carried outside the cached content, so forwarding does not
+  change the page's identity.
 - The current controls use **independent local observation windows**. These are
   not a synchronised global cutoff. Record activation/finish order and durations.
   Do not claim equal recovery time, one-way latency or causal per-hop loss.
@@ -102,9 +114,9 @@ not a new experiment result.
   rejected. Local queue drops, bad frames and send failures remain visible.
   A completed record can still be an inadequate experiment: check elapsed time,
   stop reason and overlapping observation windows before interpreting a plot.
-- Peer samples are observations of directly heard beacons, not proof of each
-  page's route. The peer array stores up to 16 IDs with the last RSSI/relative
-  observation time. It is not a continuous topology trace.
+- The old `peers` array remains a summary of directly heard beacons. The separate
+  topology file records timestamped direct receptions with full sender MACs.
+  Neither record proves an entire page route or a bidirectional connection.
 - Keep transmit power, firmware, payload, interval, power supplies and locations
   fixed for repetitions. Do not add deep sleep or Wi-Fi during the baseline.
 - Host tests use Arduino, SHA marker, FreeRTOS and NVS substitutes. They do not
@@ -116,10 +128,17 @@ The trial build adds a LittleFS archive alongside the existing NVS record.
 The NVS record layout is unchanged. Preparation/start/final NVS writes still work
 if LittleFS is unavailable; use the original `dump` command to export that record.
 Finished/interrupted records are archived at stop or next boot when the filesystem
-is mounted. Archive names are `NODE-RUN.log`; their contents are the same JSON
-representation used by `dump`. `clear` removes the NVS record but keeps archived
-files. Reusing an archived run number is rejected. Existing log files are never
-overwritten with different content.
+is mounted. New result names are `MAC-RUN.log`; their JSON begins with the full
+hardware MAC. Old `NODE-RUN.log` files remain readable. The retained 356-byte NVS
+record is unchanged. `clear` removes the NVS record but keeps archived files.
+Reusing an archived run number is rejected. Existing logs are not overwritten.
+
+A completed run also writes `MAC-RUN.top`, a separate JSON topology file.
+Up to 256 direct-reception observations are collected in RAM while RUNNING.
+Each has sender MAC, run, transmission sequence, local milliseconds, RSSI and
+packet type. Buffer overflow and ignored observations from other runs are
+counted explicitly. A power interruption loses the in-memory topology trace;
+the NVS summary is a separate fallback, not a replacement for that trace.
 
 From a checkout (replace `PORT` with the actual USB-modem path):
 
@@ -127,14 +146,30 @@ From a checkout (replace `PORT` with the actual USB-modem path):
 python3 tool/files.py id PORT
 python3 tool/files.py list PORT
 python3 tool/files.py get PORT RUN --out log
+python3 tool/files.py get PORT RUN --topology --out log
 ```
 
-On the prepared Mac these are `./go id PORT`, `./go files PORT`, and
-`./go get PORT RUN`. The firmware commands are `id`, `files`, and `dump RUN`.
-The latter emits a JSON envelope followed by traditional uuencode data. The
-laptop checks framing, byte count, CRC32, filename, node and run before saving
-the original JSON bytes. Repeated exports get new filenames rather than replacing
-an earlier copy. CRC32 detects accidental transfer changes; it is not authentication.
+On the prepared Mac these are `./go id PORT`, `./go files PORT`,
+`./go get PORT RUN` and `./go topo PORT RUN`. The firmware commands are `id`, `files`, `dump RUN` and
+`topo RUN`. File exports emit a JSON envelope followed by traditional uuencode.
+The laptop checks framing, byte count, CRC32, filename, MAC when present, node
+and run before saving the original JSON bytes. Repeated exports get new filenames
+rather than replacing earlier copies. CRC32 detects accidental transfer changes;
+it is not authentication. JSON could also be transferred directly over USB;
+uuencode is the chosen file-transfer representation.
+
+To draw the measured topology from one run:
+
+```
+python3 tool/topo.py log/*.top --out out/top --labels data/boards.json
+```
+
+On the prepared Mac, `./go map FILE.top...` writes a fresh report folder.
+
+Use files from one run only. An arrow means sender -> receiver ("heard by").
+Unexpected links are included. Missing logs and trace overflow limit what can
+be concluded from absent arrows. Event times are local to each board and must
+not be subtracted across boards as if the clocks were synchronised.
 
 LittleFS mounts with `begin(false)`: failed mounting never triggers automatic
 formatting. A newly used filesystem may need explicit initialisation. First
@@ -144,12 +179,11 @@ partition. This formats the filesystem partition and may erase pre-existing
 filesystem data; inspect the board before issuing it. It does not erase NVS.
 Do not change partition schemes or upload a filesystem image during this workflow.
 
-File operations are refused while a trial is running. Archives are small final
-summaries, not continuous per-packet logs; there is still no periodic RAM recovery
-checkpoint. A failed archive leaves NVS available and reports that the file is
-unavailable. Green still means the NVS result was saved; use `id`/`files` to check
-the archive separately. The new file path has host coverage and a firmware build;
-actual LittleFS retention and USB retrieval still require a board test.
+File operations are refused while a trial is running. Observations are saved at
+the end; there is no periodic RAM recovery checkpoint. A failed result archive
+leaves NVS available. Green still means the NVS result was saved; use `id`/`files`
+and retrieve both files to check archives separately. Actual LittleFS retention,
+USB retrieval and radio topology still require hardware tests.
 
 ## Reproducible analysis without boards
 
@@ -166,15 +200,19 @@ the hypotheses and the proposed hardware sequence.
 
 ## Hardware validation checklist
 
-The start-only BOOT and quiet-debug changes pass host tests and compile, but
-have not yet been flashed or checked on boards.
+The full-MAC/topology changes need the same firmware on every participating
+board before a new hardware run.
 
-1. Two-board delivery, then B repairing C's missing pages with source A off.
-   Finish and save A before unplugging it; keep B running and start C afterwards.
-2. Save, unplug, reconnect and retrieve the identical finished result.
-3. Interrupt power during a run; confirm INTERRUPTED, not a normal loss result.
-4. Validate power-bank runtime and map who hears whom before five-node trials.
-5. Agree a common-cutoff method before comparing recovery curves across nodes.
+1. Identify and physically label all five boards using their full MAC addresses.
+2. Run a nearby baseline, then save, unplug and retrieve identical result and
+   topology files. Check overflow, run IDs and MACs.
+3. Map directed reachability at the intended house positions. The target is
+   1-2-3-4-5, but recorded extra links are acceptable.
+4. Interrupt power during a separate run; confirm INTERRUPTED and do not treat
+   a missing topology trace as a normal zero-reception result.
+5. Later, test B repairing C's pages with source A off; B must remain running.
+   Agree a common-cutoff method before comparing recovery curves. Defer speed
+   tuning and cache-policy changes until the identity/retrieval baseline is stable.
 
 Reference APIs: [Preferences](https://docs.espressif.com/projects/arduino-esp32/en/latest/api/preferences.html),
 [NVS](https://docs.espressif.com/projects/esp-idf/en/stable/esp32s3/api-reference/storage/nvs_flash.html),

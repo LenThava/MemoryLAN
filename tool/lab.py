@@ -64,10 +64,21 @@ def integer(record, key, minimum=0, maximum=0xffffffff):
     return value
 
 
+def identity(record):
+    if not isinstance(record, dict) or not re.fullmatch(r"[0-9a-f]{4}", str(record.get("node", ""))):
+        raise ValueError("Invalid board identity")
+    if "mac" in record:
+        if not isinstance(record["mac"], str) or not re.fullmatch(r"[0-9a-f]{12}", record["mac"]):
+            raise ValueError("Invalid hardware MAC")
+        return record["mac"]
+    return record["node"]
+
+
 def validate(records):
     if len(records) < 2:
         raise ValueError("Include the source and at least one receiving node")
     nodes = set()
+    hardware = set()
     config = None
     for r in records:
         if not isinstance(r, dict) or type(r.get("schema")) is not int or r["schema"] != 1 or r.get("kind") != "mlan-run":
@@ -77,8 +88,13 @@ def validate(records):
         for key in ("node", "source"):
             if not isinstance(r.get(key), str) or not re.fullmatch(r"[0-9a-f]{4}", r[key]):
                 raise ValueError(f"Invalid {key}")
+        address = identity(r)
+        if "mac" in r:
+            if address in hardware:
+                raise ValueError("Duplicate hardware MAC: do not mix exports or repeated runs")
+            hardware.add(address)
         if r["node"] in nodes:
-            raise ValueError("Duplicate node: do not mix repeated runs in one plot")
+            raise ValueError("Duplicate node alias: cannot distinguish sources safely in this plot")
         nodes.add(r["node"])
         integer(r, "run", 1)
         total = integer(r, "total", 1, 256)
@@ -128,6 +144,8 @@ def plots(records, out):
     bars.append('<text x="24" y="78" class="small">Node IDs are not hop counts. Missing content does not identify physical-link loss.</text>')
     summary = {"run": source["run"], "source": source["node"], "injected": total,
                "cutoff": "local, unsynchronised", "build": source["build"], "nodes": []}
+    if "mac" in source:
+        summary["mac"] = source["mac"]
     for index, r in enumerate(rows):
         y = 105 + index * 62
         count = len(r["received"])
@@ -141,6 +159,8 @@ def plots(records, out):
                                  "missing": sorted(set(range(total)) - set(r["received"])),
                                  "elapsed_ms": r["elapsed_ms"], "rx_drop": r["rx_drop"],
                                  "tx_fail": r["tx_fail"], "peers": r.get("peers", [])})
+        if "mac" in r:
+            summary["nodes"][-1]["mac"] = r["mac"]
     bars.append('</svg>')
     cell = max(3, min(22, 800 // total))
     width = max(940, 100 + cell * total)
@@ -170,6 +190,19 @@ def plots(records, out):
     return [out / name for name in artifacts]
 
 
+def save_dump(record, directory):
+    address = identity(record)
+    run = integer(record, "run")
+    dest = Path(directory)
+    dest.mkdir(parents=True, exist_ok=True)
+    prefix = f'{address}-{run}' if "mac" in record else f'{run}-{address}'
+    path = dest / f'{prefix}-{time.time_ns()}.json'
+    with path.open("x") as file:
+        json.dump(record, file, indent=2)
+        file.write("\n")
+    return path
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="action", required=True)
@@ -188,16 +221,7 @@ def main():
             print(json.dumps(exchange(args.port, " ".join(args.command)), indent=2))
         elif args.action == "dump":
             r = exchange(args.port, "dump")
-            if not re.fullmatch(r"[0-9a-f]{4}", str(r.get("node", ""))):
-                raise ValueError("Invalid board identity")
-            run = integer(r, "run")
-            dest = Path(args.out)
-            dest.mkdir(parents=True, exist_ok=True)
-            path = dest / f'{run}-{r["node"]}-{time.time_ns()}.json'
-            with path.open("x") as file:
-                json.dump(r, file, indent=2)
-                file.write("\n")
-            print(path)
+            print(save_dump(r, args.out))
         else:
             records = [json.loads(Path(p).read_text()) for p in args.files]
             for path in plots(records, args.out):

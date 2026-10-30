@@ -2,6 +2,7 @@ import copy
 import importlib.util
 import tempfile
 import unittest
+import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -59,6 +60,49 @@ class LabTest(unittest.TestCase):
                 self.assertIn("unsynchronised", path.read_text())
             with self.assertRaises(ValueError):
                 lab.plots(records, temp)
+
+    def test_full_mac_identity_and_alias_conflicts(self):
+        records = fixture()
+        records[0]["mac"] = "001122334455"
+        records[1]["mac"] = "66778899aabb"
+        lab.validate(records)
+        for invalid in ("66778899AABB", "66778899aab", "66778899aabbcc", None, True):
+            altered = copy.deepcopy(records)
+            altered[1]["mac"] = invalid
+            with self.subTest(mac=invalid), self.assertRaises(ValueError):
+                lab.validate(altered)
+        altered = copy.deepcopy(records)
+        altered[1]["mac"] = records[0]["mac"]
+        with self.assertRaisesRegex(ValueError, "Duplicate hardware MAC"):
+            lab.validate(altered)
+        altered = copy.deepcopy(records)
+        altered[1]["node"] = records[0]["node"]
+        with self.assertRaisesRegex(ValueError, "Duplicate node alias"):
+            lab.validate(altered)
+
+    def test_dump_names_preserve_full_and_legacy_identity(self):
+        source, receiver = fixture()
+        source["mac"] = "001122334455"
+        with tempfile.TemporaryDirectory(prefix="mlan-test-") as temp:
+            path = lab.save_dump(source, temp)
+            legacy = lab.save_dump(receiver, temp)
+            self.assertTrue(path.name.startswith("001122334455-42-"))
+            self.assertTrue(legacy.name.startswith("42-0002-"))
+            self.assertEqual(json.loads(path.read_text()), source)
+            invalid = dict(source, mac="bad")
+            with self.assertRaises(ValueError):
+                lab.save_dump(invalid, temp)
+            self.assertEqual(len(list(Path(temp).iterdir())), 2)
+
+    def test_full_mac_remains_in_summary(self):
+        records = fixture()
+        records[0]["mac"] = "001122334455"
+        records[1]["mac"] = "66778899aabb"
+        with tempfile.TemporaryDirectory(prefix="mlan-test-") as temp:
+            paths = lab.plots(records, temp)
+            summary = json.loads(paths[2].read_text())
+            self.assertEqual(summary["mac"], "001122334455")
+            self.assertEqual(summary["nodes"][0]["mac"], "66778899aabb")
 
 
 if __name__ == "__main__":
