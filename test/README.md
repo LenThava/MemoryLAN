@@ -78,13 +78,18 @@ duration can overrun; this is not an exact-rate generator or a hard deadline.
 Preparation survives a power cycle.
 An existing record must be exported and explicitly cleared before preparation.
 
-1. Put each receiver on its final USB power supply. Hold BOOT for about half a
-   second to start, then release. Extra presses cannot stop a running trial.
+1. Place every board on its final power supply while it is still READY. After
+   all boards are positioned, visit the receivers and hold BOOT for about half
+   a second to start each one, then release. Choose a local duration long enough
+   to leave a shared observation window after this walk. Note the activation
+   order; simultaneous button presses are not required. Extra presses cannot
+   stop a running trial.
 2. Start the laptop-connected source last: `./go ctrl PORT start`.
 3. The source injects the configured pages once. Cache repair continues.
 4. Let each local timer expire to finish and save in place. Wait for green before
    unplugging. Red means keep power and inspect with `dump`.
-   Do not move active boards together for collection.
+   Keep boards at their positions until all have finished. Do not move active
+   boards together for collection.
 5. Connect each board to USB, identify it and retrieve both archived files with
    the commands below. Reboot never resumes a finished/interrupted run.
    Use `./go dump PORT` as the NVS fallback if the result archive is unavailable.
