@@ -1,7 +1,9 @@
 # Plan
 
-The five ESP32-S3-Zero boards have been tested successfully. The setup uses BLE
-and one data source.
+The five ESP32-S3-Zero boards passed the USB bench run on 31 October 2026.
+All four receivers obtained five pages. All five boards heard each other, and
+all ten result/topology files were retrieved unchanged after restart and power
+disconnection. The [report](res/usb1/README.md) contains the measurements.
 
 First, establish which nodes can hear each other and keep every log clearly
 assigned to its board and test run. The intended topology is 1-2-3-4-5.
@@ -9,16 +11,16 @@ Extra links are acceptable if they are recorded.
 
 ## Next steps
 
-1. Flash the same new firmware on all five boards. It uses a new BLE envelope.
-2. Read each board's full hardware MAC address and match it to its physical
-   label, 1 through 5. Enter the actual addresses and locations in
-   `data/boards.json`.
-3. Check that saved result and topology files survive unplugging and can be
-   retrieved with uuencode.
-4. Run a nearby baseline, using one fresh run ID shared by all participating
-   boards. Keep firmware, placement, power and sending interval fixed.
-5. Place the boards around the house and plot the directed links actually
-   observed. Record unexpected links as well as gaps in the intended chain.
+1. Place all boards around the house while they are still READY. Start the
+   receivers only after placement, then start the source last. Choose a duration
+   that leaves a shared observation window after the activation walk.
+2. Use a fresh run ID shared by every participating board. Keep firmware,
+   placement, power and sending interval fixed for repetitions.
+3. Keep the boards stationary until all have finished. Retrieve both files from
+   each board and plot the directed links observed, including unexpected links.
+
+`data/boards.json` maps the verified MACs to labels and intended house locations.
+Each run needs its own placement snapshot; the USB bench used a separate map.
 
 ## Measurements
 
@@ -29,8 +31,8 @@ observation, not proof of a bidirectional connection or an entire page route.
 Record buffer overflow and observations from other runs remain visible.
 
 For Monday, 2 November at 10:00, the target is a reliable identity/retrieval
-workflow and a measured topology graph. The new firmware still needs flashing
-and hardware validation. Speed tuning comes later.
+workflow and a measured house topology graph. Firmware `b25c2f8` is installed on
+all five boards and passed the USB bench. Speed tuning comes later.
 
 After that, test source-off cache recovery and compare 5, 10 and 20 pages with
 the ten-page cache. Cache policy comparisons also wait until the baseline is

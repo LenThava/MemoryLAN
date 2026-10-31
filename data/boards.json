@@ -1,1 +1,27 @@
-{}
+{
+  "ac276eb0f9b4": {
+    "label": "1",
+    "location": "Laptop / Quelle",
+    "legacy_node": "5d60"
+  },
+  "ac276eb0f9fc": {
+    "label": "2",
+    "location": "Korridor vor dem Zimmer",
+    "legacy_node": "18c7"
+  },
+  "ac276eb0059c": {
+    "label": "3",
+    "location": "Wohnzimmer, ein Stockwerk tiefer",
+    "legacy_node": "8e5a"
+  },
+  "ac276eafeb88": {
+    "label": "4",
+    "location": "Keller, unterstes Stockwerk",
+    "legacy_node": "9135"
+  },
+  "ac276eb00868": {
+    "label": "5",
+    "location": "Hobbyraum, unterstes Stockwerk",
+    "legacy_node": "c3f1"
+  }
+}

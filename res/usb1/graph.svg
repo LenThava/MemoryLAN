@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520">
+<rect width="100%" height="100%" fill="white"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#333"/></marker></defs>
+<g font-family="sans-serif" fill="#222"><text x="24" y="30" font-size="19">Run 2026103101: directly heard transmissions</text>
+<text x="24" y="54" font-size="12">Arrow: sender → receiver. Labels on arrows count received frames.</text>
+<path d="M630 263Q540 332 450 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="540" y="303.5" text-anchor="middle" font-size="11">6</text>
+<path d="M630 217Q720 148 810 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="720" y="176.5" text-anchor="middle" font-size="11">5</text>
+<path d="M630 263Q360 386 90 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="360" y="330.5" text-anchor="middle" font-size="11">7</text>
+<path d="M630 263Q450 359 270 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="450" y="317" text-anchor="middle" font-size="11">5</text>
+<path d="M450 217Q540 148 630 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="540" y="176.5" text-anchor="middle" font-size="11">8</text>
+<path d="M450 217Q630 121 810 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="630" y="163" text-anchor="middle" font-size="11">6</text>
+<path d="M450 263Q270 359 90 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="270" y="317" text-anchor="middle" font-size="11">8</text>
+<path d="M450 263Q360 332 270 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="360" y="303.5" text-anchor="middle" font-size="11">6</text>
+<path d="M810 263Q720 332 630 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="720" y="303.5" text-anchor="middle" font-size="11">4</text>
+<path d="M810 263Q630 359 450 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="630" y="317" text-anchor="middle" font-size="11">3</text>
+<path d="M810 263Q450 413 90 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="450" y="344" text-anchor="middle" font-size="11">7</text>
+<path d="M810 263Q540 386 270 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="540" y="330.5" text-anchor="middle" font-size="11">4</text>
+<path d="M90 217Q360 94 630 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="360" y="149.5" text-anchor="middle" font-size="11">9</text>
+<path d="M90 217Q270 121 450 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="270" y="163" text-anchor="middle" font-size="11">11</text>
+<path d="M90 217Q450 67 810 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="450" y="136" text-anchor="middle" font-size="11">8</text>
+<path d="M90 217Q180 148 270 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="180" y="176.5" text-anchor="middle" font-size="11">9</text>
+<path d="M270 217Q450 121 630 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="450" y="163" text-anchor="middle" font-size="11">3</text>
+<path d="M270 217Q360 148 450 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="360" y="176.5" text-anchor="middle" font-size="11">4</text>
+<path d="M270 217Q540 94 810 217" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="540" y="149.5" text-anchor="middle" font-size="11">3</text>
+<path d="M270 263Q180 332 90 263" fill="none" stroke="#555" marker-end="url(#arrow)"/>
+<text x="180" y="303.5" text-anchor="middle" font-size="11">3</text>
+<circle cx="90" cy="240" r="23" fill="white" stroke="#222"/>
+<text x="90" y="244" text-anchor="middle" font-size="12">1</text>
+<text x="90" y="282" text-anchor="middle" font-size="11">ac276eb0f9b4</text>
+<text x="90" y="299" text-anchor="middle" font-size="11">USB-Test am Mac</text>
+<circle cx="270" cy="240" r="23" fill="white" stroke="#222"/>
+<text x="270" y="244" text-anchor="middle" font-size="12">2</text>
+<text x="270" y="282" text-anchor="middle" font-size="11">ac276eb0f9fc</text>
+<text x="270" y="299" text-anchor="middle" font-size="11">USB-Test am Mac</text>
+<circle cx="450" cy="240" r="23" fill="white" stroke="#222"/>
+<text x="450" y="244" text-anchor="middle" font-size="12">3</text>
+<text x="450" y="282" text-anchor="middle" font-size="11">ac276eb0059c</text>
+<text x="450" y="299" text-anchor="middle" font-size="11">USB-Test am Mac</text>
+<circle cx="630" cy="240" r="23" fill="white" stroke="#222"/>
+<text x="630" y="244" text-anchor="middle" font-size="12">4</text>
+<text x="630" y="282" text-anchor="middle" font-size="11">ac276eafeb88</text>
+<text x="630" y="299" text-anchor="middle" font-size="11">USB-Test am Mac</text>
+<circle cx="810" cy="240" r="23" fill="white" stroke="#222"/>
+<text x="810" y="244" text-anchor="middle" font-size="12">5</text>
+<text x="810" y="282" text-anchor="middle" font-size="11">ac276eb00868</text>
+<text x="810" y="299" text-anchor="middle" font-size="11">USB-Test am Mac</text>
+<text x="24" y="455" font-size="12">Missing arrows are not proof that communication is impossible.</text>
+<text x="24" y="476" font-size="12">Dashed node: no receiver log supplied. Receiver clocks are independent.</text>
+</g></svg>

@@ -5,7 +5,7 @@
 This branch adds Waveshare ESP32-S3-Zero support, core correctness fixes and an
 optional single-source measurement mode. See [trial instructions](test/README.md)
 for building, testing and retrieving results. The trial measures application-page
-delivery; it does not establish a working five-node radio path by itself.
+delivery; topology observations alone do not establish a particular multi-hop route.
 The [experiment plan](PLAN.md) separates saved setup results, deterministic cache
 experiments and the hardware work still required. Historical inputs are under
 `data/`; `tool/report.py` verifies their hashes before generating reports.
@@ -13,9 +13,11 @@ Saved reports and visualisation prototypes are in [res/](res/README.md).
 New trials identify boards by their full hardware MAC and record directed
 reception observations in separate `.top` files. `tool/topo.py` draws the
 observed topology. All boards need the same new firmware before testing.
-LittleFS/uuencode retrieval passes host tests and compiles; its board validation
-is still pending. The published working branch is `prep`; `main` retains the
-upstream baseline for comparison.
+The [31 October USB bench run](res/usb1/README.md) received all five pages at
+each of the four receivers. All ten result/topology files were retrieved unchanged
+after a restart and a full power disconnection. House placement is the next test.
+The published working branch is `prep`; `main` retains the upstream baseline
+for comparison.
 
 ---
 

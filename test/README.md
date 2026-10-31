@@ -8,7 +8,7 @@ Trial builds suppress routine radio/core debug output; USB commands and JSON
 results remain enabled. Ordinary builds keep their debug output.
 
 On the Waveshare trial build: amber = prepared, blue = running, green = finished
-and saved, red = interrupted/storage error, off = no trial. These state colours
+and NVS saved, red = interrupted/storage error, off = no trial. These state colours
 replace the normal packet-activity LED; green does not imply successful delivery.
 
 ## From a checkout
@@ -53,9 +53,10 @@ It is not required when using the commands above. From `~/mlan`:
 The `mac` field is the full default six-byte hardware address. The four-digit
 `node` field remains a legacy alias used by the existing trial source selector.
 Label physical boards 1 through 5 and record the actual full addresses and
-locations in `data/boards.json`. It starts empty; do not infer an address from
-an old short ID. Its format is a JSON object keyed by twelve lowercase MAC hex
-digits, with `label` and `location` fields for each board.
+locations in `data/boards.json`. It contains the five verified addresses and
+intended house locations. Do not infer an address from an old short ID. Its
+format is a JSON object keyed by twelve lowercase MAC hex digits, with `label`
+and `location` fields for each board. Save the actual placement with each run.
 
 Use the same firmware binary on all five boards. The new BLE envelope carries
 the current transmitter's full MAC, run ID and transmission sequence outside
@@ -187,8 +188,10 @@ Do not change partition schemes or upload a filesystem image during this workflo
 File operations are refused while a trial is running. Observations are saved at
 the end; there is no periodic RAM recovery checkpoint. A failed result archive
 leaves NVS available. Green still means the NVS result was saved; use `id`/`files`
-and retrieve both files to check archives separately. Actual LittleFS retention,
-USB retrieval and radio topology still require hardware tests.
+and retrieve both files to check archives separately. The
+[31 October USB bench run](../res/usb1/README.md) checked this path on all five
+boards: all ten files matched before and after restart and user-confirmed full
+power disconnection. This checks completed logs; the content cache stays in RAM.
 
 ## Reproducible analysis without boards
 
@@ -205,17 +208,17 @@ the hypotheses and the proposed hardware sequence.
 
 ## Hardware validation checklist
 
-The full-MAC/topology changes need the same firmware on every participating
-board before a new hardware run.
+Firmware `b25c2f8` passed one 30-second USB bench run on all five boards.
+MAC mapping, delivery, result/topology retrieval and completed-file retention
+were checked. Remaining tests:
 
-1. Identify and physically label all five boards using their full MAC addresses.
-2. Run a nearby baseline, then save, unplug and retrieve identical result and
-   topology files. Check overflow, run IDs and MACs.
-3. Map directed reachability at the intended house positions. The target is
+1. Map directed reachability at the intended house positions. The target is
    1-2-3-4-5, but recorded extra links are acceptable.
-4. Interrupt power during a separate run; confirm INTERRUPTED and do not treat
+2. Repeat with fresh run IDs and the same settings. Check queue drops, trace
+   overflow and overlapping local observation windows each time.
+3. Interrupt power during a separate run; confirm INTERRUPTED and do not treat
    a missing topology trace as a normal zero-reception result.
-5. Later, test B repairing C's pages with source A off; B must remain running.
+4. Later, test B repairing C's pages with source A off; B must remain running.
    Agree a common-cutoff method before comparing recovery curves. Defer speed
    tuning and cache-policy changes until the identity/retrieval baseline is stable.
 
