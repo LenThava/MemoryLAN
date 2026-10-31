@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "kind": "mlan-bench-run",
+  "run": 2026103109,
+  "date": "2026-10-31",
+  "setting": "Five boards in the same room at the Mac. Four through a USB hub and one directly. Source remained powered; no reset between size runs.",
+  "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
+  "build": "ca6fe90 2026-10-31 20:13",
+  "source_mac": "ac276eb0f9b4",
+  "source_alias": "5d60",
+  "total": 5,
+  "payload_bytes": 32,
+  "gap_ms": 1000,
+  "local_limit_ms": 30000,
+  "clock": "Independent receiver-local milliseconds since activation; not synchronised one-way latency.",
+  "activation": [
+    {
+      "label": "2",
+      "mac": "ac276eb0f9fc",
+      "request_utc": "2026-10-31T20:18:05.091417+00:00",
+      "request_s": 5.125002644490451e-06,
+      "ack_s": 0.011672291002469137,
+      "reply": {
+        "ok": true,
+        "message": "running"
+      }
+    },
+    {
+      "label": "3",
+      "mac": "ac276eb0059c",
+      "request_utc": "2026-10-31T20:18:05.103128+00:00",
+      "request_s": 0.011711040999216493,
+      "ack_s": 0.02333974999783095,
+      "reply": {
+        "ok": true,
+        "message": "running"
+      }
+    },
+    {
+      "label": "4",
+      "mac": "ac276eafeb88",
+      "request_utc": "2026-10-31T20:18:05.114767+00:00",
+      "request_s": 0.023354916003881954,
+      "ack_s": 0.04950904099678155,
+      "reply": {
+        "ok": true,
+        "message": "running"
+      }
+    },
+    {
+      "label": "5",
+      "mac": "ac276eb00868",
+      "request_utc": "2026-10-31T20:18:05.140983+00:00",
+      "request_s": 0.04956483300338732,
+      "ack_s": 0.061863583003287204,
+      "reply": {
+        "ok": true,
+        "message": "running"
+      }
+    },
+    {
+      "label": "1",
+      "mac": "ac276eb0f9b4",
+      "request_utc": "2026-10-31T20:18:05.153292+00:00",
+      "request_s": 0.06188033299986273,
+      "ack_s": 0.07282620800106088,
+      "reply": {
+        "ok": true,
+        "message": "running"
+      }
+    }
+  ],
+  "nodes": [
+    {
+      "label": "1",
+      "mac": "ac276eb0f9b4",
+      "legacy_node": "5d60",
+      "files": {
+        "result": {
+          "file": "b1.json",
+          "original_name": "ac276eb0f9b4-2026103109.log",
+          "bytes": 611,
+          "crc32": "cc844b46",
+          "sha256": "d76813d44bd1352bfe6d2aec72dacc85c0c3de9d93d0a63cefe5e42246671a94"
+        },
+        "topology": {
+          "file": "b1.top",
+          "original_name": "ac276eb0f9b4-2026103109.top",
+          "bytes": 2654,
+          "crc32": "5815c962",
+          "sha256": "f62485d7854770f8e675e26a6586799fb9d8828a0ae270f5fa869189d0c64df6"
+        }
+      },
+      "location": "USB-Test am Mac",
+      "color": "green"
+    },
+    {
+      "label": "2",
+      "mac": "ac276eb0f9fc",
+      "legacy_node": "18c7",
+      "files": {
+        "result": {
+          "file": "b2.json",
+          "original_name": "ac276eb0f9fc-2026103109.log",
+          "bytes": 611,
+          "crc32": "36542836",
+          "sha256": "9568b3566e7a86024a94681553dbec1f23a7ea1c8b8af43f657f9db3acccbbbe"
+        },
+        "topology": {
+          "file": "b2.top",
+          "original_name": "ac276eb0f9fc-2026103109.top",
+          "bytes": 2738,
+          "crc32": "8403fea4",
+          "sha256": "43b788e07adafa86df6b95c2b361c24e8060a262ce5449991f370b2b7bff4cf1"
+        }
+      },
+      "location": "USB-Test am Mac",
+      "color": "yellow"
+    },
+    {
+      "label": "3",
+      "mac": "ac276eb0059c",
+      "legacy_node": "8e5a",
+      "files": {
+        "result": {
+          "file": "b3.json",
+          "original_name": "ac276eb0059c-2026103109.log",
+          "bytes": 611,
+          "crc32": "5a37a72b",
+          "sha256": "ad4fd2f2603af1ff365eb247af2da6e8e8379b749b6c2810093a0d1f5891bfaf"
+        },
+        "topology": {
+          "file": "b3.top",
+          "original_name": "ac276eb0059c-2026103109.top",
+          "bytes": 2742,
+          "crc32": "77884746",
+          "sha256": "e286dcf425abf93bc24c6e65372d2fa51d21a4f63081d55f4678938cd08f779a"
+        }
+      },
+      "location": "USB-Test am Mac",
+      "color": "blue"
+    },
+    {
+      "label": "4",
+      "mac": "ac276eafeb88",
+      "legacy_node": "9135",
+      "files": {
+        "result": {
+          "file": "b4.json",
+          "original_name": "ac276eafeb88-2026103109.log",
+          "bytes": 611,
+          "crc32": "ec9cf863",
+          "sha256": "cc850e81ff725e3be19f0ce4b4811639afe3772edc38360c58e1d227c1ce4f95"
+        },
+        "topology": {
+          "file": "b4.top",
+          "original_name": "ac276eafeb88-2026103109.top",
+          "bytes": 3113,
+          "crc32": "bc7cf5f2",
+          "sha256": "e30443527abebd3aa7ef85f396abbe8f21d9fcb1ce0c97006e0026adc8f2a4d1"
+        }
+      },
+      "location": "USB-Test am Mac",
+      "color": "red"
+    },
+    {
+      "label": "5",
+      "mac": "ac276eb00868",
+      "legacy_node": "c3f1",
+      "files": {
+        "result": {
+          "file": "b5.json",
+          "original_name": "ac276eb00868-2026103109.log",
+          "bytes": 611,
+          "crc32": "27ed16c8",
+          "sha256": "2ee85fc4957e65c693a04bca94c5da3a119dfd10f60f39226f9756169384b89f"
+        },
+        "topology": {
+          "file": "b5.top",
+          "original_name": "ac276eb00868-2026103109.top",
+          "bytes": 2441,
+          "crc32": "463cfa55",
+          "sha256": "ab6c502d57d75d7fb3c395bc91deddcf843ac42d4d7cc20f18859c3b3ed35bd2"
+        }
+      },
+      "location": "USB-Test am Mac",
+      "color": "white"
+    }
+  ],
+  "retention": {
+    "result_and_topology_crc_checked": 10,
+    "after_hardware_reset_identical": 10,
+    "physical_power_cycle_this_run": false,
+    "persistent_labels_after_reset": 5
+  }
+}

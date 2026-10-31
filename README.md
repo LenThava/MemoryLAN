@@ -13,11 +13,12 @@ Saved reports and visualisation prototypes are in [res/](res/README.md).
 New trials identify boards by their full hardware MAC and record directed
 reception observations in separate `.top` files. `tool/topo.py` draws the
 observed topology. All boards need the same new firmware before testing.
-The [latest USB bench run](res/usb2/README.md) received all five pages at each
-of the four receivers, with fixed colours identifying boards 1 through 5. All ten
-result/topology files survived a hardware reset unchanged. The
-[earlier run](res/usb1/README.md) also checked retention after a full power
-disconnection. House placement is the next test.
+The [page-size check](res/size/README.md) tested 32, 64 and 120-byte pages twice
+on all five boards. All six size runs delivered five pages to every receiver;
+a separate earlier repeat delivered only four. Raw results and delays are
+preserved. All 60 size-run files survived hardware resets unchanged. The
+[earlier run](res/usb1/README.md) also checked power-disconnection retention.
+House placement is the next test.
 The published working branch is `prep`; `main` retains the upstream baseline
 for comparison.
 

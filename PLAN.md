@@ -1,10 +1,10 @@
 # Plan
 
-The five ESP32-S3-Zero boards passed two USB bench runs on 31 October 2026.
-In the [latest run](res/usb2/README.md), all four receivers obtained five pages
-and all five boards heard each other. The ten result/topology files and stored
-board numbers survived a hardware reset. The [earlier run](res/usb1/README.md)
-also checked completed files after power disconnection.
+The five boards have completed the [page-size check](res/size/README.md).
+All six 32/64/120-byte size runs delivered five pages to every receiver, but a
+separate earlier repeat delivered only four. Delivery times varied even with
+the same page size. All 60 size-run files survived hardware resets unchanged.
+The [earlier run](res/usb1/README.md) also checked power disconnection.
 
 First, establish which nodes can hear each other and keep every log clearly
 assigned to its board and test run. The intended topology is 1-2-3-4-5.
@@ -13,8 +13,9 @@ Extra links are acceptable if they are recorded.
 ## Next steps
 
 1. Place all boards around the house while they are still READY. Start the
-   receivers only after placement, then start the source last. Choose a duration
-   that leaves a shared observation window after the activation walk.
+   receivers only after placement, then start the source last. Use a four-minute local
+   window to leave shared observation time after the activation walk. Check
+   topology-buffer overflow; the recorder holds 256 events per board.
 2. Use a fresh run ID shared by every participating board. Keep firmware,
    placement, power and sending interval fixed for repetitions.
 3. Keep the boards stationary until all have finished. Retrieve both files from
@@ -32,10 +33,14 @@ observation, not proof of a bidirectional connection or an entire page route.
 Record buffer overflow and observations from other runs remain visible.
 
 For Monday, 2 November at 10:00, the target is a reliable identity/retrieval
-workflow and a measured house topology graph. Firmware `2d9b46c` is installed on
-all five boards with fixed identity colours. Speed tuning comes later.
+workflow and a measured house topology graph. Firmware `ca6fe90` is installed on
+all five boards with fixed identity colours and selectable page sizes. Speed
+tuning comes later.
 
-After that, test source-off cache recovery and compare 5, 10 and 20 pages with
+To investigate missing pages, add sender-side page attempts and final cache
+contents as a later diagnostic. These are not recorded yet.
+
+After the house baseline, test source-off cache recovery and compare 5, 10 and 20 pages with
 the ten-page cache. Cache policy comparisons also wait until the baseline is
 stable.
 

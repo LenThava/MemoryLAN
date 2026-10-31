@@ -1,0 +1,4279 @@
+{
+  "schema": 1,
+  "kind": "mlan-size-comparison",
+  "setting": "Five boards in one room, four on a USB hub and one directly on the Mac; node 1 stayed on. Five pages per run, minimum 1,000 ms gap, independent 30-second windows.",
+  "clock": "Receiver-local milliseconds since activation; not synchronised one-way latency.",
+  "runs": [
+    {
+      "name": "r1",
+      "run": 2026103104,
+      "build": "ca6fe90 2026-10-31 20:13",
+      "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
+      "payload_bytes": 32,
+      "total": 5,
+      "gap_ms": 1000,
+      "local_limit_ms": 30000,
+      "activation": [
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "request_utc": "2026-10-31T20:15:19.670836+00:00",
+          "request_s": 3.125001967418939e-06,
+          "ack_s": 0.04364437500044005,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "request_utc": "2026-10-31T20:15:19.714539+00:00",
+          "request_s": 0.043698833003873006,
+          "ack_s": 0.056258374999742955,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "request_utc": "2026-10-31T20:15:19.727094+00:00",
+          "request_s": 0.05626500000653323,
+          "ack_s": 0.08209666600305354,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "request_utc": "2026-10-31T20:15:19.752971+00:00",
+          "request_s": 0.08213620800233912,
+          "ack_s": 0.09407333300623577,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "request_utc": "2026-10-31T20:15:19.764922+00:00",
+          "request_s": 0.09408966600312851,
+          "ack_s": 0.10587950000626734,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        }
+      ],
+      "retention": {
+        "result_and_topology_crc_checked": 10,
+        "after_hardware_reset_identical": 10,
+        "physical_power_cycle_this_run": false,
+        "persistent_labels_after_reset": 5
+      },
+      "results": [
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 5,
+          "completed_local_ms": null,
+          "first_page_ms": {
+            "2": 2067,
+            "3": 3088,
+            "4": 4109
+          },
+          "first_page_sender": {
+            "2": "ac276eb00868",
+            "3": "ac276eb0059c",
+            "4": "ac276eb0059c"
+          },
+          "rx": 26,
+          "tx": 12,
+          "duplicates": 8,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4676,
+          "first_page_ms": {
+            "0": 75,
+            "1": 4676,
+            "2": 2117,
+            "3": 3138,
+            "4": 4159
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 28,
+          "tx": 12,
+          "duplicates": 3,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4662,
+          "first_page_ms": {
+            "0": 61,
+            "1": 4662,
+            "2": 2116,
+            "3": 3124,
+            "4": 4145
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb00868",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 22,
+          "tx": 12,
+          "duplicates": 3,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4695,
+          "first_page_ms": {
+            "0": 35,
+            "1": 1057,
+            "2": 2091,
+            "3": 3124,
+            "4": 4695
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb00868",
+            "3": "ac276eb00868",
+            "4": "ac276eb0f9fc"
+          },
+          "rx": 21,
+          "tx": 11,
+          "duplicates": 0,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4107,
+          "first_page_ms": {
+            "0": 23,
+            "1": 1044,
+            "2": 2065,
+            "3": 3099,
+            "4": 4107
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0059c",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 27,
+          "tx": 11,
+          "duplicates": 4,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        }
+      ],
+      "topology": {
+        "schema": 1,
+        "kind": "mlan-topology-report",
+        "run": 2026103104,
+        "clock": "local_ms_since_start",
+        "payload_bytes": 32,
+        "inputs": [
+          {
+            "file": "data/size/r1/b1.top",
+            "sha256": "ae26fe6839d103cde46b45d10ee49e9a4e3163e9e70a2c57ebe188c1c3a727e3"
+          },
+          {
+            "file": "data/size/r1/b2.top",
+            "sha256": "81bda4074af9d7ab9f70ec012d89202e979599db7cf0f1b47462a17016fd927d"
+          },
+          {
+            "file": "data/size/r1/b3.top",
+            "sha256": "65878629e87b60a868b85cc34c868a94e9a6437cca1d7da974bd6b8ff30c5026"
+          },
+          {
+            "file": "data/size/r1/b4.top",
+            "sha256": "f242102b73e5ff6d95999598b72ef89985efe65c45af060cea7c007b2b50368a"
+          },
+          {
+            "file": "data/size/r1/b5.top",
+            "sha256": "38490057a06cd5975fe026a260141fbe0452a1e622ddc8ae3b6f237088323bd3"
+          }
+        ],
+        "warnings": [
+          "Times are local to each receiver; they are not synchronised across boards.",
+          "An arrow means the receiver heard the sender; it does not prove a two-way link.",
+          "Counts are recorded receptions, not transmission totals or radio loss rates.",
+          "No observation means not heard during this local window, not proof of no radio path."
+        ],
+        "nodes": [
+          {
+            "mac": "ac276eb0f9b4",
+            "label": "1",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "label": "2",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0059c",
+            "label": "3",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eafeb88",
+            "label": "4",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb00868",
+            "label": "5",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          }
+        ],
+        "receivers": [
+          {
+            "mac": "ac276eb0f9b4",
+            "node": "5d60",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "node": "18c7",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0059c",
+            "node": "8e5a",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eafeb88",
+            "node": "9135",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb00868",
+            "node": "c3f1",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          }
+        ],
+        "links": [
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0059c",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -67,
+            "rssi_max": -59,
+            "first_ms": 3162,
+            "last_ms": 14556
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb00868",
+            "observations": 8,
+            "beacons": 6,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -54,
+            "first_ms": 3124,
+            "last_ms": 29819
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9b4",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -56,
+            "rssi_max": -53,
+            "first_ms": 3113,
+            "last_ms": 29807
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9fc",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -67,
+            "rssi_max": -58,
+            "first_ms": 3176,
+            "last_ms": 19731
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eafeb88",
+            "observations": 4,
+            "beacons": 4,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -61,
+            "rssi_max": -57,
+            "first_ms": 14504,
+            "last_ms": 29579
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb00868",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -30,
+            "rssi_max": -26,
+            "first_ms": 3099,
+            "last_ms": 29566
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9b4",
+            "observations": 7,
+            "beacons": 4,
+            "pages": 3,
+            "other": 0,
+            "rssi_min": -47,
+            "rssi_max": -44,
+            "first_ms": 2079,
+            "last_ms": 29555
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9fc",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -35,
+            "rssi_max": -33,
+            "first_ms": 4663,
+            "last_ms": 29618
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eafeb88",
+            "observations": 7,
+            "beacons": 5,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -59,
+            "rssi_max": -54,
+            "first_ms": 2091,
+            "last_ms": 25222
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0059c",
+            "observations": 7,
+            "beacons": 5,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -88,
+            "rssi_max": -24,
+            "first_ms": 2116,
+            "last_ms": 25247
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9b4",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -60,
+            "rssi_max": -50,
+            "first_ms": 2067,
+            "last_ms": 20007
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9fc",
+            "observations": 6,
+            "beacons": 5,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -34,
+            "first_ms": 3164,
+            "last_ms": 25261
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eafeb88",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -55,
+            "rssi_max": -51,
+            "first_ms": 35,
+            "last_ms": 24286
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0059c",
+            "observations": 7,
+            "beacons": 3,
+            "pages": 4,
+            "other": 0,
+            "rssi_min": -47,
+            "rssi_max": -42,
+            "first_ms": 61,
+            "last_ms": 29537
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb00868",
+            "observations": 9,
+            "beacons": 4,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -88,
+            "rssi_max": -48,
+            "first_ms": 23,
+            "last_ms": 19360
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0f9fc",
+            "observations": 11,
+            "beacons": 6,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -49,
+            "rssi_max": -44,
+            "first_ms": 75,
+            "last_ms": 29552
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eafeb88",
+            "observations": 5,
+            "beacons": 4,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -62,
+            "rssi_max": -58,
+            "first_ms": 4695,
+            "last_ms": 24623
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0059c",
+            "observations": 3,
+            "beacons": 3,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -38,
+            "rssi_max": -30,
+            "first_ms": 5108,
+            "last_ms": 24648
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb00868",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -86,
+            "rssi_max": -35,
+            "first_ms": 5070,
+            "last_ms": 24610
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0f9b4",
+            "observations": 7,
+            "beacons": 6,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -52,
+            "rssi_max": -46,
+            "first_ms": 4671,
+            "last_ms": 29721
+          }
+        ]
+      }
+    },
+    {
+      "name": "r2",
+      "run": 2026103105,
+      "build": "ca6fe90 2026-10-31 20:13",
+      "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
+      "payload_bytes": 64,
+      "total": 5,
+      "gap_ms": 1000,
+      "local_limit_ms": 30000,
+      "activation": [
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "request_utc": "2026-10-31T20:15:52.614213+00:00",
+          "request_s": 8.70799703989178e-06,
+          "ack_s": 0.011069790998590179,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "request_utc": "2026-10-31T20:15:52.625280+00:00",
+          "request_s": 0.011077957999077626,
+          "ack_s": 0.021143582998774946,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "request_utc": "2026-10-31T20:15:52.635376+00:00",
+          "request_s": 0.021170249994611368,
+          "ack_s": 0.04535520799981896,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "request_utc": "2026-10-31T20:15:52.659561+00:00",
+          "request_s": 0.04536033299518749,
+          "ack_s": 0.05863087499892572,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "request_utc": "2026-10-31T20:15:52.672888+00:00",
+          "request_s": 0.05867733299965039,
+          "ack_s": 0.07040849999611964,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        }
+      ],
+      "retention": {
+        "result_and_topology_crc_checked": 10,
+        "after_hardware_reset_identical": 10,
+        "physical_power_cycle_this_run": false,
+        "persistent_labels_after_reset": 5
+      },
+      "results": [
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 5,
+          "completed_local_ms": null,
+          "first_page_ms": {
+            "1": 6971,
+            "4": 4122
+          },
+          "first_page_sender": {
+            "1": "ac276eb00868",
+            "4": "ac276eb00868"
+          },
+          "rx": 21,
+          "tx": 11,
+          "duplicates": 2,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 7030,
+          "first_page_ms": {
+            "0": 73,
+            "1": 7030,
+            "2": 2116,
+            "3": 3136,
+            "4": 4157
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb00868",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 22,
+          "tx": 11,
+          "duplicates": 0,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4147,
+          "first_page_ms": {
+            "0": 63,
+            "1": 1084,
+            "2": 2105,
+            "3": 3126,
+            "4": 4147
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 25,
+          "tx": 11,
+          "duplicates": 1,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4123,
+          "first_page_ms": {
+            "0": 39,
+            "1": 1060,
+            "2": 2081,
+            "3": 3102,
+            "4": 4123
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 23,
+          "tx": 11,
+          "duplicates": 1,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4110,
+          "first_page_ms": {
+            "0": 26,
+            "1": 1048,
+            "2": 2068,
+            "3": 3089,
+            "4": 4110
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 26,
+          "tx": 11,
+          "duplicates": 1,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        }
+      ],
+      "topology": {
+        "schema": 1,
+        "kind": "mlan-topology-report",
+        "run": 2026103105,
+        "clock": "local_ms_since_start",
+        "payload_bytes": 64,
+        "inputs": [
+          {
+            "file": "data/size/r2/b1.top",
+            "sha256": "4220a80121d79c0001b694763fb3b1a6cdce14a3371ef36fd3ac431712776a77"
+          },
+          {
+            "file": "data/size/r2/b2.top",
+            "sha256": "a3e4507b4b2f9ee2b3a59ad006e1ab8f233c2874c5545bdee57916a6cdbb922d"
+          },
+          {
+            "file": "data/size/r2/b3.top",
+            "sha256": "707fac24a8927198c11c03af45198ef91db36a85422fe17dace891d25bb70b1e"
+          },
+          {
+            "file": "data/size/r2/b4.top",
+            "sha256": "44e19b3cd4befe8954371c8348c4ae93df22491142e1ca8706b546c0e6665e51"
+          },
+          {
+            "file": "data/size/r2/b5.top",
+            "sha256": "0bec50ffc2985ba2faa4d1e591095bc543feadd25cd0237773e2c5404cb812ff"
+          }
+        ],
+        "warnings": [
+          "Times are local to each receiver; they are not synchronised across boards.",
+          "An arrow means the receiver heard the sender; it does not prove a two-way link.",
+          "Counts are recorded receptions, not transmission totals or radio loss rates.",
+          "No observation means not heard during this local window, not proof of no radio path."
+        ],
+        "nodes": [
+          {
+            "mac": "ac276eb0f9b4",
+            "label": "1",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "label": "2",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0059c",
+            "label": "3",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eafeb88",
+            "label": "4",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb00868",
+            "label": "5",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          }
+        ],
+        "receivers": [
+          {
+            "mac": "ac276eb0f9b4",
+            "node": "5d60",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "node": "18c7",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0059c",
+            "node": "8e5a",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eafeb88",
+            "node": "9135",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb00868",
+            "node": "c3f1",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          }
+        ],
+        "links": [
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0059c",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -59,
+            "first_ms": 6481,
+            "last_ms": 26101
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb00868",
+            "observations": 4,
+            "beacons": 4,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -58,
+            "rssi_max": -55,
+            "first_ms": 1691,
+            "last_ms": 16346
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9b4",
+            "observations": 6,
+            "beacons": 6,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -56,
+            "rssi_max": -53,
+            "first_ms": 1679,
+            "last_ms": 26052
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9fc",
+            "observations": 3,
+            "beacons": 3,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -66,
+            "rssi_max": -59,
+            "first_ms": 1738,
+            "last_ms": 16393
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eafeb88",
+            "observations": 4,
+            "beacons": 4,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -65,
+            "rssi_max": -58,
+            "first_ms": 1882,
+            "last_ms": 27179
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb00868",
+            "observations": 6,
+            "beacons": 6,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -88,
+            "rssi_max": -26,
+            "first_ms": 1869,
+            "last_ms": 27166
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9b4",
+            "observations": 3,
+            "beacons": 3,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -47,
+            "rssi_max": -44,
+            "first_ms": 1857,
+            "last_ms": 16943
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9fc",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -86,
+            "rssi_max": -34,
+            "first_ms": 1916,
+            "last_ms": 22219
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eafeb88",
+            "observations": 5,
+            "beacons": 4,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -59,
+            "rssi_max": -56,
+            "first_ms": 4701,
+            "last_ms": 24826
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0059c",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -27,
+            "first_ms": 4725,
+            "last_ms": 24850
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9b4",
+            "observations": 7,
+            "beacons": 5,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -65,
+            "rssi_max": -50,
+            "first_ms": 4122,
+            "last_ms": 24801
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9fc",
+            "observations": 5,
+            "beacons": 4,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -41,
+            "rssi_max": -35,
+            "first_ms": 4735,
+            "last_ms": 24860
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eafeb88",
+            "observations": 9,
+            "beacons": 4,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -56,
+            "rssi_max": -52,
+            "first_ms": 39,
+            "last_ms": 26686
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0059c",
+            "observations": 9,
+            "beacons": 4,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -87,
+            "rssi_max": -42,
+            "first_ms": 63,
+            "last_ms": 26710
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb00868",
+            "observations": 9,
+            "beacons": 4,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -48,
+            "first_ms": 26,
+            "last_ms": 26673
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0f9fc",
+            "observations": 9,
+            "beacons": 5,
+            "pages": 4,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -43,
+            "first_ms": 73,
+            "last_ms": 26720
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eafeb88",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -59,
+            "rssi_max": -57,
+            "first_ms": 2030,
+            "last_ms": 26356
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0059c",
+            "observations": 6,
+            "beacons": 5,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -39,
+            "rssi_max": -31,
+            "first_ms": 2054,
+            "last_ms": 26380
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb00868",
+            "observations": 7,
+            "beacons": 6,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -81,
+            "rssi_max": -35,
+            "first_ms": 2017,
+            "last_ms": 26343
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0f9b4",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -51,
+            "rssi_max": -46,
+            "first_ms": 2005,
+            "last_ms": 26331
+          }
+        ]
+      }
+    },
+    {
+      "name": "r3",
+      "run": 2026103106,
+      "build": "ca6fe90 2026-10-31 20:13",
+      "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
+      "payload_bytes": 120,
+      "total": 5,
+      "gap_ms": 1000,
+      "local_limit_ms": 30000,
+      "activation": [
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "request_utc": "2026-10-31T20:16:25.700828+00:00",
+          "request_s": 1.6458994650747627e-05,
+          "ack_s": 0.011907208994671237,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "request_utc": "2026-10-31T20:16:25.712738+00:00",
+          "request_s": 0.011925458995392546,
+          "ack_s": 0.04781916699721478,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "request_utc": "2026-10-31T20:16:25.748647+00:00",
+          "request_s": 0.04783579200011445,
+          "ack_s": 0.0727317499986384,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "request_utc": "2026-10-31T20:16:25.773573+00:00",
+          "request_s": 0.07276004199957242,
+          "ack_s": 0.0850376669986872,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "request_utc": "2026-10-31T20:16:25.785870+00:00",
+          "request_s": 0.08505737499945099,
+          "ack_s": 0.09642529199481942,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        }
+      ],
+      "retention": {
+        "result_and_topology_crc_checked": 10,
+        "after_hardware_reset_identical": 10,
+        "physical_power_cycle_this_run": false,
+        "persistent_labels_after_reset": 5
+      },
+      "results": [
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 5,
+          "completed_local_ms": null,
+          "first_page_ms": {
+            "1": 1068,
+            "3": 3106,
+            "4": 4120
+          },
+          "first_page_sender": {
+            "1": "ac276eb00868",
+            "3": "ac276eb00868",
+            "4": "ac276eb0059c"
+          },
+          "rx": 26,
+          "tx": 11,
+          "duplicates": 8,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4224,
+          "first_page_ms": {
+            "0": 103,
+            "1": 1124,
+            "2": 2145,
+            "3": 3210,
+            "4": 4224
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0059c",
+            "4": "ac276eafeb88"
+          },
+          "rx": 24,
+          "tx": 10,
+          "duplicates": 1,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4150,
+          "first_page_ms": {
+            "0": 65,
+            "1": 1087,
+            "2": 2108,
+            "3": 3155,
+            "4": 4150
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb00868",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 22,
+          "tx": 10,
+          "duplicates": 4,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4144,
+          "first_page_ms": {
+            "0": 41,
+            "1": 1092,
+            "2": 2084,
+            "3": 3130,
+            "4": 4144
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb00868",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb00868",
+            "4": "ac276eb00868"
+          },
+          "rx": 23,
+          "tx": 11,
+          "duplicates": 2,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4113,
+          "first_page_ms": {
+            "0": 28,
+            "1": 1050,
+            "2": 2071,
+            "3": 3092,
+            "4": 4113
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 26,
+          "tx": 11,
+          "duplicates": 5,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        }
+      ],
+      "topology": {
+        "schema": 1,
+        "kind": "mlan-topology-report",
+        "run": 2026103106,
+        "clock": "local_ms_since_start",
+        "payload_bytes": 120,
+        "inputs": [
+          {
+            "file": "data/size/r3/b1.top",
+            "sha256": "dca93d67ab0152a973255bc9479cebf178b9841dba2d51251fc85b8a17913a4d"
+          },
+          {
+            "file": "data/size/r3/b2.top",
+            "sha256": "5d8fcb3a4941f5390592780931e6b4d79edd015b6d7ced1bdbdbfc6f6c1d88c4"
+          },
+          {
+            "file": "data/size/r3/b3.top",
+            "sha256": "40507d8fb0be93f929cda270796e31ae06f0df023f784224e709c95d63eade8c"
+          },
+          {
+            "file": "data/size/r3/b4.top",
+            "sha256": "5fb1949ecce77bee95d477d02bb26e4aec8193aca56ec5f85352e2862dd2c738"
+          },
+          {
+            "file": "data/size/r3/b5.top",
+            "sha256": "e1bdf5847c86c770778ca66344392963af57ce6db5314ec9730962d011d36567"
+          }
+        ],
+        "warnings": [
+          "Times are local to each receiver; they are not synchronised across boards.",
+          "An arrow means the receiver heard the sender; it does not prove a two-way link.",
+          "Counts are recorded receptions, not transmission totals or radio loss rates.",
+          "No observation means not heard during this local window, not proof of no radio path."
+        ],
+        "nodes": [
+          {
+            "mac": "ac276eb0f9b4",
+            "label": "1",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "label": "2",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0059c",
+            "label": "3",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eafeb88",
+            "label": "4",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb00868",
+            "label": "5",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          }
+        ],
+        "receivers": [
+          {
+            "mac": "ac276eb0f9b4",
+            "node": "5d60",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "node": "18c7",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0059c",
+            "node": "8e5a",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eafeb88",
+            "node": "9135",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb00868",
+            "node": "c3f1",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          }
+        ],
+        "links": [
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0059c",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -63,
+            "rssi_max": -59,
+            "first_ms": 1134,
+            "last_ms": 19413
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb00868",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -62,
+            "rssi_max": -54,
+            "first_ms": 1097,
+            "last_ms": 24209
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9b4",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -56,
+            "rssi_max": -53,
+            "first_ms": 1086,
+            "last_ms": 14220
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9fc",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -68,
+            "rssi_max": -58,
+            "first_ms": 1171,
+            "last_ms": 24283
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eafeb88",
+            "observations": 3,
+            "beacons": 3,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -59,
+            "rssi_max": -58,
+            "first_ms": 10196,
+            "last_ms": 25336
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb00868",
+            "observations": 4,
+            "beacons": 3,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -32,
+            "rssi_max": -26,
+            "first_ms": 3136,
+            "last_ms": 20327
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9b4",
+            "observations": 7,
+            "beacons": 5,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -49,
+            "rssi_max": -45,
+            "first_ms": 3125,
+            "last_ms": 25312
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9fc",
+            "observations": 4,
+            "beacons": 3,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -34,
+            "rssi_max": -33,
+            "first_ms": 3210,
+            "last_ms": 25398
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eafeb88",
+            "observations": 8,
+            "beacons": 5,
+            "pages": 3,
+            "other": 0,
+            "rssi_min": -59,
+            "rssi_max": -54,
+            "first_ms": 1092,
+            "last_ms": 29672
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0059c",
+            "observations": 3,
+            "beacons": 2,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -31,
+            "rssi_max": -24,
+            "first_ms": 3155,
+            "last_ms": 29696
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9b4",
+            "observations": 8,
+            "beacons": 6,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -62,
+            "rssi_max": -49,
+            "first_ms": 1068,
+            "last_ms": 29648
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9fc",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -41,
+            "rssi_max": -34,
+            "first_ms": 4747,
+            "last_ms": 29733
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eafeb88",
+            "observations": 7,
+            "beacons": 5,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -55,
+            "rssi_max": -51,
+            "first_ms": 41,
+            "last_ms": 29651
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0059c",
+            "observations": 8,
+            "beacons": 4,
+            "pages": 4,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -42,
+            "first_ms": 65,
+            "last_ms": 29676
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb00868",
+            "observations": 9,
+            "beacons": 4,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -60,
+            "rssi_max": -48,
+            "first_ms": 28,
+            "last_ms": 24749
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0f9fc",
+            "observations": 9,
+            "beacons": 6,
+            "pages": 3,
+            "other": 0,
+            "rssi_min": -86,
+            "rssi_max": -45,
+            "first_ms": 103,
+            "last_ms": 29713
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eafeb88",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -63,
+            "rssi_max": -58,
+            "first_ms": 3167,
+            "last_ms": 25193
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0059c",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -39,
+            "rssi_max": -30,
+            "first_ms": 3191,
+            "last_ms": 15153
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb00868",
+            "observations": 7,
+            "beacons": 5,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -34,
+            "first_ms": 3154,
+            "last_ms": 25180
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0f9b4",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -53,
+            "rssi_max": -48,
+            "first_ms": 3143,
+            "last_ms": 25169
+          }
+        ]
+      }
+    },
+    {
+      "name": "r4",
+      "run": 2026103107,
+      "build": "ca6fe90 2026-10-31 20:13",
+      "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
+      "payload_bytes": 120,
+      "total": 5,
+      "gap_ms": 1000,
+      "local_limit_ms": 30000,
+      "activation": [
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "request_utc": "2026-10-31T20:16:58.793009+00:00",
+          "request_s": 5.207999492995441e-06,
+          "ack_s": 0.012671999997110106,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "request_utc": "2026-10-31T20:16:58.805711+00:00",
+          "request_s": 0.01270854099857388,
+          "ack_s": 0.02484720799839124,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "request_utc": "2026-10-31T20:16:58.817877+00:00",
+          "request_s": 0.024875707997125573,
+          "ack_s": 0.050733790994854644,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "request_utc": "2026-10-31T20:16:58.843800+00:00",
+          "request_s": 0.05079029099579202,
+          "ack_s": 0.06394699999509612,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "request_utc": "2026-10-31T20:16:58.856968+00:00",
+          "request_s": 0.06396775000030175,
+          "ack_s": 0.09273495799425291,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        }
+      ],
+      "retention": {
+        "result_and_topology_crc_checked": 10,
+        "after_hardware_reset_identical": 10,
+        "physical_power_cycle_this_run": false,
+        "persistent_labels_after_reset": 5
+      },
+      "results": [
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 5,
+          "completed_local_ms": null,
+          "first_page_ms": {
+            "1": 1057,
+            "2": 2110,
+            "4": 4119
+          },
+          "first_page_sender": {
+            "1": "ac276eb00868",
+            "2": "ac276eb0f9fc",
+            "4": "ac276eb0059c"
+          },
+          "rx": 16,
+          "tx": 11,
+          "duplicates": 4,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4200,
+          "first_page_ms": {
+            "0": 97,
+            "1": 1118,
+            "2": 2158,
+            "3": 3160,
+            "4": 4200
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0059c",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0059c"
+          },
+          "rx": 25,
+          "tx": 10,
+          "duplicates": 0,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4169,
+          "first_page_ms": {
+            "0": 85,
+            "1": 1106,
+            "2": 2127,
+            "3": 3148,
+            "4": 4169
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 26,
+          "tx": 10,
+          "duplicates": 2,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4144,
+          "first_page_ms": {
+            "0": 60,
+            "1": 1081,
+            "2": 2101,
+            "3": 3122,
+            "4": 4144
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 24,
+          "tx": 11,
+          "duplicates": 2,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4130,
+          "first_page_ms": {
+            "0": 46,
+            "1": 1067,
+            "2": 2088,
+            "3": 3109,
+            "4": 4130
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 20,
+          "tx": 11,
+          "duplicates": 1,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        }
+      ],
+      "topology": {
+        "schema": 1,
+        "kind": "mlan-topology-report",
+        "run": 2026103107,
+        "clock": "local_ms_since_start",
+        "payload_bytes": 120,
+        "inputs": [
+          {
+            "file": "data/size/r4/b1.top",
+            "sha256": "6ec9655c622ced7b48e810ab14a75092bfa5456caa6a1b0cb6d3a5d1c25252b1"
+          },
+          {
+            "file": "data/size/r4/b2.top",
+            "sha256": "7941a31ceece0a1ccf4bca0da430324718a2fcdaeacd4464e142709121fc3ebb"
+          },
+          {
+            "file": "data/size/r4/b3.top",
+            "sha256": "29ad0587f84c88dc5ae083d259866cef43409e3928b2ff922763f74e5fe1578b"
+          },
+          {
+            "file": "data/size/r4/b4.top",
+            "sha256": "150ac3f93b025253fc8f991cac6f843befc0df21640bcb5e6d60b64fd830fd98"
+          },
+          {
+            "file": "data/size/r4/b5.top",
+            "sha256": "6543e9531f6e7e6d47befaec988a63b63e431018a48aaa6f36d1235b057919fd"
+          }
+        ],
+        "warnings": [
+          "Times are local to each receiver; they are not synchronised across boards.",
+          "An arrow means the receiver heard the sender; it does not prove a two-way link.",
+          "Counts are recorded receptions, not transmission totals or radio loss rates.",
+          "No observation means not heard during this local window, not proof of no radio path."
+        ],
+        "nodes": [
+          {
+            "mac": "ac276eb0f9b4",
+            "label": "1",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "label": "2",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0059c",
+            "label": "3",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eafeb88",
+            "label": "4",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb00868",
+            "label": "5",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          }
+        ],
+        "receivers": [
+          {
+            "mac": "ac276eb0f9b4",
+            "node": "5d60",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "node": "18c7",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0059c",
+            "node": "8e5a",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eafeb88",
+            "node": "9135",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb00868",
+            "node": "c3f1",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          }
+        ],
+        "links": [
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0059c",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -59,
+            "first_ms": 1159,
+            "last_ms": 25699
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb00868",
+            "observations": 2,
+            "beacons": 2,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -61,
+            "rssi_max": -61,
+            "first_ms": 1120,
+            "last_ms": 20715
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9b4",
+            "observations": 4,
+            "beacons": 4,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -79,
+            "rssi_max": -54,
+            "first_ms": 1090,
+            "last_ms": 15633
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9fc",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -85,
+            "rssi_max": -58,
+            "first_ms": 1171,
+            "last_ms": 25711
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eafeb88",
+            "observations": 4,
+            "beacons": 4,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -60,
+            "rssi_max": -58,
+            "first_ms": 9907,
+            "last_ms": 25040
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb00868",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -87,
+            "rssi_max": -25,
+            "first_ms": 4690,
+            "last_ms": 25026
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9b4",
+            "observations": 4,
+            "beacons": 3,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -48,
+            "rssi_max": -47,
+            "first_ms": 4119,
+            "last_ms": 24997
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9fc",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -33,
+            "first_ms": 2158,
+            "last_ms": 25077
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eafeb88",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -59,
+            "rssi_max": -55,
+            "first_ms": 1355,
+            "last_ms": 20951
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0059c",
+            "observations": 6,
+            "beacons": 6,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -86,
+            "rssi_max": -25,
+            "first_ms": 1381,
+            "last_ms": 25787
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9b4",
+            "observations": 4,
+            "beacons": 3,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -57,
+            "rssi_max": -52,
+            "first_ms": 1057,
+            "last_ms": 11242
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9fc",
+            "observations": 6,
+            "beacons": 6,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -35,
+            "first_ms": 1393,
+            "last_ms": 25799
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eafeb88",
+            "observations": 10,
+            "beacons": 5,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -55,
+            "rssi_max": -51,
+            "first_ms": 60,
+            "last_ms": 26102
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0059c",
+            "observations": 9,
+            "beacons": 4,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -47,
+            "rssi_max": -42,
+            "first_ms": 85,
+            "last_ms": 21317
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb00868",
+            "observations": 8,
+            "beacons": 3,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -50,
+            "first_ms": 46,
+            "last_ms": 16335
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0f9fc",
+            "observations": 8,
+            "beacons": 5,
+            "pages": 3,
+            "other": 0,
+            "rssi_min": -47,
+            "rssi_max": -44,
+            "first_ms": 97,
+            "last_ms": 26140
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eafeb88",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -64,
+            "rssi_max": -55,
+            "first_ms": 2152,
+            "last_ms": 19871
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0059c",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -34,
+            "rssi_max": -30,
+            "first_ms": 2178,
+            "last_ms": 24919
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb00868",
+            "observations": 5,
+            "beacons": 4,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -40,
+            "rssi_max": -35,
+            "first_ms": 2139,
+            "last_ms": 24880
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0f9b4",
+            "observations": 4,
+            "beacons": 2,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -51,
+            "rssi_max": -46,
+            "first_ms": 2110,
+            "last_ms": 19828
+          }
+        ]
+      }
+    },
+    {
+      "name": "r5",
+      "run": 2026103108,
+      "build": "ca6fe90 2026-10-31 20:13",
+      "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
+      "payload_bytes": 64,
+      "total": 5,
+      "gap_ms": 1000,
+      "local_limit_ms": 30000,
+      "activation": [
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "request_utc": "2026-10-31T20:17:32.039209+00:00",
+          "request_s": 3.0000010156072676e-06,
+          "ack_s": 0.012431875002221204,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "request_utc": "2026-10-31T20:17:32.051654+00:00",
+          "request_s": 0.012446875000023283,
+          "ack_s": 0.024255582997284364,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "request_utc": "2026-10-31T20:17:32.063482+00:00",
+          "request_s": 0.02427512499707518,
+          "ack_s": 0.048349333002988715,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "request_utc": "2026-10-31T20:17:32.087565+00:00",
+          "request_s": 0.04835874999844236,
+          "ack_s": 0.05902037500345614,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "request_utc": "2026-10-31T20:17:32.098249+00:00",
+          "request_s": 0.05904116699821316,
+          "ack_s": 0.07124237500102026,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        }
+      ],
+      "retention": {
+        "result_and_topology_crc_checked": 10,
+        "after_hardware_reset_identical": 10,
+        "physical_power_cycle_this_run": false,
+        "persistent_labels_after_reset": 5
+      },
+      "results": [
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 5,
+          "completed_local_ms": null,
+          "first_page_ms": {
+            "0": 29,
+            "1": 1051,
+            "3": 3093
+          },
+          "first_page_sender": {
+            "0": "ac276eb0059c",
+            "1": "ac276eb0059c",
+            "3": "ac276eb0059c"
+          },
+          "rx": 23,
+          "tx": 11,
+          "duplicates": 7,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4160,
+          "first_page_ms": {
+            "0": 90,
+            "1": 1111,
+            "2": 2118,
+            "3": 3153,
+            "4": 4160
+          },
+          "first_page_sender": {
+            "0": "ac276eb0059c",
+            "1": "ac276eb0059c",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0059c",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 21,
+          "tx": 12,
+          "duplicates": 1,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4146,
+          "first_page_ms": {
+            "0": 61,
+            "1": 1082,
+            "2": 2103,
+            "3": 3125,
+            "4": 4146
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 28,
+          "tx": 12,
+          "duplicates": 4,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4347,
+          "first_page_ms": {
+            "0": 4347,
+            "1": 1074,
+            "2": 2080,
+            "3": 3101,
+            "4": 4122
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9fc",
+            "1": "ac276eb0059c",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 20,
+          "tx": 11,
+          "duplicates": 1,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4111,
+          "first_page_ms": {
+            "0": 26,
+            "1": 1062,
+            "2": 2069,
+            "3": 3090,
+            "4": 4111
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0059c",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 23,
+          "tx": 11,
+          "duplicates": 3,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        }
+      ],
+      "topology": {
+        "schema": 1,
+        "kind": "mlan-topology-report",
+        "run": 2026103108,
+        "clock": "local_ms_since_start",
+        "payload_bytes": 64,
+        "inputs": [
+          {
+            "file": "data/size/r5/b1.top",
+            "sha256": "5c517dfabc3a21f98bb1c7822112791348852cb49d79885953d7e54db7831530"
+          },
+          {
+            "file": "data/size/r5/b2.top",
+            "sha256": "ed1aab61629de0b496db9c7c74e559162e34b0871a22eea91e8e845af12e6c8e"
+          },
+          {
+            "file": "data/size/r5/b3.top",
+            "sha256": "7c1fb3a85ad36c1ce24a403e8e9a523122facd5330630ceff9003cadbc187a01"
+          },
+          {
+            "file": "data/size/r5/b4.top",
+            "sha256": "9f70eeb8697de4dd49aabf4a43053f1012529dfe225f0e78d499c15a8676254b"
+          },
+          {
+            "file": "data/size/r5/b5.top",
+            "sha256": "27bba99e116f9f3b2aef78450076ea8139da56f4d8c23eb892f4cbc4bcd3bcaa"
+          }
+        ],
+        "warnings": [
+          "Times are local to each receiver; they are not synchronised across boards.",
+          "An arrow means the receiver heard the sender; it does not prove a two-way link.",
+          "Counts are recorded receptions, not transmission totals or radio loss rates.",
+          "No observation means not heard during this local window, not proof of no radio path."
+        ],
+        "nodes": [
+          {
+            "mac": "ac276eb0f9b4",
+            "label": "1",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "label": "2",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0059c",
+            "label": "3",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eafeb88",
+            "label": "4",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb00868",
+            "label": "5",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          }
+        ],
+        "receivers": [
+          {
+            "mac": "ac276eb0f9b4",
+            "node": "5d60",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "node": "18c7",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0059c",
+            "node": "8e5a",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eafeb88",
+            "node": "9135",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb00868",
+            "node": "c3f1",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          }
+        ],
+        "links": [
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0059c",
+            "observations": 7,
+            "beacons": 6,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -67,
+            "rssi_max": -59,
+            "first_ms": 4356,
+            "last_ms": 29221
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb00868",
+            "observations": 4,
+            "beacons": 3,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -59,
+            "rssi_max": -54,
+            "first_ms": 4350,
+            "last_ms": 29186
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9b4",
+            "observations": 4,
+            "beacons": 3,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -54,
+            "rssi_max": -53,
+            "first_ms": 4339,
+            "last_ms": 29174
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9fc",
+            "observations": 6,
+            "beacons": 5,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -87,
+            "rssi_max": -61,
+            "first_ms": 4370,
+            "last_ms": 29235
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eafeb88",
+            "observations": 3,
+            "beacons": 2,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -66,
+            "rssi_max": -62,
+            "first_ms": 1074,
+            "last_ms": 29034
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb00868",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -32,
+            "rssi_max": -26,
+            "first_ms": 1062,
+            "last_ms": 24172
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9b4",
+            "observations": 8,
+            "beacons": 5,
+            "pages": 3,
+            "other": 0,
+            "rssi_min": -48,
+            "rssi_max": -44,
+            "first_ms": 29,
+            "last_ms": 29011
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9fc",
+            "observations": 5,
+            "beacons": 2,
+            "pages": 3,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -33,
+            "first_ms": 90,
+            "last_ms": 29072
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eafeb88",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -61,
+            "rssi_max": -54,
+            "first_ms": 9552,
+            "last_ms": 29563
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0059c",
+            "observations": 6,
+            "beacons": 5,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -28,
+            "rssi_max": -25,
+            "first_ms": 1112,
+            "last_ms": 24589
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9b4",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -58,
+            "rssi_max": -50,
+            "first_ms": 4439,
+            "last_ms": 24543
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9fc",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -37,
+            "rssi_max": -35,
+            "first_ms": 4500,
+            "last_ms": 24603
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eafeb88",
+            "observations": 6,
+            "beacons": 3,
+            "pages": 3,
+            "other": 0,
+            "rssi_min": -56,
+            "rssi_max": -52,
+            "first_ms": 2080,
+            "last_ms": 29583
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0059c",
+            "observations": 8,
+            "beacons": 3,
+            "pages": 5,
+            "other": 0,
+            "rssi_min": -88,
+            "rssi_max": -43,
+            "first_ms": 61,
+            "last_ms": 24554
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb00868",
+            "observations": 9,
+            "beacons": 5,
+            "pages": 4,
+            "other": 0,
+            "rssi_min": -85,
+            "rssi_max": -50,
+            "first_ms": 26,
+            "last_ms": 29572
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0f9fc",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -88,
+            "rssi_max": -44,
+            "first_ms": 2118,
+            "last_ms": 29621
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eafeb88",
+            "observations": 6,
+            "beacons": 4,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -62,
+            "rssi_max": -58,
+            "first_ms": 3136,
+            "last_ms": 19282
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0059c",
+            "observations": 7,
+            "beacons": 5,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -87,
+            "rssi_max": -30,
+            "first_ms": 90,
+            "last_ms": 29013
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb00868",
+            "observations": 5,
+            "beacons": 4,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -47,
+            "rssi_max": -34,
+            "first_ms": 3125,
+            "last_ms": 24116
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0f9b4",
+            "observations": 6,
+            "beacons": 3,
+            "pages": 3,
+            "other": 0,
+            "rssi_min": -54,
+            "rssi_max": -46,
+            "first_ms": 44,
+            "last_ms": 19260
+          }
+        ]
+      }
+    },
+    {
+      "name": "r6",
+      "run": 2026103109,
+      "build": "ca6fe90 2026-10-31 20:13",
+      "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
+      "payload_bytes": 32,
+      "total": 5,
+      "gap_ms": 1000,
+      "local_limit_ms": 30000,
+      "activation": [
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "request_utc": "2026-10-31T20:18:05.091417+00:00",
+          "request_s": 5.125002644490451e-06,
+          "ack_s": 0.011672291002469137,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "request_utc": "2026-10-31T20:18:05.103128+00:00",
+          "request_s": 0.011711040999216493,
+          "ack_s": 0.02333974999783095,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "request_utc": "2026-10-31T20:18:05.114767+00:00",
+          "request_s": 0.023354916003881954,
+          "ack_s": 0.04950904099678155,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "request_utc": "2026-10-31T20:18:05.140983+00:00",
+          "request_s": 0.04956483300338732,
+          "ack_s": 0.061863583003287204,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        },
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "request_utc": "2026-10-31T20:18:05.153292+00:00",
+          "request_s": 0.06188033299986273,
+          "ack_s": 0.07282620800106088,
+          "reply": {
+            "ok": true,
+            "message": "running"
+          }
+        }
+      ],
+      "retention": {
+        "result_and_topology_crc_checked": 10,
+        "after_hardware_reset_identical": 10,
+        "physical_power_cycle_this_run": false,
+        "persistent_labels_after_reset": 5
+      },
+      "results": [
+        {
+          "label": "1",
+          "mac": "ac276eb0f9b4",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 5,
+          "completed_local_ms": null,
+          "first_page_ms": {
+            "1": 5779,
+            "3": 5850,
+            "4": 4109
+          },
+          "first_page_sender": {
+            "1": "ac276eb0f9fc",
+            "3": "ac276eb0f9fc",
+            "4": "ac276eb0059c"
+          },
+          "rx": 24,
+          "tx": 17,
+          "duplicates": 6,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "2",
+          "mac": "ac276eb0f9fc",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 10935,
+          "first_page_ms": {
+            "0": 74,
+            "1": 1095,
+            "2": 10935,
+            "3": 5899,
+            "4": 4158
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 25,
+          "tx": 15,
+          "duplicates": 4,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "3",
+          "mac": "ac276eb0059c",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 10663,
+          "first_page_ms": {
+            "0": 5829,
+            "1": 10663,
+            "2": 2103,
+            "3": 3124,
+            "4": 4146
+          },
+          "first_page_sender": {
+            "0": "ac276eb00868",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 25,
+          "tx": 12,
+          "duplicates": 4,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "4",
+          "mac": "ac276eafeb88",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 4121,
+          "first_page_ms": {
+            "0": 37,
+            "1": 1058,
+            "2": 2079,
+            "3": 3100,
+            "4": 4121
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 29,
+          "tx": 13,
+          "duplicates": 10,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "label": "5",
+          "mac": "ac276eb00868",
+          "received": [
+            0,
+            1,
+            2,
+            3,
+            4
+          ],
+          "count": 5,
+          "sent": 0,
+          "completed_local_ms": 16274,
+          "first_page_ms": {
+            "0": 24,
+            "1": 10625,
+            "2": 2066,
+            "3": 16274,
+            "4": 4108
+          },
+          "first_page_sender": {
+            "0": "ac276eb0f9b4",
+            "1": "ac276eb0f9b4",
+            "2": "ac276eb0f9b4",
+            "3": "ac276eb0f9b4",
+            "4": "ac276eb0f9b4"
+          },
+          "rx": 22,
+          "tx": 14,
+          "duplicates": 3,
+          "rx_drop": 0,
+          "rx_bad": 0,
+          "tx_fail": 0,
+          "invalid": 0,
+          "overflow": 0,
+          "ignored_run": 0
+        }
+      ],
+      "topology": {
+        "schema": 1,
+        "kind": "mlan-topology-report",
+        "run": 2026103109,
+        "clock": "local_ms_since_start",
+        "payload_bytes": 32,
+        "inputs": [
+          {
+            "file": "data/size/r6/b1.top",
+            "sha256": "f62485d7854770f8e675e26a6586799fb9d8828a0ae270f5fa869189d0c64df6"
+          },
+          {
+            "file": "data/size/r6/b2.top",
+            "sha256": "43b788e07adafa86df6b95c2b361c24e8060a262ce5449991f370b2b7bff4cf1"
+          },
+          {
+            "file": "data/size/r6/b3.top",
+            "sha256": "e286dcf425abf93bc24c6e65372d2fa51d21a4f63081d55f4678938cd08f779a"
+          },
+          {
+            "file": "data/size/r6/b4.top",
+            "sha256": "e30443527abebd3aa7ef85f396abbe8f21d9fcb1ce0c97006e0026adc8f2a4d1"
+          },
+          {
+            "file": "data/size/r6/b5.top",
+            "sha256": "ab6c502d57d75d7fb3c395bc91deddcf843ac42d4d7cc20f18859c3b3ed35bd2"
+          }
+        ],
+        "warnings": [
+          "Times are local to each receiver; they are not synchronised across boards.",
+          "An arrow means the receiver heard the sender; it does not prove a two-way link.",
+          "Counts are recorded receptions, not transmission totals or radio loss rates.",
+          "No observation means not heard during this local window, not proof of no radio path."
+        ],
+        "nodes": [
+          {
+            "mac": "ac276eb0f9b4",
+            "label": "1",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "label": "2",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb0059c",
+            "label": "3",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eafeb88",
+            "label": "4",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          },
+          {
+            "mac": "ac276eb00868",
+            "label": "5",
+            "location": "USB-Test am Mac",
+            "receiver_log_supplied": true
+          }
+        ],
+        "receivers": [
+          {
+            "mac": "ac276eb0f9b4",
+            "node": "5d60",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0f9fc",
+            "node": "18c7",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb0059c",
+            "node": "8e5a",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eafeb88",
+            "node": "9135",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          },
+          {
+            "mac": "ac276eb00868",
+            "node": "c3f1",
+            "build": "ca6fe90 2026-10-31 20:13",
+            "elapsed_ms": 30000,
+            "capacity": 256,
+            "overflow": 0,
+            "ignored_run": 0
+          }
+        ],
+        "links": [
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0059c",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -87,
+            "rssi_max": -59,
+            "first_ms": 1055,
+            "last_ms": 20958
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb00868",
+            "observations": 3,
+            "beacons": 3,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -61,
+            "first_ms": 10962,
+            "last_ms": 20920
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9b4",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -56,
+            "rssi_max": -53,
+            "first_ms": 1005,
+            "last_ms": 20908
+          },
+          {
+            "sender": "ac276eafeb88",
+            "receiver": "ac276eb0f9fc",
+            "observations": 5,
+            "beacons": 5,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -63,
+            "rssi_max": -58,
+            "first_ms": 1067,
+            "last_ms": 25914
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eafeb88",
+            "observations": 6,
+            "beacons": 5,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -64,
+            "rssi_max": -58,
+            "first_ms": 5792,
+            "last_ms": 25234
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb00868",
+            "observations": 6,
+            "beacons": 5,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -26,
+            "first_ms": 885,
+            "last_ms": 20269
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9b4",
+            "observations": 8,
+            "beacons": 6,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -48,
+            "rssi_max": -44,
+            "first_ms": 874,
+            "last_ms": 25210
+          },
+          {
+            "sender": "ac276eb0059c",
+            "receiver": "ac276eb0f9fc",
+            "observations": 7,
+            "beacons": 5,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -89,
+            "rssi_max": -33,
+            "first_ms": 935,
+            "last_ms": 25271
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eafeb88",
+            "observations": 4,
+            "beacons": 4,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -58,
+            "rssi_max": -54,
+            "first_ms": 1442,
+            "last_ms": 21511
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0059c",
+            "observations": 5,
+            "beacons": 4,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -31,
+            "rssi_max": -24,
+            "first_ms": 1467,
+            "last_ms": 21536
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9b4",
+            "observations": 4,
+            "beacons": 4,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -57,
+            "rssi_max": -50,
+            "first_ms": 6363,
+            "last_ms": 21486
+          },
+          {
+            "sender": "ac276eb00868",
+            "receiver": "ac276eb0f9fc",
+            "observations": 3,
+            "beacons": 3,
+            "pages": 0,
+            "other": 0,
+            "rssi_min": -88,
+            "rssi_max": -40,
+            "first_ms": 11338,
+            "last_ms": 26771
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eafeb88",
+            "observations": 15,
+            "beacons": 4,
+            "pages": 11,
+            "other": 0,
+            "rssi_min": -56,
+            "rssi_max": -51,
+            "first_ms": 37,
+            "last_ms": 21830
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0059c",
+            "observations": 10,
+            "beacons": 4,
+            "pages": 6,
+            "other": 0,
+            "rssi_min": -88,
+            "rssi_max": -42,
+            "first_ms": 2103,
+            "last_ms": 27059
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb00868",
+            "observations": 8,
+            "beacons": 2,
+            "pages": 6,
+            "other": 0,
+            "rssi_min": -62,
+            "rssi_max": -48,
+            "first_ms": 24,
+            "last_ms": 21817
+          },
+          {
+            "sender": "ac276eb0f9b4",
+            "receiver": "ac276eb0f9fc",
+            "observations": 10,
+            "beacons": 3,
+            "pages": 7,
+            "other": 0,
+            "rssi_min": -49,
+            "rssi_max": -44,
+            "first_ms": 74,
+            "last_ms": 16362
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eafeb88",
+            "observations": 4,
+            "beacons": 1,
+            "pages": 3,
+            "other": 0,
+            "rssi_min": -63,
+            "rssi_max": -58,
+            "first_ms": 1046,
+            "last_ms": 16312
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0059c",
+            "observations": 5,
+            "beacons": 3,
+            "pages": 2,
+            "other": 0,
+            "rssi_min": -39,
+            "rssi_max": -34,
+            "first_ms": 5874,
+            "last_ms": 26067
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb00868",
+            "observations": 5,
+            "beacons": 4,
+            "pages": 1,
+            "other": 0,
+            "rssi_min": -45,
+            "rssi_max": -34,
+            "first_ms": 1033,
+            "last_ms": 26029
+          },
+          {
+            "sender": "ac276eb0f9fc",
+            "receiver": "ac276eb0f9b4",
+            "observations": 7,
+            "beacons": 3,
+            "pages": 4,
+            "other": 0,
+            "rssi_min": -54,
+            "rssi_max": -46,
+            "first_ms": 4117,
+            "last_ms": 16288
+          }
+        ]
+      }
+    }
+  ],
+  "baseline": {
+    "name": "base",
+    "run": 2026103103,
+    "build": "2d9b46c 2026-10-31 20:01",
+    "firmware_revision": "2d9b46cb905f3d444fab8a32b8356a882f0faad3",
+    "payload_bytes": 32,
+    "total": 5,
+    "gap_ms": 1000,
+    "local_limit_ms": 30000,
+    "activation": [
+      {
+        "label": "2",
+        "mac": "ac276eb0f9fc",
+        "request_utc": "2026-10-31T20:10:18.446154+00:00",
+        "request_s": 1.533300383016467e-05,
+        "ack_s": 0.012747041997499764,
+        "reply": {
+          "ok": true,
+          "message": "running"
+        }
+      },
+      {
+        "label": "3",
+        "mac": "ac276eb0059c",
+        "request_utc": "2026-10-31T20:10:18.458903+00:00",
+        "request_s": 0.012777124997228384,
+        "ack_s": 0.044474916998296976,
+        "reply": {
+          "ok": true,
+          "message": "running"
+        }
+      },
+      {
+        "label": "4",
+        "mac": "ac276eafeb88",
+        "request_utc": "2026-10-31T20:10:18.490610+00:00",
+        "request_s": 0.044488457999250386,
+        "ack_s": 0.06886020800448023,
+        "reply": {
+          "ok": true,
+          "message": "running"
+        }
+      },
+      {
+        "label": "5",
+        "mac": "ac276eb00868",
+        "request_utc": "2026-10-31T20:10:18.514990+00:00",
+        "request_s": 0.06886970800405834,
+        "ack_s": 0.08103875000233529,
+        "reply": {
+          "ok": true,
+          "message": "running"
+        }
+      },
+      {
+        "label": "1",
+        "mac": "ac276eb0f9b4",
+        "request_utc": "2026-10-31T20:10:18.527165+00:00",
+        "request_s": 0.08104508300311863,
+        "ack_s": 0.09486020800250117,
+        "reply": {
+          "ok": true,
+          "message": "running"
+        }
+      }
+    ],
+    "retention": {
+      "result_and_topology_crc_checked": 10,
+      "after_hardware_reset_identical": 0,
+      "physical_power_cycle_this_run": false
+    },
+    "results": [
+      {
+        "label": "1",
+        "mac": "ac276eb0f9b4",
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "count": 5,
+        "sent": 5,
+        "completed_local_ms": null,
+        "first_page_ms": {
+          "0": 9913,
+          "2": 19447,
+          "3": 3101,
+          "4": 4113
+        },
+        "first_page_sender": {
+          "0": "ac276eafeb88",
+          "2": "ac276eafeb88",
+          "3": "ac276eb0059c",
+          "4": "ac276eb0f9fc"
+        },
+        "rx": 23,
+        "tx": 14,
+        "duplicates": 9,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "invalid": 0,
+        "overflow": 0,
+        "ignored_run": 0
+      },
+      {
+        "label": "2",
+        "mac": "ac276eb0f9fc",
+        "received": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "count": 4,
+        "sent": 0,
+        "completed_local_ms": null,
+        "first_page_ms": {
+          "0": 93,
+          "2": 2135,
+          "3": 3183,
+          "4": 4181
+        },
+        "first_page_sender": {
+          "0": "ac276eb0f9b4",
+          "2": "ac276eb0f9b4",
+          "3": "ac276eb0059c",
+          "4": "ac276eb0f9b4"
+        },
+        "rx": 21,
+        "tx": 11,
+        "duplicates": 4,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "invalid": 0,
+        "overflow": 0,
+        "ignored_run": 0
+      },
+      {
+        "label": "3",
+        "mac": "ac276eb0059c",
+        "received": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "count": 4,
+        "sent": 0,
+        "completed_local_ms": null,
+        "first_page_ms": {
+          "0": 9963,
+          "2": 2104,
+          "3": 3138,
+          "4": 4185
+        },
+        "first_page_sender": {
+          "0": "ac276eafeb88",
+          "2": "ac276eb0f9b4",
+          "3": "ac276eb00868",
+          "4": "ac276eb00868"
+        },
+        "rx": 22,
+        "tx": 10,
+        "duplicates": 4,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "invalid": 0,
+        "overflow": 0,
+        "ignored_run": 0
+      },
+      {
+        "label": "4",
+        "mac": "ac276eafeb88",
+        "received": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "count": 4,
+        "sent": 0,
+        "completed_local_ms": null,
+        "first_page_ms": {
+          "0": 37,
+          "2": 2079,
+          "3": 3101,
+          "4": 4125
+        },
+        "first_page_sender": {
+          "0": "ac276eb0f9b4",
+          "2": "ac276eb0f9b4",
+          "3": "ac276eb0f9b4",
+          "4": "ac276eb0f9b4"
+        },
+        "rx": 23,
+        "tx": 14,
+        "duplicates": 6,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "invalid": 0,
+        "overflow": 0,
+        "ignored_run": 0
+      },
+      {
+        "label": "5",
+        "mac": "ac276eb00868",
+        "received": [
+          0,
+          2,
+          3,
+          4
+        ],
+        "count": 4,
+        "sent": 0,
+        "completed_local_ms": null,
+        "first_page_ms": {
+          "0": 24,
+          "2": 19460,
+          "3": 3089,
+          "4": 4125
+        },
+        "first_page_sender": {
+          "0": "ac276eb0f9b4",
+          "2": "ac276eafeb88",
+          "3": "ac276eb0f9b4",
+          "4": "ac276eb0f9fc"
+        },
+        "rx": 24,
+        "tx": 11,
+        "duplicates": 5,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "invalid": 0,
+        "overflow": 0,
+        "ignored_run": 0
+      }
+    ],
+    "topology": {
+      "schema": 1,
+      "kind": "mlan-topology-report",
+      "run": 2026103103,
+      "clock": "local_ms_since_start",
+      "payload_bytes": 32,
+      "inputs": [
+        {
+          "file": "data/size/base/b1.top",
+          "sha256": "3832604fb9cd2b19a05a4d443c4795940ee2ad149b1c3df1068872e132661450"
+        },
+        {
+          "file": "data/size/base/b2.top",
+          "sha256": "c3b4b58f77e4d92d60be33ba55bfadc5c12040d9441f60acf07ae8590431ae48"
+        },
+        {
+          "file": "data/size/base/b3.top",
+          "sha256": "49bc79537cfbc8d8935a7bbd15e000409b8d7b68c569ae319d3a39e032b6477d"
+        },
+        {
+          "file": "data/size/base/b4.top",
+          "sha256": "eca85ad636439cf3f7a141f9dda2f09eb3c71eef9aa209c016635501ecc839dc"
+        },
+        {
+          "file": "data/size/base/b5.top",
+          "sha256": "2f3c0d061a727a1c68b3a8141c0ed264f22d56fadc7a8e965a2aa7e221051d0d"
+        }
+      ],
+      "warnings": [
+        "Times are local to each receiver; they are not synchronised across boards.",
+        "An arrow means the receiver heard the sender; it does not prove a two-way link.",
+        "Counts are recorded receptions, not transmission totals or radio loss rates.",
+        "No observation means not heard during this local window, not proof of no radio path."
+      ],
+      "nodes": [
+        {
+          "mac": "ac276eb0f9b4",
+          "label": "1",
+          "location": "USB-Test am Mac",
+          "receiver_log_supplied": true
+        },
+        {
+          "mac": "ac276eb0f9fc",
+          "label": "2",
+          "location": "USB-Test am Mac",
+          "receiver_log_supplied": true
+        },
+        {
+          "mac": "ac276eb0059c",
+          "label": "3",
+          "location": "USB-Test am Mac",
+          "receiver_log_supplied": true
+        },
+        {
+          "mac": "ac276eafeb88",
+          "label": "4",
+          "location": "USB-Test am Mac",
+          "receiver_log_supplied": true
+        },
+        {
+          "mac": "ac276eb00868",
+          "label": "5",
+          "location": "USB-Test am Mac",
+          "receiver_log_supplied": true
+        }
+      ],
+      "receivers": [
+        {
+          "mac": "ac276eb0f9b4",
+          "node": "5d60",
+          "build": "2d9b46c 2026-10-31 20:01",
+          "elapsed_ms": 30000,
+          "capacity": 256,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "mac": "ac276eb0f9fc",
+          "node": "18c7",
+          "build": "2d9b46c 2026-10-31 20:01",
+          "elapsed_ms": 30000,
+          "capacity": 256,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "mac": "ac276eb0059c",
+          "node": "8e5a",
+          "build": "2d9b46c 2026-10-31 20:01",
+          "elapsed_ms": 30000,
+          "capacity": 256,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "mac": "ac276eafeb88",
+          "node": "9135",
+          "build": "2d9b46c 2026-10-31 20:01",
+          "elapsed_ms": 30000,
+          "capacity": 256,
+          "overflow": 0,
+          "ignored_run": 0
+        },
+        {
+          "mac": "ac276eb00868",
+          "node": "c3f1",
+          "build": "2d9b46c 2026-10-31 20:01",
+          "elapsed_ms": 30000,
+          "capacity": 256,
+          "overflow": 0,
+          "ignored_run": 0
+        }
+      ],
+      "links": [
+        {
+          "sender": "ac276eafeb88",
+          "receiver": "ac276eb0059c",
+          "observations": 5,
+          "beacons": 2,
+          "pages": 3,
+          "other": 0,
+          "rssi_min": -89,
+          "rssi_max": -59,
+          "first_ms": 9963,
+          "last_ms": 24827
+        },
+        {
+          "sender": "ac276eafeb88",
+          "receiver": "ac276eb00868",
+          "observations": 5,
+          "beacons": 3,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -85,
+          "rssi_max": -55,
+          "first_ms": 9926,
+          "last_ms": 29630
+        },
+        {
+          "sender": "ac276eafeb88",
+          "receiver": "ac276eb0f9b4",
+          "observations": 6,
+          "beacons": 3,
+          "pages": 3,
+          "other": 0,
+          "rssi_min": -55,
+          "rssi_max": -53,
+          "first_ms": 9913,
+          "last_ms": 29617
+        },
+        {
+          "sender": "ac276eafeb88",
+          "receiver": "ac276eb0f9fc",
+          "observations": 4,
+          "beacons": 2,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -63,
+          "rssi_max": -59,
+          "first_ms": 9994,
+          "last_ms": 29698
+        },
+        {
+          "sender": "ac276eb0059c",
+          "receiver": "ac276eafeb88",
+          "observations": 5,
+          "beacons": 3,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -63,
+          "rssi_max": -58,
+          "first_ms": 3126,
+          "last_ms": 24868
+        },
+        {
+          "sender": "ac276eb0059c",
+          "receiver": "ac276eb00868",
+          "observations": 7,
+          "beacons": 5,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -89,
+          "rssi_max": -26,
+          "first_ms": 3114,
+          "last_ms": 24855
+        },
+        {
+          "sender": "ac276eb0059c",
+          "receiver": "ac276eb0f9b4",
+          "observations": 7,
+          "beacons": 5,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -49,
+          "rssi_max": -45,
+          "first_ms": 3101,
+          "last_ms": 24843
+        },
+        {
+          "sender": "ac276eb0059c",
+          "receiver": "ac276eb0f9fc",
+          "observations": 5,
+          "beacons": 3,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -34,
+          "rssi_max": -33,
+          "first_ms": 3183,
+          "last_ms": 24924
+        },
+        {
+          "sender": "ac276eb00868",
+          "receiver": "ac276eafeb88",
+          "observations": 7,
+          "beacons": 6,
+          "pages": 1,
+          "other": 0,
+          "rssi_min": -61,
+          "rssi_max": -54,
+          "first_ms": 4161,
+          "last_ms": 29323
+        },
+        {
+          "sender": "ac276eb00868",
+          "receiver": "ac276eb0059c",
+          "observations": 7,
+          "beacons": 5,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -31,
+          "rssi_max": -24,
+          "first_ms": 3138,
+          "last_ms": 29348
+        },
+        {
+          "sender": "ac276eb00868",
+          "receiver": "ac276eb0f9b4",
+          "observations": 6,
+          "beacons": 5,
+          "pages": 1,
+          "other": 0,
+          "rssi_min": -76,
+          "rssi_max": -50,
+          "first_ms": 4135,
+          "last_ms": 29298
+        },
+        {
+          "sender": "ac276eb00868",
+          "receiver": "ac276eb0f9fc",
+          "observations": 6,
+          "beacons": 5,
+          "pages": 1,
+          "other": 0,
+          "rssi_min": -89,
+          "rssi_max": -34,
+          "first_ms": 4217,
+          "last_ms": 29380
+        },
+        {
+          "sender": "ac276eb0f9b4",
+          "receiver": "ac276eafeb88",
+          "observations": 9,
+          "beacons": 4,
+          "pages": 5,
+          "other": 0,
+          "rssi_min": -83,
+          "rssi_max": -52,
+          "first_ms": 37,
+          "last_ms": 29866
+        },
+        {
+          "sender": "ac276eb0f9b4",
+          "receiver": "ac276eb0059c",
+          "observations": 6,
+          "beacons": 5,
+          "pages": 1,
+          "other": 0,
+          "rssi_min": -47,
+          "rssi_max": -41,
+          "first_ms": 2104,
+          "last_ms": 29891
+        },
+        {
+          "sender": "ac276eb0f9b4",
+          "receiver": "ac276eb00868",
+          "observations": 7,
+          "beacons": 5,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -58,
+          "rssi_max": -46,
+          "first_ms": 24,
+          "last_ms": 29854
+        },
+        {
+          "sender": "ac276eb0f9b4",
+          "receiver": "ac276eb0f9fc",
+          "observations": 6,
+          "beacons": 3,
+          "pages": 3,
+          "other": 0,
+          "rssi_min": -49,
+          "rssi_max": -43,
+          "first_ms": 93,
+          "last_ms": 14543
+        },
+        {
+          "sender": "ac276eb0f9fc",
+          "receiver": "ac276eafeb88",
+          "observations": 2,
+          "beacons": 0,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -58,
+          "rssi_max": -56,
+          "first_ms": 3139,
+          "last_ms": 19510
+        },
+        {
+          "sender": "ac276eb0f9fc",
+          "receiver": "ac276eb0059c",
+          "observations": 4,
+          "beacons": 2,
+          "pages": 2,
+          "other": 0,
+          "rssi_min": -39,
+          "rssi_max": -32,
+          "first_ms": 3163,
+          "last_ms": 25068
+        },
+        {
+          "sender": "ac276eb0f9fc",
+          "receiver": "ac276eb00868",
+          "observations": 5,
+          "beacons": 2,
+          "pages": 3,
+          "other": 0,
+          "rssi_min": -46,
+          "rssi_max": -35,
+          "first_ms": 3127,
+          "last_ms": 25031
+        },
+        {
+          "sender": "ac276eb0f9fc",
+          "receiver": "ac276eb0f9b4",
+          "observations": 4,
+          "beacons": 1,
+          "pages": 3,
+          "other": 0,
+          "rssi_min": -54,
+          "rssi_max": -46,
+          "first_ms": 3114,
+          "last_ms": 19485
+        }
+      ]
+    }
+  }
+}

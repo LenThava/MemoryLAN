@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "kind": "mlan-size-series",
+  "setting": "Five boards in one room, four on a USB hub and one directly on the Mac; node 1 stayed on. Five pages per run, minimum 1,000 ms gap, independent 30-second windows.",
+  "runs": [
+    "r1",
+    "r2",
+    "r3",
+    "r4",
+    "r5",
+    "r6"
+  ],
+  "baseline": "base",
+  "size_order": [
+    32,
+    64,
+    120,
+    120,
+    64,
+    32
+  ],
+  "scope": "Two physical runs per size. Page size includes the 14-byte trial header. Different sizes send different total byte counts. This is a room test, not a house-range test or proof of an optimal size."
+}
