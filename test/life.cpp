@@ -713,6 +713,104 @@ static void legacy_reboot_archive()
     }
 }
 
+static void captured_v1_record()
+{
+    // Node 1's saved 356-byte record, captured from flash before the upgrade.
+    const char *hex =
+        "0100000066b9c378605d605d05000300e8030000e09304003fc5040005000000"
+        "03000000000000000d0000003900000011000000000000000000000002000000"
+        "1f00000000000000000000000000000000000000000000000000000000000000"
+        "c7180a00a4ff0000059e04000000000000000000000000000000000000000000"
+        "0000000000000000000000000000000000000000000000000000000000000000"
+        "0000000000000000000000000000000000000000000000000000000000000000"
+        "0000000000000000000000000000000000000000000000000000000000000000"
+        "0000000000000000000000000000000000000000000000000000000000000000"
+        "0000000000000000000000000000000000000000000000000000000000000000"
+        "6532313665653920323032362d30392d32382030353a34340000000000000000"
+        "0000000000000000000000000000000000000000000000000000000000000000"
+        "fe84ac16";
+    std::vector<unsigned char> bytes;
+    for (size_t i = 0; hex[i]; i += 2) {
+        char pair[] = {hex[i], hex[i+1], 0};
+        bytes.push_back(strtoul(pair, nullptr, 16));
+    }
+    assert(bytes.size() == 356);
+    TrialRecord old = {};
+    memcpy(&old, bytes.data(), sizeof(old));
+    assert(old.version == 1 && old.payload_bytes == 0 && trial_valid(old));
+    TrialText text;
+    trial_json(text, old, true, old.node);
+    const std::string legacy = R"({"schema":1,"kind":"mlan-run","state":"done","storage_ok":true,"node":"5d60","source":"5d60","run":2026092902,"total":5,"sent":5,"gap_ms":1000,"limit_ms":300000,"elapsed_ms":312639,"stop_reason":2,"cutoff":"local","build":"e216ee9 2026-09-28 05:44","duplicates":3,"invalid":0,"rx":13,"tx":57,"rx_drop":17,"rx_bad":0,"tx_fail":0,"received":[0,1,2,3,4],"peers":[{"id":"18c7","rssi":-92,"samples":10,"last_ms":302597}]})" "\n";
+    assert(text.ok && std::string(text.data, text.used) == legacy);
+    const std::string current = "{\"mac\":\"ac276eb0f9b4\"," + legacy.substr(1);
+    uint8_t saved_id[2], saved_mac[6];
+    memcpy(saved_id, my_id, 2); memcpy(saved_mac, hardware_mac, 6);
+    my_id[0] = 0x5d; my_id[1] = 0x60;
+    const uint8_t mac[] = {0xac,0x27,0x6e,0xb0,0xf9,0xb4};
+    memcpy(hardware_mac, mac, 6);
+    for (bool short_name : {true, false}) {
+        reset(); Preferences::bytes = bytes;
+        const char *path = short_name ? "/5d60-2026092902.log" : "/ac276eb0f9b4-2026092902.log";
+        LittleFS.put(path, short_name ? legacy : current);
+        trial_setup();
+        assert(trial_storage_ok && trial.state == DONE && trial_bytes(trial) == 32);
+        assert(Preferences::bytes == bytes);
+        assert(LittleFS.contents(path) == (short_name ? legacy : current));
+        assert(raw_json() == current);
+        if (short_name) assert(!LittleFS.exists("/ac276eb0f9b4-2026092902.log"));
+        trial_setup();
+        assert(Preferences::bytes == bytes && raw_json() == current);
+    }
+    memcpy(my_id, saved_id, 2); memcpy(hardware_mac, saved_mac, 6);
+}
+
+static void packet_sizes()
+{
+    for (unsigned bytes : {32u, 64u, 120u}) {
+        reset(); trial_setup(); trial_command("label 3");
+        char command[64];
+        snprintf(command, sizeof(command), "prep 90 1234 2 1000 10 %u", bytes);
+        trial_command(command);
+        assert(trial.state == READY && trial.version == 2 && trial_bytes(trial) == bytes);
+        auto ready = Preferences::bytes;
+        trial_setup();
+        assert(trial.state == READY && trial_bytes(trial) == bytes && Preferences::bytes == ready);
+        trial_begin(); trial_loop();
+        now_ms += 1000; trial_loop();
+        assert(lan.sent.size() == 2 && lan.sent[0].size() == bytes + 1);
+        BleMeta meta = peer_frame(90, 1, now_ms);
+        radio.observe(lan.sent[0].data(), meta, -50);
+        assert(trial_topology.count == 1 && trial_topology.events[0].type == 2);
+        assert(trial_topology.events[0].page == 0);
+        std::vector<uint8_t> broken = lan.sent[1]; broken.back() ^= 1;
+        radio.observe(broken.data(), meta, -50);
+        assert(trial_topology.events[1].type == 0 && trial_topology.events[1].page == -1);
+        const uint8_t short_page[] = {4, 'M', 'L', 'T', '1'};
+        radio.observe(short_page, meta, -50);
+        assert(trial_topology.events[2].type == 0);
+        trial_stop(1);
+        std::string field = "\"payload_bytes\":" + std::to_string(bytes);
+        assert(raw_json().find(field) != std::string::npos);
+        std::string result = LittleFS.contents("/123456789abc-90.log");
+        std::string topology = LittleFS.contents("/123456789abc-90.top");
+        assert(result.find(field) != std::string::npos && topology.find(field) != std::string::npos);
+        auto done = Preferences::bytes;
+        trial_setup();
+        assert(trial.state == DONE && trial_bytes(trial) == bytes && Preferences::bytes == done);
+        assert(trial_result_saved && trial_topology_saved && trial_label == 3);
+        assert(LittleFS.contents("/123456789abc-90.log") == result);
+        assert(LittleFS.contents("/123456789abc-90.top") == topology);
+    }
+    reset(); trial_setup();
+    for (const char *size : {"0", "14", "31", "33", "63", "119", "121", "128", "65536", "-32", "32 extra"}) {
+        std::string command = std::string("prep 90 1234 2 1000 10 ") + size;
+        trial_command(command.c_str());
+        assert(trial.state == EMPTY && Preferences::bytes.empty());
+    }
+    trial_command("prep 90 1234 2 1000 10");
+    assert(trial.version == 2 && trial_bytes(trial) == 32);
+}
+
 int main(int argc, char **argv)
 {
     if (argc == 2 && !strcmp(argv[1], "--topology-transfer")) {
@@ -754,5 +852,7 @@ int main(int argc, char **argv)
     topology_reboot_and_conflict();
     legacy_archive();
     legacy_reboot_archive();
+    captured_v1_record();
+    packet_sizes();
     puts("trial lifecycle: all tests passed");
 }

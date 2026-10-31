@@ -74,6 +74,13 @@ def identity(record):
     return record["node"]
 
 
+def payload_bytes(record):
+    value = record.get("payload_bytes", 32)
+    if type(value) is not int or value not in (32, 64, 120):
+        raise ValueError("Unsupported trial payload size")
+    return value
+
+
 def validate(records):
     if len(records) < 2:
         raise ValueError("Include the source and at least one receiving node")
@@ -112,7 +119,7 @@ def validate(records):
             raise ValueError("Invalid received-page IDs")
         if len(ids) != len(set(ids)):
             raise ValueError("Received-page IDs must already be deduplicated")
-        signature = tuple(r[k] for k in ("run", "source", "total", "gap_ms", "limit_ms", "build"))
+        signature = tuple(r[k] for k in ("run", "source", "total", "gap_ms", "limit_ms", "build")) + (payload_bytes(r),)
         if config is not None and signature != config:
             raise ValueError("Mixed run/configuration/firmware records")
         config = signature
@@ -139,11 +146,12 @@ def plots(records, out):
     source = validate(records)
     rows = sorted((r for r in records if r is not source), key=lambda r: r["node"])
     total = source["sent"]
-    subtitle = f'Run {source["run"]}; source {source["node"]}; {total} injected pages. Local, unsynchronised start/stop windows.'
+    subtitle = f'Run {source["run"]}; source {source["node"]}; {total} pages of {payload_bytes(source)} bytes. Local, unsynchronised windows.'
     bars = svg_start(940, 155 + 62 * len(rows), "Distinct content received per node", subtitle)
     bars.append('<text x="24" y="78" class="small">Node IDs are not hop counts. Missing content does not identify physical-link loss.</text>')
     summary = {"run": source["run"], "source": source["node"], "injected": total,
-               "cutoff": "local, unsynchronised", "build": source["build"], "nodes": []}
+               "cutoff": "local, unsynchronised", "build": source["build"],
+               "payload_bytes": payload_bytes(source), "nodes": []}
     if "mac" in source:
         summary["mac"] = source["mac"]
     for index, r in enumerate(rows):

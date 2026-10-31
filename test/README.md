@@ -1,6 +1,6 @@
 # Trial preparation
 
-Optional firmware for one source and up to 256 numbered 32-byte pages.
+Optional firmware for one source and up to 256 numbered pages of 32, 64 or 120 bytes.
 Trial controls are enabled only when `MLAN_TRIAL` is defined.
 The core correctness fixes also apply to the ordinary MemoryLAN build.
 No trial starts automatically after boot.
@@ -79,7 +79,13 @@ Prepare each board, including the source (example source ID `1234`):
 ```
 
 Arguments: run, source, page count, configured minimum spacing in milliseconds,
-LOCAL target duration in seconds. Sending is synchronous, so spacing and elapsed
+LOCAL target duration in seconds. An optional final argument selects page bytes:
+`./go ctrl PORT prep 2 1234 5 1000 30 64`. Omit it for 32 bytes.
+All participating boards must use the same size and firmware. The size includes
+the 14-byte trial header. The BLE envelope adds 19 bytes; controller/radio
+overhead is additional. The core accepts at most 120-byte pages.
+New result and topology logs include `payload_bytes`; older logs imply 32.
+Sending is synchronous, so spacing and elapsed
 duration can overrun; this is not an exact-rate generator or a hard deadline.
 Preparation survives a power cycle.
 An existing record must be exported and explicitly cleared before preparation.

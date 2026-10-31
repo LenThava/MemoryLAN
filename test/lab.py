@@ -26,6 +26,22 @@ class LabTest(unittest.TestCase):
     def test_valid(self):
         self.assertEqual(lab.validate(fixture())["sent"], 5)
 
+    def test_payload_sizes(self):
+        for size in (32, 64, 120):
+            records = fixture()
+            for record in records:
+                record["payload_bytes"] = size
+            self.assertEqual(lab.payload_bytes(lab.validate(records)), size)
+        records = fixture()
+        records[1]["payload_bytes"] = 64
+        with self.assertRaisesRegex(ValueError, "Mixed run"):
+            lab.validate(records)
+        for size in (None, True, 0, 31, 128, "64"):
+            records = fixture()
+            records[1]["payload_bytes"] = size
+            with self.subTest(size=size), self.assertRaises(ValueError):
+                lab.validate(records)
+
     def test_reject(self):
         for key, value in [("schema", True), ("state", "interrupted"), ("storage_ok", False),
                            ("run", 43), ("build", "different"), ("node", "0001"),

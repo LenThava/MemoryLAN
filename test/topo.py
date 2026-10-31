@@ -88,6 +88,18 @@ class TopologyTest(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Mixed firmware"):
             topo.analyse([a, b])
 
+    def test_payload_sizes(self):
+        for size in (32, 64, 120):
+            value = dict(record(), payload_bytes=size)
+            self.assertEqual(topo.validate(value)["payload_bytes"], size)
+        for size in (None, True, 0, 128, "64"):
+            with self.subTest(size=size), self.assertRaises(ValueError):
+                topo.validate(dict(record(), payload_bytes=size))
+        a = self.write("a.top", record(A, []))
+        b = self.write("b.top", dict(record(B), payload_bytes=64))
+        with self.assertRaisesRegex(ValueError, "Mixed trial payload"):
+            topo.analyse([a, b])
+
     def test_capacity_and_overflow_are_visible(self):
         value = record()
         value.update(capacity=1, overflow=4, ignored_run=3)

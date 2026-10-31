@@ -2,6 +2,9 @@
 #include <Preferences.h>
 #include "trial_data.h"
 #include "trial_topology.h"
+#ifdef MEMLAN_PKT_LEN
+static_assert(TRIAL_MAX_BYTES <= MEMLAN_PKT_LEN, "Trial page exceeds the cache line");
+#endif
 
 static Preferences trial_store;
 static TrialRecord trial;
@@ -27,11 +30,12 @@ static void trial_observe(const uint8_t *pkt, const BleMeta &meta, int8_t rssi)
     event.ms = meta.received_ms - trial_start_ms;
     event.type = mlan->is_beacon(pkt) ? 1 : 0;
     event.page = -1;
-    if (pkt && pkt[0] == TRIAL_BYTES && !memcmp(pkt + 1, "MLT1", 4)) {
+    unsigned bytes = trial_bytes(trial);
+    if (pkt && trial_size_valid(bytes) && pkt[0] == bytes && !memcmp(pkt + 1, "MLT1", 4)) {
         uint16_t seq = pkt[11] | (uint16_t(pkt[12]) << 8);
-        uint8_t expected[TRIAL_BYTES + 1];
+        uint8_t expected[TRIAL_MAX_BYTES + 1];
         trial_page(expected, trial, seq);
-        if (seq < trial.total && !memcmp(expected, pkt, sizeof(expected))) {
+        if (seq < trial.total && !memcmp(expected, pkt, bytes + 1)) {
             event.type = 2; event.page = seq;
         }
     }
@@ -248,18 +252,20 @@ static void trial_command(const char *line)
         }
         trial_reply(ok, ok ? "cleared" : "clear failed"); return;
     }
-    uint32_t fields[5];
+    uint32_t fields[6];
     if (trial_parse(line, fields)) {
         uint32_t run = fields[0], source = fields[1], total = fields[2], gap = fields[3], seconds = fields[4];
         if (!trial_storage_ok || trial.state != EMPTY) { trial_reply(false, "export then clear the existing record"); return; }
         if (!run || source > 65535 || !total || total > TRIAL_MAX || gap < 100 || gap > 60000 ||
-            seconds < 1 || seconds > 3600 || uint64_t(total) * gap >= uint64_t(seconds) * 1000) {
+            seconds < 1 || seconds > 3600 || !trial_size_valid(fields[5]) ||
+            uint64_t(total) * gap >= uint64_t(seconds) * 1000) {
             trial_reply(false, "invalid run, source, count, interval or duration"); return;
         }
         char path[40]; trial_log_path(path, sizeof(path), node, run);
         if (trial_files_ok && trial_run_exists(node, run)) { trial_reply(false, "run number already archived; choose a new one"); return; }
         memset(&trial, 0, sizeof(trial));
-        trial.version = 1; trial.run = run; trial.source = source; trial.total = total;
+        trial.version = 2; trial.payload_bytes = fields[5];
+        trial.run = run; trial.source = source; trial.total = total;
         trial.node = (uint16_t(my_id[0]) << 8) | my_id[1];
         trial.gap_ms = gap; trial.limit_ms = seconds * 1000; trial.state = READY;
         #define MLAN_STR_(x) #x
@@ -269,7 +275,7 @@ static void trial_command(const char *line)
         if (ok) ble_if->run_id = trial.run;
         trial_reply(ok, ok ? "prepared; move to final power, then hold BOOT briefly" : "prepare save failed"); return;
     }
-    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC; start; stop; dump [RUN]; topo RUN; label N; clear; id; files; fsinit");
+    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC [BYTES]; start; stop; dump [RUN]; topo RUN; label N; clear; id; files; fsinit");
 }
 
 static void trial_setup()
@@ -332,7 +338,7 @@ static void trial_loop()
     uint32_t now = millis();
     if (now - trial_start_ms >= trial.limit_ms) { trial_stop(2); return; }
     if (trial.node == trial.source && trial.sent < trial.total && int32_t(now - trial_next_ms) >= 0) {
-        uint8_t pkt[TRIAL_BYTES + 1];
+        uint8_t pkt[TRIAL_MAX_BYTES + 1];
         trial_page(pkt, trial, trial.sent);
         if (mlan->add(pkt)) trial.sent++;
         trial_next_ms = millis() + trial.gap_ms;

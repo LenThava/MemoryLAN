@@ -16,6 +16,7 @@ static void trial_json(Output &out, const TrialRecord &r, bool storage_ok, uint1
         states[r.state], storage_ok ? "true" : "false");
     out.printf("\"node\":\"%04x\",\"source\":\"%04x\",\"run\":%u,\"total\":%u,\"sent\":%u,",
         node, r.source, r.run, r.total, r.sent);
+    if (r.version == 2) out.printf("\"payload_bytes\":%u,", r.payload_bytes);
     out.printf("\"gap_ms\":%u,\"limit_ms\":%u,\"elapsed_ms\":%u,\"stop_reason\":%u,\"cutoff\":\"local\",",
         r.gap_ms, r.limit_ms, r.elapsed_ms, r.stop_reason);
     out.printf("\"build\":\"%s\",\"duplicates\":%u,\"invalid\":%u,\"rx\":%u,\"tx\":%u,",

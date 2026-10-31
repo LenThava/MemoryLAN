@@ -8,13 +8,21 @@
 enum TrialState { EMPTY, READY, RUNNING, DONE, INTERRUPTED };
 const unsigned TRIAL_MAX = 256;
 const unsigned TRIAL_BYTES = 32;
+const unsigned TRIAL_MAX_BYTES = 120;
 
-inline bool trial_parse(const char *line, uint32_t fields[5])
+inline bool trial_size_valid(unsigned bytes)
+{
+    return bytes == 32 || bytes == 64 || bytes == TRIAL_MAX_BYTES;
+}
+
+inline bool trial_parse(const char *line, uint32_t fields[6])
 {
     if (strncmp(line, "prep ", 5)) return false;
     const char *p = line + 5;
-    for (unsigned i = 0; i < 5; i++) {
+    fields[5] = TRIAL_BYTES;
+    for (unsigned i = 0; i < 6; i++) {
         while (*p == ' ') p++;
+        if (i == 5 && !*p) return true;
         if (!(*p >= '0' && *p <= '9') &&
             !(i == 1 && ((*p >= 'a' && *p <= 'f') || (*p >= 'A' && *p <= 'F'))))
             return false;
@@ -37,7 +45,8 @@ struct TrialPeer {
 };
 
 struct TrialRecord {
-    uint32_t version, run;
+    uint16_t version, payload_bytes;
+    uint32_t run;
     uint16_t node, source, total, state;
     uint32_t gap_ms, limit_ms, elapsed_ms, sent, duplicates, invalid;
     uint32_t rx, tx, rx_drop, rx_bad, tx_fail, stop_reason;
@@ -46,6 +55,14 @@ struct TrialRecord {
     char build[64];
     uint32_t checksum;
 };
+
+static_assert(sizeof(TrialRecord) == 356 && offsetof(TrialRecord, checksum) == 352,
+              "Retained trial layout changed");
+
+inline unsigned trial_bytes(const TrialRecord &r)
+{
+    return r.version == 1 ? TRIAL_BYTES : r.payload_bytes;
+}
 
 inline uint32_t trial_checksum(const TrialRecord &r)
 {
@@ -58,7 +75,9 @@ inline uint32_t trial_checksum(const TrialRecord &r)
 
 inline bool trial_valid(const TrialRecord &r)
 {
-    return r.version == 1 && r.run && r.total >= 1 && r.total <= TRIAL_MAX &&
+    return ((r.version == 1 && r.payload_bytes == 0) ||
+            (r.version == 2 && trial_size_valid(r.payload_bytes))) &&
+        r.run && r.total >= 1 && r.total <= TRIAL_MAX &&
         r.state >= READY && r.state <= INTERRUPTED && r.sent <= r.total &&
         r.gap_ms >= 100 && r.gap_ms <= 60000 &&
         r.limit_ms >= 1000 && r.limit_ms <= 3600000 &&
@@ -72,28 +91,30 @@ inline bool trial_seen(const TrialRecord &r, unsigned seq)
 
 inline void trial_page(uint8_t *pkt, const TrialRecord &r, uint16_t seq)
 {
-    pkt[0] = TRIAL_BYTES;
+    unsigned bytes = trial_bytes(r);
+    pkt[0] = bytes;
     memcpy(pkt + 1, "MLT1", 4);
     for (unsigned i = 0; i < 4; i++) pkt[5+i] = r.run >> (8*i);
     pkt[9] = r.source; pkt[10] = r.source >> 8;
     pkt[11] = seq; pkt[12] = seq >> 8;
     pkt[13] = r.total; pkt[14] = r.total >> 8;
-    for (unsigned i = 15; i <= TRIAL_BYTES; i++) pkt[i] = (uint8_t)(seq + i);
+    for (unsigned i = 15; i <= bytes; i++) pkt[i] = (uint8_t)(seq + i);
 }
 
 // Return 1 for a new page, 0 for a duplicate/another run, -1 for bad test data.
 inline int trial_receive(TrialRecord &r, const uint8_t *pkt)
 {
     if (r.state != RUNNING || !pkt || pkt[0] < 4 || memcmp(pkt+1, "MLT1", 4)) return 0;
-    if (pkt[0] != TRIAL_BYTES) { r.invalid++; return -1; }
+    unsigned bytes = trial_bytes(r);
+    if (!trial_size_valid(bytes) || pkt[0] != bytes) { r.invalid++; return -1; }
     uint32_t run = 0;
     for (unsigned i = 0; i < 4; i++) run |= uint32_t(pkt[5+i]) << (8*i);
     uint16_t source = pkt[9] | (uint16_t(pkt[10]) << 8);
     if (run != r.run || source != r.source) return 0;
     uint16_t seq = pkt[11] | (uint16_t(pkt[12]) << 8);
-    uint8_t expected[TRIAL_BYTES + 1];
+    uint8_t expected[TRIAL_MAX_BYTES + 1];
     trial_page(expected, r, seq);
-    if (seq >= r.total || memcmp(pkt, expected, sizeof(expected))) {
+    if (seq >= r.total || memcmp(pkt, expected, bytes + 1)) {
         r.invalid++; return -1;
     }
     if (trial_seen(r, seq)) { r.duplicates++; return 0; }

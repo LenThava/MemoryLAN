@@ -27,6 +27,7 @@ static void trial_topology_json(Output &out, const TrialRecord &r,
         address, r.node, r.run);
     out.printf("\"build\":\"%s\",\"clock\":\"local_ms_since_start\",\"elapsed_ms\":%u,",
         r.build, r.elapsed_ms);
+    if (r.version == 2) out.printf("\"payload_bytes\":%u,", r.payload_bytes);
     out.printf("\"capacity\":%u,\"overflow\":%u,\"ignored_run\":%u,\"events\":[",
         TRIAL_EVENTS, topology.overflow, topology.ignored_run);
     const char *types[] = {"other", "beacon", "page"};
