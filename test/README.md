@@ -7,9 +7,14 @@ No trial starts automatically after boot.
 Trial builds suppress routine radio/core debug output; USB commands and JSON
 results remain enabled. Ordinary builds keep their debug output.
 
-On the Waveshare trial build: amber = prepared, blue = running, green = finished
-and NVS saved, red = interrupted/storage error, off = no trial. These state colours
-replace the normal packet-activity LED; green does not imply successful delivery.
+Assign each Waveshare board once with `./go ctrl PORT label N` (1 through 5).
+The number survives a restart and `clear`: 1 green, 2 yellow, 3 blue, 4 red,
+5 white. `id` reports the stored label alongside the full MAC.
+Slow blinking means prepared; fast blinking means running. A steady identity
+colour means finished with both result and topology archives saved. Magenta
+blinking means interrupted, storage error or an unavailable archive: keep power
+and inspect `dump`. Colour does not indicate successful page delivery.
+Unlabelled boards retain the old amber/blue/green state colours.
 
 ## From a checkout
 
@@ -87,8 +92,8 @@ An existing record must be exported and explicitly cleared before preparation.
    stop a running trial.
 2. Start the laptop-connected source last: `./go ctrl PORT start`.
 3. The source injects the configured pages once. Cache repair continues.
-4. Let each local timer expire to finish and save in place. Wait for green before
-   unplugging. Red means keep power and inspect with `dump`.
+4. Let each local timer expire to finish and save in place. Wait for the steady
+   identity colour before unplugging. Magenta means keep power and inspect `dump`.
    Keep boards at their positions until all have finished. Do not move active
    boards together for collection.
 5. Connect each board to USB, identify it and retrieve both archived files with

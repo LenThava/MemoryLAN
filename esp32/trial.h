@@ -7,6 +7,11 @@ static Preferences trial_store;
 static TrialRecord trial;
 static bool trial_storage_ok;
 static bool trial_store_open;
+static Preferences trial_config;
+static bool trial_config_open;
+static uint8_t trial_label;
+static bool trial_result_saved, trial_topology_saved;
+static uint32_t trial_led_shown = UINT32_MAX;
 static uint32_t trial_start_ms, trial_next_ms, trial_peer_ms;
 static uint32_t trial_rx0, trial_tx0, trial_drop0, trial_bad0, trial_fail0;
 static TrialTopology trial_topology;
@@ -35,17 +40,31 @@ static void trial_observe(const uint8_t *pkt, const BleMeta &meta, int8_t rssi)
 static void trial_led()
 {
 #if defined(WAVESHARE_S3ZERO)
-    static int shown = -1;
     int state = trial_storage_ok ? trial.state : INTERRUPTED;
-    if (state == shown) return;
-    shown = state;
-    switch (state) {
-    case READY: rgbLedWrite(RGB_BUILTIN, 12, 6, 0); break;
-    case RUNNING: rgbLedWrite(RGB_BUILTIN, 0, 0, 12); break;
-    case DONE: rgbLedWrite(RGB_BUILTIN, 0, 12, 0); break;
-    case INTERRUPTED: rgbLedWrite(RGB_BUILTIN, 12, 0, 0); break;
-    default: rgbLedWrite(RGB_BUILTIN, 0, 0, 0);
+    const uint8_t colors[6][3] = {{0,0,0}, {0,12,0}, {12,12,0},
+                                 {0,0,12}, {12,0,0}, {8,8,8}};
+    unsigned r = 0, g = 0, b = 0;
+    bool warning = state == INTERRUPTED || (state == DONE && !(trial_result_saved && trial_topology_saved));
+    bool on = true;
+    if (warning) {
+        r = b = 12;
+        on = millis() % 250 < 125;
+    } else if (trial_label) {
+        r = colors[trial_label][0]; g = colors[trial_label][1]; b = colors[trial_label][2];
+        if (state == READY) on = millis() % 1000 < 500;
+        if (state == RUNNING) on = millis() % 250 < 125;
+    } else {
+        switch (state) {
+        case READY: r = 12; g = 6; break;
+        case RUNNING: b = 12; break;
+        case DONE: g = 12; break;
+        }
     }
+    if (!on) r = g = b = 0;
+    uint32_t shown = (r << 16) | (g << 8) | b;
+    if (shown == trial_led_shown) return;
+    trial_led_shown = shown;
+    rgbLedWrite(RGB_BUILTIN, r, g, b);
 #endif
 }
 
@@ -55,6 +74,28 @@ static void trial_reply(bool ok, const char *message)
 }
 
 #include "trial_log.h"
+
+static bool trial_saved_file(bool topology)
+{
+    if (!trial_files_ok || trial.state != DONE) return false;
+    char path[40]; trial_log_path(path, sizeof(path), trial.node, trial.run, topology);
+    bool legacy = !topology && !LittleFS.exists(path);
+    if (legacy) trial_log_path(path, sizeof(path), trial.node, trial.run, false, true);
+    File file = LittleFS.open(path, "r");
+    size_t bytes; uint32_t crc;
+    if (!trial_file_info(file, bytes, crc)) return false;
+    char prefix[192], address[13]; mac_text(hardware_mac, address);
+    if (topology)
+        snprintf(prefix, sizeof(prefix), "{\"mac\":\"%s\",\"node\":\"%04x\",\"run\":%u,\"schema\":1,\"kind\":\"mlan-topology\",",
+            address, trial.node, trial.run);
+    else if (legacy)
+        snprintf(prefix, sizeof(prefix), "{\"schema\":1,\"kind\":\"mlan-run\",\"state\":\"done\",\"storage_ok\":true,\"node\":\"%04x\",\"source\":\"%04x\",\"run\":%u,", trial.node, trial.source, trial.run);
+    else
+        snprintf(prefix, sizeof(prefix), "{\"mac\":\"%s\",\"schema\":1,\"kind\":\"mlan-run\",\"state\":\"done\",\"storage_ok\":true,\"node\":\"%04x\",\"source\":\"%04x\",\"run\":%u,", address, trial.node, trial.source, trial.run);
+    size_t length = strlen(prefix);
+    uint8_t actual[sizeof(prefix)];
+    return bytes >= length && file.read(actual, length) == length && !memcmp(actual, prefix, length);
+}
 
 static bool trial_save()
 {
@@ -108,10 +149,10 @@ static void trial_stop(uint32_t reason)
     trial.state = DONE;
     trial.stop_reason = reason;
     bool ok = trial_save();
-    bool archived = ok && trial_archive(trial);
-    bool topology_saved = ok && trial_archive_topology(trial);
-    trial_reply(ok, !ok ? "save failed; keep power and dump" : archived ?
-        (topology_saved ? "saved to NVS, log and topology; safe to unplug" :
+    trial_result_saved = ok && trial_archive(trial);
+    trial_topology_saved = ok && trial_archive_topology(trial);
+    trial_reply(ok, !ok ? "save failed; keep power and dump" : trial_result_saved ?
+        (trial_topology_saved ? "saved to NVS, log and topology; safe to unplug" :
          "saved to NVS and log; topology unavailable; keep power and retry topo RUN") :
         "saved to NVS; log unavailable; use dump");
 }
@@ -130,6 +171,7 @@ static void trial_begin()
     trial_start_ms = trial_next_ms = trial_peer_ms = millis();
     memset(&trial_topology, 0, sizeof(trial_topology));
     trial_topology.run = trial.run;
+    trial_result_saved = trial_topology_saved = false;
     ble_if->run_id = trial.run;
     trial_reply(true, "running");
 }
@@ -152,8 +194,18 @@ static void trial_command(const char *line)
     uint16_t node = (uint16_t(my_id[0]) << 8) | my_id[1];
     if (!strcmp(line, "id")) {
         char address[13]; mac_text(hardware_mac, address);
-        Serial.printf("@MLAN {\"mac\":\"%s\",\"ok\":true,\"node\":\"%04x\",\"files_ok\":%s}\n",
-            address, node, trial_files_ok ? "true" : "false");
+        Serial.printf("@MLAN {\"mac\":\"%s\",\"ok\":true,\"node\":\"%04x\",\"files_ok\":%s,\"label\":%u}\n",
+            address, node, trial_files_ok ? "true" : "false", trial_label);
+        return;
+    }
+    if (!strncmp(line, "label ", 6)) {
+        if (trial.state == RUNNING) { trial_reply(false, "stop before changing label"); return; }
+        if (!trial_config_open) { trial_reply(false, "label storage unavailable"); return; }
+        if (line[6] < '1' || line[6] > '5' || line[7]) { trial_reply(false, "use label 1 through 5"); return; }
+        uint8_t label = line[6] - '0';
+        bool ok = trial_config.putUChar("label", label) == 1 && trial_config.getUChar("label", 0) == label;
+        if (ok) trial_label = label;
+        trial_reply(ok, ok ? "label saved" : "label save failed");
         return;
     }
     if (!strcmp(line, "files") || !strncmp(line, "dump ", 5) || !strncmp(line, "topo ", 5) || !strcmp(line, "fsinit")) {
@@ -175,7 +227,10 @@ static void trial_command(const char *line)
             trial_reply(false, "use dump RUN or topo RUN with a positive decimal run number"); return;
         }
         bool topology = !strncmp(line, "topo ", 5);
-        if (topology && run == trial.run) trial_archive_topology(trial);
+        if (topology && run == trial.run) {
+            trial_topology_saved = trial_archive_topology(trial) || trial_saved_file(true);
+            trial_result_saved = trial_saved_file(false);
+        }
         trial_file_dump(node, uint32_t(run), topology); return;
     }
     if (!strcmp(line, "start")) { trial_begin(); return; }
@@ -188,6 +243,7 @@ static void trial_command(const char *line)
         if (ok) {
             memset(&trial, 0, sizeof(trial));
             memset(&trial_topology, 0, sizeof(trial_topology));
+            trial_result_saved = trial_topology_saved = false;
             ble_if->run_id = 0; trial_storage_ok = true;
         }
         trial_reply(ok, ok ? "cleared" : "clear failed"); return;
@@ -213,11 +269,19 @@ static void trial_command(const char *line)
         if (ok) ble_if->run_id = trial.run;
         trial_reply(ok, ok ? "prepared; move to final power, then hold BOOT briefly" : "prepare save failed"); return;
     }
-    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC; start; stop; dump [RUN]; topo RUN; clear; id; files; fsinit");
+    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC; start; stop; dump [RUN]; topo RUN; label N; clear; id; files; fsinit");
 }
 
 static void trial_setup()
 {
+    trial_label = 0;
+    trial_config_open = trial_config.begin("mlan_cfg", false);
+    if (trial_config_open) {
+        uint8_t label = trial_config.getUChar("label", 0);
+        if (label >= 1 && label <= 5) trial_label = label;
+    }
+    trial_result_saved = trial_topology_saved = false;
+    trial_led_shown = UINT32_MAX;
     mlan->set_update_cb(trial_update);
     ble_if->observe = trial_observe;
     ble_if->run_id = 0;
@@ -239,6 +303,10 @@ static void trial_setup()
             char legacy[40];
             trial_log_path(legacy, sizeof(legacy), trial.node, trial.run, false, true);
             if (!LittleFS.exists(legacy)) trial_archive(trial);
+        }
+        if (trial.state == DONE) {
+            trial_result_saved = trial_saved_file(false);
+            trial_topology_saved = trial_saved_file(true);
         }
     }
     trial_reply(true, "trial firmware; use dump for status");

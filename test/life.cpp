@@ -16,8 +16,9 @@
 #define WAVESHARE_S3ZERO
 #define RGB_BUILTIN 21
 static unsigned led_r, led_g, led_b;
+static unsigned led_writes;
 static void rgbLedWrite(unsigned, unsigned r, unsigned g, unsigned b)
-{ led_r = r; led_g = g; led_b = b; }
+{ led_r = r; led_g = g; led_b = b; led_writes++; }
 static uint32_t now_ms = 1000;
 static uint32_t millis() { return now_ms; }
 static void delay(unsigned long ms) { now_ms += ms; }
@@ -97,6 +98,10 @@ static void reset()
     memset(&trial, 0, sizeof(trial));
     memset(&trial_topology, 0, sizeof(trial_topology));
     trial_storage_ok = trial_store_open = false;
+    trial_config_open = false; trial_label = 0;
+    trial_result_saved = trial_topology_saved = false;
+    trial_led_shown = UINT32_MAX;
+    led_r = led_g = led_b = led_writes = 0;
     trial_files_ok = false;
     now_ms = 1000;
     lan.callback = nullptr; lan.sent.clear(); lan.accept = true;
@@ -223,9 +228,100 @@ static void led_states()
     trial_stop(1); trial_led();
     assert(!led_r && led_g && !led_b);
     trial_storage_ok = false; trial_led();
-    assert(led_r && !led_g && !led_b);
+    assert(led_r && !led_g && led_b);
     trial_storage_ok = true; trial.state = INTERRUPTED; trial_led();
-    assert(led_r && !led_g && !led_b);
+    assert(led_r && !led_g && led_b);
+}
+
+static void labels_and_led_patterns()
+{
+    reset(); trial_setup();
+    const unsigned colors[5][3] = {{0,12,0}, {12,12,0}, {0,0,12}, {12,0,0}, {8,8,8}};
+    for (unsigned label = 1; label <= 5; label++) {
+        char command[16]; snprintf(command, sizeof(command), "label %u", label);
+        trial_command(command); trial_led();
+        assert(trial_label == label && Preferences::bytes.empty());
+        assert(led_r == colors[label-1][0] && led_g == colors[label-1][1] && led_b == colors[label-1][2]);
+    }
+    unsigned writes = led_writes;
+    trial_led(); trial_led();
+    assert(led_writes == writes);
+    for (const char *bad : {"label 0", "label 6", "label -1", "label 2 extra", "label 01", "label "}) {
+        Serial.output.clear(); trial_command(bad);
+        assert(trial_label == 5 && Serial.output.find("\"ok\":false") != std::string::npos);
+    }
+    trial_command("prep 15 1234 1 1000 10");
+    auto before = Preferences::bytes;
+    trial_command("label 4");
+    assert(Preferences::bytes == before && trial_label == 4);
+    now_ms = 1000; trial_led(); assert(led_r && !led_g && !led_b);
+    now_ms = 1600; trial_led(); assert(!led_r && !led_g && !led_b);
+    now_ms = 2000; trial_led(); assert(led_r && !led_g && !led_b);
+    trial_begin();
+    before = Preferences::bytes;
+    Serial.output.clear(); trial_command("label 1");
+    assert(trial_label == 4 && Preferences::bytes == before);
+    assert(Serial.output.find("stop before changing label") != std::string::npos);
+    now_ms = 2125; trial_led(); assert(!led_r && !led_g && !led_b);
+    now_ms = 2250; trial_led(); assert(led_r && !led_g && !led_b);
+    trial_stop(1); trial_led(); assert(led_r && !led_g && !led_b);
+    now_ms = 2375; trial_led(); assert(led_r && !led_g && !led_b);
+    assert(trial_result_saved && trial_topology_saved);
+    before = Preferences::bytes;
+    trial_setup(); trial_led();
+    assert(trial_label == 4 && Preferences::bytes == before);
+    assert(trial_result_saved && trial_topology_saved && led_r && !led_b);
+    trial_command("clear");
+    assert(trial_label == 4 && Preferences::config_values.at("label") == 4);
+    trial_setup();
+    assert(trial_label == 4 && trial.state == EMPTY);
+
+    reset(); Preferences::fail_config_begin = true; trial_setup();
+    assert(trial_storage_ok && !trial_config_open);
+    trial_command("label 1");
+    assert(trial_label == 0 && Preferences::bytes.empty());
+    assert(Serial.output.find("label storage unavailable") != std::string::npos);
+    reset(); trial_setup();
+    trial_command("label 2");
+    Preferences::fail_write = true; trial_command("label 3");
+    assert(trial_label == 2);
+    Preferences::fail_write = false; Preferences::fail_read = true;
+    trial_command("label 4");
+    assert(trial_label == 2);
+}
+
+static void archive_warning_led()
+{
+    reset(); trial_setup(); trial_command("label 1");
+    trial_command("prep 16 1234 1 1000 10"); trial_begin(); trial_loop();
+    LittleFS.fail_rename = true;
+    trial_stop(1); trial_led();
+    assert(trial_storage_ok && !trial_result_saved && !trial_topology_saved);
+    assert(led_r && !led_g && led_b);
+    now_ms += 125; trial_led(); assert(!led_r && !led_g && !led_b);
+    LittleFS.fail_rename = false;
+    memset(&trial, 0, sizeof(trial)); trial_setup();
+    assert(trial_result_saved && !trial_topology_saved);
+    now_ms = 2000; trial_led(); assert(led_r && !led_g && led_b);
+    LittleFS.put("/123456789abc-16.top", "unrelated readable file\n");
+    trial_setup();
+    assert(!trial_topology_saved);
+    trial_led(); assert(led_r && !led_g && led_b);
+    trial.state = INTERRUPTED;
+    trial_led(); assert(led_r && !led_g && led_b);
+
+    reset(); trial_setup(); trial_command("label 1");
+    trial_command("prep 16 1234 1 1000 10"); trial_begin(); trial_loop(); trial_stop(1);
+    auto before = Preferences::bytes;
+    std::string wrong = LittleFS.contents("/123456789abc-16.log");
+    auto run_at = wrong.find("\"run\":16,");
+    assert(run_at != std::string::npos);
+    wrong.replace(run_at, 9, "\"run\":17,");
+    LittleFS.put("/123456789abc-16.log", wrong);
+    trial_setup(); now_ms = 2000; trial_led();
+    assert(!trial_result_saved && trial_topology_saved);
+    assert(Preferences::bytes == before && LittleFS.contents("/123456789abc-16.log") == wrong);
+    assert(led_r && !led_g && led_b);
 }
 
 static void button_step(bool pressed, uint32_t elapsed)
@@ -413,7 +509,7 @@ static void file_commands()
     uint32_t crc = trial_crc32((const uint8_t*)json.data(), json.size()) ^ 0xffffffffu;
     char checksum[32]; snprintf(checksum, sizeof(checksum), "\"crc32\":\"%08lx\"", (unsigned long)crc);
     Serial.output.clear(); trial_command("id");
-    assert(Serial.output == "@MLAN {\"mac\":\"123456789abc\",\"ok\":true,\"node\":\"1234\",\"files_ok\":true}\n");
+    assert(Serial.output == "@MLAN {\"mac\":\"123456789abc\",\"ok\":true,\"node\":\"1234\",\"files_ok\":true,\"label\":0}\n");
     LittleFS.put("/123456789abc-7.log.tmp", "partial");
     LittleFS.put("/abcd-8.log", "other node");
     LittleFS.put("/123456789abc-9.log.bad", "not a log");
@@ -644,6 +740,8 @@ int main(int argc, char **argv)
     storage_errors();
     commands_and_peers();
     led_states();
+    labels_and_led_patterns();
+    archive_warning_led();
     start_only_button();
     retained_layout_and_archive();
     archive_reboot_and_conflict();
