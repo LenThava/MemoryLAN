@@ -21,8 +21,9 @@ all radio transmissions arrived.
 
 The curves use time since each receiver started. Exact receiver start times
 were not recorded, and the clocks are not synchronised. These are not delays
-measured from the source start. The intended start order was 5, 4, 3, 2, then
-1; it is not an independently observed activation order. Source 1 was started
+measured from the source start. The user reported pressing BOOT in order 5, 4, 3, 2, then starting source 1.
+Matching shared transmission sequences shows local offsets inconsistent with
+that reported order, so registered activation times remain unverified. Source 1 was started
 by USB at 22:38:59 Zurich time after the user reported the receivers blinking.
 
 Eleven directed links were recorded. Both directions were heard for 1--3,
@@ -53,10 +54,9 @@ Mac. These receiver files were read after collection; there are no receiver
 copies from before that disconnection for a byte-by-byte comparison. Source
 1's repeated exports were identical.
 
-The saved room names follow the placement plan: 1 laptop, 2 corridor, 3 living
-room, 4 cellar and 5 hobby room. The user reported placing the boards, but
-individual positions have not yet been confirmed. The MAC-to-number mapping
-is verified; the room plan is not a measured floor plan.
+The user confirmed the room and colour assignments: 1 laptop, 2 corridor,
+3 living room, 4 cellar and 5 hobby room. The MAC-to-number mapping is verified;
+the room positions are user-reported, not an independently measured floor plan.
 
 The [raw exports and settings](../../data/h1/) retain the original bytes,
 SHA-256/CRC32, full MACs and activation information. [summary.json](summary.json)

@@ -3,7 +3,7 @@
   "kind": "mlan-house-run",
   "run": 2026110101,
   "date": "2026-11-01",
-  "setting": "Five boards placed around the house. Room names follow the supplied placement plan; the user reported placing the boards, but individual positions have not yet been confirmed. Source 1 remained on.",
+  "setting": "Five boards around the house. The user confirmed node 1 at the laptop, 2 in the corridor, 3 in the living room, 4 in the cellar and 5 in the hobby room. Source 1 remained on.",
   "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
   "build": "ca6fe90 2026-10-31 20:13",
   "source_mac": "ac276eb0f9b4",
@@ -24,7 +24,15 @@
     ],
     "receiver_activation_report": "alle blinken",
     "receiver_activation_times_utc": null,
-    "source_started_after_user_reported_receivers_blinking": true
+    "source_started_after_user_reported_receivers_blinking": true,
+    "receiver_order_reported": [
+      "5",
+      "4",
+      "3",
+      "2"
+    ],
+    "receiver_order_report_basis": "User confirmed pressing BOOT in the instructed reverse order. Exact button times were not recorded.",
+    "timing_consistency_note": "Shared sender-MAC/run/sequence frames show receiver-local offsets inconsistent with the reported button order. Registered activation order is not treated as independently validated; plots retain local times."
   },
   "nodes": [
     {
@@ -160,5 +168,5 @@
     "source_repeated_export_byte_identical": true,
     "scope": "Successful retrieval of finished receiver files after collection; no before/after byte comparison across power loss for receivers in this run."
   },
-  "placement_basis": "Planned room names, awaiting individual user confirmation; no independent survey."
+  "placement_basis": "Room and colour assignments explicitly confirmed by the user; not independently surveyed."
 }

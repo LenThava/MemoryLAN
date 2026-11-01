@@ -2,8 +2,8 @@
 
 The [1 November house run](res/h1/README.md) recorded eleven directed links.
 Nodes 3 and 4 received five pages; 2 and 5 received four, both missing page 3.
-All five finished and all ten files were retrieved. Room names still follow
-the placement plan; exact receiver start times were not recorded.
+All five finished and all ten files were retrieved. The user confirmed the
+room assignments; exact receiver start times were not recorded.
 
 The five boards have completed the [page-size check](res/size/README.md).
 All six 32/64/120-byte size runs delivered five pages to every receiver, but a
@@ -17,7 +17,7 @@ Extra links are acceptable if they are recorded.
 
 ## Next steps
 
-1. Confirm the actual house positions. In the next run, start relays 2--4,
+1. Keep the confirmed house positions. In the next run, start relays 2--4,
    then source 1. Keep receiver 5 READY until source 1 has been stopped and
    disconnected. Start 5 afterwards to test delivery from cached copies.
    Choose enough shared time for both walks and check the 256-event buffer.
