@@ -5,6 +5,11 @@ Nodes 3 and 4 received five pages; 2 and 5 received four, both missing page 3.
 All five finished and all ten files were retrieved. The user confirmed the
 room assignments; exact receiver start times were not recorded.
 
+The [source-off run](res/h2/README.md) completed with 5/5 pages at 2 and 3,
+2/5 at 4 and 0/5 at delayed receiver 5. Board 5 heard one beacon from 4,
+but no pages. The run does not demonstrate cached-copy delivery to 5;
+exact transition times and the shared active window remain unverified.
+
 The five boards have completed the [page-size check](res/size/README.md).
 All six 32/64/120-byte size runs delivered five pages to every receiver, but a
 separate earlier repeat delivered only four. Delivery times varied even with
@@ -17,10 +22,11 @@ Extra links are acceptable if they are recorded.
 
 ## Next steps
 
-1. Keep the confirmed house positions. In the next run, start relays 2--4,
-   then source 1. Keep receiver 5 READY until source 1 has been stopped and
-   disconnected. Start 5 afterwards to test delivery from cached copies.
-   Choose enough shared time for both walks and check the 256-event buffer.
+1. Do a controlled source-off check at the USB hub, with no walk. Verify that
+   relays 2 and 3 have all five pages in their live results, then stop/export
+   source 1 and unplug only that board. Start receiver 5 over USB while the
+   relays are still RUNNING. Record control times and check the 256-event buffer.
+   Use that small test before repeating source-off delivery around the house.
 2. Use a fresh run ID shared by every participating board. Keep firmware,
    placement, power and sending interval fixed for repetitions.
 3. Keep the boards stationary until all have finished. Retrieve both files from
@@ -38,7 +44,7 @@ observation, not proof of a bidirectional connection or an entire page route.
 Record buffer overflow and observations from other runs remain visible.
 
 For Monday, 2 November at 10:00, the target is a reliable identity/retrieval
-workflow and a measured house topology graph. The first house graph is saved.
+workflow and a measured house topology graph. Both house runs and their graphs are saved.
 Firmware `ca6fe90` is installed on
 all five boards with fixed identity colours and selectable page sizes. Speed
 tuning comes later.
@@ -46,7 +52,7 @@ tuning comes later.
 To investigate missing pages, add sender-side page attempts and final cache
 contents as a later diagnostic. These are not recorded yet.
 
-After the house baseline, test source-off cache recovery and compare 5, 10 and 20 pages with
+After a repeatable source-off baseline, compare 5, 10 and 20 pages with
 the ten-page cache. Cache policy comparisons also wait until the baseline is
 stable.
 

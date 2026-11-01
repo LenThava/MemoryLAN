@@ -1,0 +1,406 @@
+{
+  "schema": 1,
+  "kind": "mlan-topology-report",
+  "run": 2026110103,
+  "clock": "local_ms_since_start",
+  "payload_bytes": 32,
+  "inputs": [
+    {
+      "file": "data/h2/b1.top",
+      "sha256": "35f557e8e344ad77e3f2c4755291d768c548d4644537e5795d86689d1141a820"
+    },
+    {
+      "file": "data/h2/b2.top",
+      "sha256": "1aec5344d742a8a8cc5199b65577e1fda67aefacb51aa5683af3c367e127fc3e"
+    },
+    {
+      "file": "data/h2/b3.top",
+      "sha256": "a4cec2f14ae68963b1e3ae22fc6473a741f329146402c05922263832a20748c9"
+    },
+    {
+      "file": "data/h2/b4.top",
+      "sha256": "84272203eeae8ef2fe56401c3ec86512b4bddee1f36b5786f28703edda597f69"
+    },
+    {
+      "file": "data/h2/b5.top",
+      "sha256": "7409c3036aab362c5f853b41de200d51c02131605544d3c80fa59c3100261857"
+    }
+  ],
+  "warnings": [
+    "Times are local to each receiver; they are not synchronised across boards.",
+    "An arrow means the receiver heard the sender; it does not prove a two-way link.",
+    "Counts are recorded receptions, not transmission totals or radio loss rates.",
+    "No observation means not heard during this local window, not proof of no radio path."
+  ],
+  "nodes": [
+    {
+      "mac": "ac276eb0f9b4",
+      "label": "1",
+      "location": "Laptop / Quelle",
+      "receiver_log_supplied": true
+    },
+    {
+      "mac": "ac276eb0f9fc",
+      "label": "2",
+      "location": "Korridor vor dem Zimmer",
+      "receiver_log_supplied": true
+    },
+    {
+      "mac": "ac276eb0059c",
+      "label": "3",
+      "location": "Wohnzimmer, ein Stockwerk tiefer",
+      "receiver_log_supplied": true
+    },
+    {
+      "mac": "ac276eafeb88",
+      "label": "4",
+      "location": "Keller, unterstes Stockwerk",
+      "receiver_log_supplied": true
+    },
+    {
+      "mac": "ac276eb00868",
+      "label": "5",
+      "location": "Hobbyraum, unterstes Stockwerk",
+      "receiver_log_supplied": true
+    }
+  ],
+  "receivers": [
+    {
+      "mac": "ac276eb0f9b4",
+      "node": "5d60",
+      "build": "ca6fe90 2026-10-31 20:13",
+      "elapsed_ms": 60069,
+      "capacity": 256,
+      "overflow": 0,
+      "ignored_run": 0
+    },
+    {
+      "mac": "ac276eb0f9fc",
+      "node": "18c7",
+      "build": "ca6fe90 2026-10-31 20:13",
+      "elapsed_ms": 360000,
+      "capacity": 256,
+      "overflow": 0,
+      "ignored_run": 0
+    },
+    {
+      "mac": "ac276eb0059c",
+      "node": "8e5a",
+      "build": "ca6fe90 2026-10-31 20:13",
+      "elapsed_ms": 360000,
+      "capacity": 256,
+      "overflow": 0,
+      "ignored_run": 0
+    },
+    {
+      "mac": "ac276eafeb88",
+      "node": "9135",
+      "build": "ca6fe90 2026-10-31 20:13",
+      "elapsed_ms": 360000,
+      "capacity": 256,
+      "overflow": 0,
+      "ignored_run": 0
+    },
+    {
+      "mac": "ac276eb00868",
+      "node": "c3f1",
+      "build": "ca6fe90 2026-10-31 20:13",
+      "elapsed_ms": 360000,
+      "capacity": 256,
+      "overflow": 0,
+      "ignored_run": 0
+    }
+  ],
+  "links": [
+    {
+      "sender": "ac276eafeb88",
+      "receiver": "ac276eb0059c",
+      "observations": 1,
+      "beacons": 1,
+      "pages": 0,
+      "other": 0,
+      "rssi_min": -103,
+      "rssi_max": -103,
+      "first_ms": 328264,
+      "last_ms": 328264
+    },
+    {
+      "sender": "ac276eafeb88",
+      "receiver": "ac276eb00868",
+      "observations": 1,
+      "beacons": 1,
+      "pages": 0,
+      "other": 0,
+      "rssi_min": -100,
+      "rssi_max": -100,
+      "first_ms": 61111,
+      "last_ms": 61111
+    },
+    {
+      "sender": "ac276eb0059c",
+      "receiver": "ac276eafeb88",
+      "observations": 3,
+      "beacons": 3,
+      "pages": 0,
+      "other": 0,
+      "rssi_min": -103,
+      "rssi_max": -97,
+      "first_ms": 232589,
+      "last_ms": 257506
+    },
+    {
+      "sender": "ac276eb0059c",
+      "receiver": "ac276eb0f9fc",
+      "observations": 29,
+      "beacons": 28,
+      "pages": 1,
+      "other": 0,
+      "rssi_min": -104,
+      "rssi_max": -85,
+      "first_ms": 4896,
+      "last_ms": 344112
+    },
+    {
+      "sender": "ac276eb00868",
+      "receiver": "ac276eafeb88",
+      "observations": 2,
+      "beacons": 2,
+      "pages": 0,
+      "other": 0,
+      "rssi_min": -102,
+      "rssi_max": -102,
+      "first_ms": 349168,
+      "last_ms": 354242
+    },
+    {
+      "sender": "ac276eb0f9b4",
+      "receiver": "ac276eb0059c",
+      "observations": 3,
+      "beacons": 1,
+      "pages": 2,
+      "other": 0,
+      "rssi_min": -102,
+      "rssi_max": -99,
+      "first_ms": 48850,
+      "last_ms": 108454
+    },
+    {
+      "sender": "ac276eb0f9b4",
+      "receiver": "ac276eb0f9fc",
+      "observations": 19,
+      "beacons": 12,
+      "pages": 7,
+      "other": 0,
+      "rssi_min": -89,
+      "rssi_max": -67,
+      "first_ms": 33890,
+      "last_ms": 93471
+    },
+    {
+      "sender": "ac276eb0f9fc",
+      "receiver": "ac276eafeb88",
+      "observations": 15,
+      "beacons": 13,
+      "pages": 2,
+      "other": 0,
+      "rssi_min": -106,
+      "rssi_max": -102,
+      "first_ms": 75750,
+      "last_ms": 354968
+    },
+    {
+      "sender": "ac276eb0f9fc",
+      "receiver": "ac276eb0059c",
+      "observations": 44,
+      "beacons": 39,
+      "pages": 5,
+      "other": 0,
+      "rssi_min": -100,
+      "rssi_max": -81,
+      "first_ms": 25244,
+      "last_ms": 357487
+    },
+    {
+      "sender": "ac276eb0f9fc",
+      "receiver": "ac276eb0f9b4",
+      "observations": 12,
+      "beacons": 5,
+      "pages": 7,
+      "other": 0,
+      "rssi_min": -84,
+      "rssi_max": -67,
+      "first_ms": 2067,
+      "last_ms": 58295
+    }
+  ],
+  "results": [
+    {
+      "label": "1",
+      "mac": "ac276eb0f9b4",
+      "sent": 5,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing": [],
+      "elapsed_ms": 60069,
+      "stop_reason": 1,
+      "rx": 12,
+      "tx": 24,
+      "duplicates": 7,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "invalid": 0,
+      "first_page_ms": {
+        "0": 7531,
+        "1": 48287,
+        "2": 2067,
+        "3": 37890,
+        "4": 4109
+      },
+      "first_page_sender": {
+        "0": "ac276eb0f9fc",
+        "1": "ac276eb0f9fc",
+        "2": "ac276eb0f9fc",
+        "3": "ac276eb0f9fc",
+        "4": "ac276eb0f9fc"
+      },
+      "completed_local_ms": null
+    },
+    {
+      "label": "2",
+      "mac": "ac276eb0f9fc",
+      "sent": 0,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing": [],
+      "elapsed_ms": 360000,
+      "stop_reason": 2,
+      "rx": 48,
+      "tx": 79,
+      "duplicates": 3,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "invalid": 0,
+      "first_page_ms": {
+        "0": 41374,
+        "1": 82130,
+        "2": 35910,
+        "3": 71733,
+        "4": 37952
+      },
+      "first_page_sender": {
+        "0": "ac276eb0f9b4",
+        "1": "ac276eb0f9b4",
+        "2": "ac276eb0f9b4",
+        "3": "ac276eb0f9b4",
+        "4": "ac276eb0f9b4"
+      },
+      "completed_local_ms": 82130
+    },
+    {
+      "label": "3",
+      "mac": "ac276eb0059c",
+      "sent": 0,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "missing": [],
+      "elapsed_ms": 360000,
+      "stop_reason": 2,
+      "rx": 48,
+      "tx": 79,
+      "duplicates": 2,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "invalid": 0,
+      "first_page_ms": {
+        "0": 48850,
+        "1": 97126,
+        "2": 50893,
+        "3": 94931,
+        "4": 52948
+      },
+      "first_page_sender": {
+        "0": "ac276eb0f9b4",
+        "1": "ac276eb0f9fc",
+        "2": "ac276eb0f9b4",
+        "3": "ac276eb0f9fc",
+        "4": "ac276eb0f9fc"
+      },
+      "completed_local_ms": 97126
+    },
+    {
+      "label": "4",
+      "mac": "ac276eafeb88",
+      "sent": 0,
+      "received": [
+        3,
+        4
+      ],
+      "missing": [
+        0,
+        1,
+        2
+      ],
+      "elapsed_ms": 360000,
+      "stop_reason": 2,
+      "rx": 20,
+      "tx": 75,
+      "duplicates": 0,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "invalid": 0,
+      "first_page_ms": {
+        "3": 109531,
+        "4": 75750
+      },
+      "first_page_sender": {
+        "3": "ac276eb0f9fc",
+        "4": "ac276eb0f9fc"
+      },
+      "completed_local_ms": null
+    },
+    {
+      "label": "5",
+      "mac": "ac276eb00868",
+      "sent": 0,
+      "received": [],
+      "missing": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "elapsed_ms": 360000,
+      "stop_reason": 2,
+      "rx": 1,
+      "tx": 73,
+      "duplicates": 0,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "invalid": 0,
+      "first_page_ms": {},
+      "first_page_sender": {},
+      "completed_local_ms": null
+    }
+  ]
+}

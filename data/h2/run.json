@@ -1,0 +1,179 @@
+{
+  "schema": 1,
+  "kind": "mlan-house-source-off-run",
+  "run": 2026110103,
+  "date": "2026-11-01",
+  "setting": "Five boards at the same user-reported house positions as run 2026110101. Source 1 was stopped after about one minute; the user reported unplugging it before starting receiver 5.",
+  "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
+  "build": "ca6fe90 2026-10-31 20:13",
+  "source_mac": "ac276eb0f9b4",
+  "source_alias": "5d60",
+  "total": 5,
+  "payload_bytes": 32,
+  "gap_ms": 1000,
+  "local_limit_ms": 360000,
+  "clock": "Independent receiver-local milliseconds since activation. Receiver clocks and stop windows are not synchronised.",
+  "activation": {
+    "receiver_order_intended": [
+      "4",
+      "3",
+      "2"
+    ],
+    "source_start_utc": "2026-11-01T22:43:47.282571+00:00",
+    "source_ack_utc": "2026-11-01T22:43:47.350964+00:00",
+    "source_stop_request_utc": "2026-11-01T22:44:47.355701+00:00",
+    "source_stop_ack_utc": "2026-11-01T22:44:47.528402+00:00",
+    "source_elapsed_ms": 60069,
+    "source_stop_reason": 1,
+    "source_physical_power_off_reported": true,
+    "source_off_report_utc": "2026-11-01T22:48:33.465219+00:00",
+    "sink5_fast_white_blink_report_utc": "2026-11-01T22:49:54.129198+00:00",
+    "sink5_report_correction": "User corrected the earlier option that 5 was only powered: it was fast white blinking.",
+    "sink5_exact_boot_utc": null,
+    "physical_sequence_basis": "User reports following unplug-source-then-start-5 instructions; physical actions not independently timed.",
+    "pre_start_condition": "User reported 2-4 started and 5 powered without BOOT before source start."
+  },
+  "nodes": [
+    {
+      "label": "1",
+      "mac": "ac276eb0f9b4",
+      "legacy_node": "5d60",
+      "location": "Laptop / Quelle",
+      "color": "green",
+      "files": {
+        "result": {
+          "file": "b1.json",
+          "original_name": "ac276eb0f9b4-2026110103.log",
+          "bytes": 453,
+          "crc32": "88564982",
+          "sha256": "2c519ed52da034cbc4a75030db46cda23575adb03dff72001c311727d36c9d62",
+          "retrieved_utc": "2026-11-01T22:44:47.623637+00:00"
+        },
+        "topology": {
+          "file": "b1.top",
+          "original_name": "ac276eb0f9b4-2026110103.top",
+          "bytes": 1431,
+          "crc32": "63f90c69",
+          "sha256": "35f557e8e344ad77e3f2c4755291d768c548d4644537e5795d86689d1141a820",
+          "retrieved_utc": "2026-11-01T22:44:47.681235+00:00"
+        }
+      }
+    },
+    {
+      "label": "2",
+      "mac": "ac276eb0f9fc",
+      "legacy_node": "18c7",
+      "location": "Korridor vor dem Zimmer",
+      "color": "yellow",
+      "files": {
+        "result": {
+          "file": "b2.json",
+          "original_name": "ac276eb0f9fc-2026110103.log",
+          "bytes": 510,
+          "crc32": "b4c2d1b1",
+          "sha256": "d51ff35e601d69059bdc6fc2fbd92f464aff656cb937358c7084b37810cea8a0",
+          "retrieved_utc": "2026-11-01T22:55:22.894606+00:00"
+        },
+        "topology": {
+          "file": "b2.top",
+          "original_name": "ac276eb0f9fc-2026110103.top",
+          "bytes": 5118,
+          "crc32": "7860c1de",
+          "sha256": "1aec5344d742a8a8cc5199b65577e1fda67aefacb51aa5683af3c367e127fc3e",
+          "retrieved_utc": "2026-11-01T22:55:22.937996+00:00"
+        }
+      }
+    },
+    {
+      "label": "3",
+      "mac": "ac276eb0059c",
+      "legacy_node": "8e5a",
+      "location": "Wohnzimmer, ein Stockwerk tiefer",
+      "color": "blue",
+      "files": {
+        "result": {
+          "file": "b3.json",
+          "original_name": "ac276eb0059c-2026110103.log",
+          "bytes": 566,
+          "crc32": "83f4a999",
+          "sha256": "5a3621beaf47178b351f21389907c34458098825942cc077291eab25d18bba2a",
+          "retrieved_utc": "2026-11-01T22:55:22.828441+00:00"
+        },
+        "topology": {
+          "file": "b3.top",
+          "original_name": "ac276eb0059c-2026110103.top",
+          "bytes": 5141,
+          "crc32": "406fbd29",
+          "sha256": "a4cec2f14ae68963b1e3ae22fc6473a741f329146402c05922263832a20748c9",
+          "retrieved_utc": "2026-11-01T22:55:22.863682+00:00"
+        }
+      }
+    },
+    {
+      "label": "4",
+      "mac": "ac276eafeb88",
+      "legacy_node": "9135",
+      "location": "Keller, unterstes Stockwerk",
+      "color": "red",
+      "files": {
+        "result": {
+          "file": "b4.json",
+          "original_name": "ac276eafeb88-2026110103.log",
+          "bytes": 560,
+          "crc32": "1fa92e80",
+          "sha256": "1f9f4d8d1eeff7e0b137de8c90fcb3438fd4953d3b30f062099aa9df7c860ddf",
+          "retrieved_utc": "2026-11-01T22:55:22.696970+00:00"
+        },
+        "topology": {
+          "file": "b4.top",
+          "original_name": "ac276eafeb88-2026110103.top",
+          "bytes": 2314,
+          "crc32": "a48478e4",
+          "sha256": "84272203eeae8ef2fe56401c3ec86512b4bddee1f36b5786f28703edda597f69",
+          "retrieved_utc": "2026-11-01T22:55:22.730031+00:00"
+        }
+      }
+    },
+    {
+      "label": "5",
+      "mac": "ac276eb00868",
+      "legacy_node": "c3f1",
+      "location": "Hobbyraum, unterstes Stockwerk",
+      "color": "white",
+      "files": {
+        "result": {
+          "file": "b5.json",
+          "original_name": "ac276eb00868-2026110103.log",
+          "bytes": 445,
+          "crc32": "af29e897",
+          "sha256": "5fe45430c04ba6cad9bbb8b962ff079569dc356fb813ab9fea1a22473c9059bc",
+          "retrieved_utc": "2026-11-01T22:55:22.763922+00:00"
+        },
+        "topology": {
+          "file": "b5.top",
+          "original_name": "ac276eb00868-2026110103.top",
+          "bytes": 351,
+          "crc32": "250ff881",
+          "sha256": "7409c3036aab362c5f853b41de200d51c02131605544d3c80fa59c3100261857",
+          "retrieved_utc": "2026-11-01T22:55:22.802854+00:00"
+        }
+      }
+    }
+  ],
+  "retrieval": {
+    "result_and_topology_crc_checked": 10,
+    "source_repeated_export_byte_identical": true,
+    "receiver_archive_copies_before_power_disconnection_available": false,
+    "scope": "All completed files retrieved after collection. Source files were exported before unplugging and read unchanged again after reconnection; no receiver before/after byte comparison."
+  },
+  "placement_basis": "User confirmed the room/colour assignments and was instructed to reuse them; no independent survey.",
+  "preparation_attempt": {
+    "supersedes": 2026110102,
+    "reason": "Accidental activation and subsequent interruption of board 5 before the source was started. Its available record was preserved. Not counted as a completed house experiment."
+  },
+  "timing_evidence": {
+    "relay_seeding": "The same node-2 page-1 transmission (sequence 24) was observed by source 1 at source-local 48.287 s and by node 3 at its completion. This supports all five pages received at nodes 2 and 3 before source cutoff at 60.069 s.",
+    "sink5_contact": "Node 5 heard one beacon from node 4 at sink-local 61.111 s. Node 4 recorded node-5 beacons at relay-local 349.168 and 354.242 s. Some contact overlapped; exact sink activation and common-window duration were not measured.",
+    "scope": "Shared-frame comparisons are derived timing evidence, not directly timed physical button events or synchronised latency."
+  }
+}

@@ -4,6 +4,7 @@ These are initial setup measurements and visualisation prototypes.
 
 | Run | Setting | Report |
 |---|---|---|
+| 2026110103 | Source off after one minute; delayed receiver 5 received 0/5 | [Results](h2/README.md) |
 | 2026110101 | Five boards around the house; 11 directed links, two receivers at 4/5 | [Results](h1/README.md) |
 | 2026103104-3109 | Five boards; two runs each at 32/64/120 bytes | [Results](size/README.md) |
 | 2026103103 | Five-board repeat; 4/5 pages at each receiver | [Results](size/README.md) |
@@ -13,7 +14,8 @@ These are initial setup measurements and visualisation prototypes.
 | 2026092901 | Five nearby boards | [Results](runs/2026092901.md) |
 | 2026092902 | Five boards in the house | [Results](runs/2026092902.md) |
 
-The latest house run is under [data/h1](../data/h1/).
+The source-off run is under [data/h2](../data/h2/); the first house run is
+under [data/h1](../data/h1/).
 The size runs and the incomplete repeat are under [data/size](../data/size/).
 The historical inputs and their hashes are in [data/runs.json](../data/runs.json).
 Repeated exports are not additional physical experiments. The September house test did
