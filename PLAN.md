@@ -1,5 +1,10 @@
 # Plan
 
+The [1 November house run](res/h1/README.md) recorded eleven directed links.
+Nodes 3 and 4 received five pages; 2 and 5 received four, both missing page 3.
+All five finished and all ten files were retrieved. Room names still follow
+the placement plan; exact receiver start times were not recorded.
+
 The five boards have completed the [page-size check](res/size/README.md).
 All six 32/64/120-byte size runs delivered five pages to every receiver, but a
 separate earlier repeat delivered only four. Delivery times varied even with
@@ -12,10 +17,10 @@ Extra links are acceptable if they are recorded.
 
 ## Next steps
 
-1. Place all boards around the house while they are still READY. Start the
-   receivers only after placement, then start the source last. Use a four-minute local
-   window to leave shared observation time after the activation walk. Check
-   topology-buffer overflow; the recorder holds 256 events per board.
+1. Confirm the actual house positions. In the next run, start relays 2--4,
+   then source 1. Keep receiver 5 READY until source 1 has been stopped and
+   disconnected. Start 5 afterwards to test delivery from cached copies.
+   Choose enough shared time for both walks and check the 256-event buffer.
 2. Use a fresh run ID shared by every participating board. Keep firmware,
    placement, power and sending interval fixed for repetitions.
 3. Keep the boards stationary until all have finished. Retrieve both files from
@@ -33,7 +38,8 @@ observation, not proof of a bidirectional connection or an entire page route.
 Record buffer overflow and observations from other runs remain visible.
 
 For Monday, 2 November at 10:00, the target is a reliable identity/retrieval
-workflow and a measured house topology graph. Firmware `ca6fe90` is installed on
+workflow and a measured house topology graph. The first house graph is saved.
+Firmware `ca6fe90` is installed on
 all five boards with fixed identity colours and selectable page sizes. Speed
 tuning comes later.
 

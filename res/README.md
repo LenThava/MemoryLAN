@@ -4,6 +4,7 @@ These are initial setup measurements and visualisation prototypes.
 
 | Run | Setting | Report |
 |---|---|---|
+| 2026110101 | Five boards around the house; 11 directed links, two receivers at 4/5 | [Results](h1/README.md) |
 | 2026103104-3109 | Five boards; two runs each at 32/64/120 bytes | [Results](size/README.md) |
 | 2026103103 | Five-board repeat; 4/5 pages at each receiver | [Results](size/README.md) |
 | 2026103102 | Five boards at the Mac; fixed identity colours | [Results](usb2/README.md) |
@@ -12,9 +13,10 @@ These are initial setup measurements and visualisation prototypes.
 | 2026092901 | Five nearby boards | [Results](runs/2026092901.md) |
 | 2026092902 | Five boards in the house | [Results](runs/2026092902.md) |
 
-The latest size runs and the incomplete repeat are under [data/size](../data/size/).
+The latest house run is under [data/h1](../data/h1/).
+The size runs and the incomplete repeat are under [data/size](../data/size/).
 The historical inputs and their hashes are in [data/runs.json](../data/runs.json).
-Repeated exports are not additional physical experiments. The house test did
+Repeated exports are not additional physical experiments. The September house test did
 not establish a working five-node path; node 3 stopped after 433 ms.
 
 ![House test](runs/2026092902.svg)
@@ -36,5 +38,5 @@ python3 tool/cache.py --out /path/to/new/cache-results
 
 Each command requires a fresh output location. See [PLAN.md](../PLAN.md) for
 the next experiments. The 31 October tests checked LittleFS/uuencode retrieval
-and completed-file retention on all five boards. House placement remains to be
-tested with the new firmware.
+and completed-file retention on all five boards. The 1 November house run
+also retrieved both files from every board after the field test.

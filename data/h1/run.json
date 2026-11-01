@@ -1,0 +1,164 @@
+{
+  "schema": 1,
+  "kind": "mlan-house-run",
+  "run": 2026110101,
+  "date": "2026-11-01",
+  "setting": "Five boards placed around the house. Room names follow the supplied placement plan; the user reported placing the boards, but individual positions have not yet been confirmed. Source 1 remained on.",
+  "firmware_revision": "ca6fe90cbe0b3f49f84490cd53977d611c35ceef",
+  "build": "ca6fe90 2026-10-31 20:13",
+  "source_mac": "ac276eb0f9b4",
+  "source_alias": "5d60",
+  "total": 5,
+  "payload_bytes": 32,
+  "gap_ms": 1000,
+  "local_limit_ms": 240000,
+  "clock": "Independent receiver-local milliseconds since activation; receiver clocks and stop windows are not synchronised.",
+  "activation": {
+    "source_start_utc": "2026-11-01T21:38:59.575675+00:00",
+    "source_ack_utc": "2026-11-01T21:38:59.643987+00:00",
+    "receiver_order_intended": [
+      "5",
+      "4",
+      "3",
+      "2"
+    ],
+    "receiver_activation_report": "alle blinken",
+    "receiver_activation_times_utc": null,
+    "source_started_after_user_reported_receivers_blinking": true
+  },
+  "nodes": [
+    {
+      "label": "1",
+      "mac": "ac276eb0f9b4",
+      "legacy_node": "5d60",
+      "location": "Laptop / Quelle",
+      "color": "green",
+      "files": {
+        "result": {
+          "file": "b1.json",
+          "original_name": "ac276eb0f9b4-2026110101.log",
+          "bytes": 512,
+          "crc32": "d99b775d",
+          "sha256": "31ca8ae664e558e475ff04a058530adba97008a6558b95178aadd97d677c5548",
+          "retrieved_utc": "2026-11-01T21:43:00.751038+00:00"
+        },
+        "topology": {
+          "file": "b1.top",
+          "original_name": "ac276eb0f9b4-2026110101.top",
+          "bytes": 5230,
+          "crc32": "2e5bd1b3",
+          "sha256": "600e98f4106d4b8a08e26f6b50c6d2672654b2f93d089dab5c5ed1ecd838ea4b",
+          "retrieved_utc": "2026-11-01T21:43:00.808514+00:00"
+        }
+      }
+    },
+    {
+      "label": "2",
+      "mac": "ac276eb0f9fc",
+      "legacy_node": "18c7",
+      "location": "Korridor vor dem Zimmer",
+      "color": "yellow",
+      "files": {
+        "result": {
+          "file": "b2.json",
+          "original_name": "ac276eb0f9fc-2026110101.log",
+          "bytes": 510,
+          "crc32": "7eb4789e",
+          "sha256": "17c1a48f29f15fd6117955aea09f75bcaf621441e65dbe626959eef374718144",
+          "retrieved_utc": "2026-11-01T21:46:13.758701+00:00"
+        },
+        "topology": {
+          "file": "b2.top",
+          "original_name": "ac276eb0f9fc-2026110101.top",
+          "bytes": 4131,
+          "crc32": "1e89d894",
+          "sha256": "a3414b80cc7136194ffe789ddd509acf0bcf4d7ec8fa35ec5d49d7ad906975e5",
+          "retrieved_utc": "2026-11-01T21:46:13.791403+00:00"
+        }
+      }
+    },
+    {
+      "label": "3",
+      "mac": "ac276eb0059c",
+      "legacy_node": "8e5a",
+      "location": "Wohnzimmer, ein Stockwerk tiefer",
+      "color": "blue",
+      "files": {
+        "result": {
+          "file": "b3.json",
+          "original_name": "ac276eb0059c-2026110101.log",
+          "bytes": 567,
+          "crc32": "99714a98",
+          "sha256": "d5d3630a68f7f7698747b846566170d4b54b834a4fb70d6fbc8473c21358dc95",
+          "retrieved_utc": "2026-11-01T21:46:13.818042+00:00"
+        },
+        "topology": {
+          "file": "b3.top",
+          "original_name": "ac276eb0059c-2026110101.top",
+          "bytes": 6167,
+          "crc32": "682deacf",
+          "sha256": "90d2582b43c931cd2ad4cf75e3f58f74acfbc0c2cce2dd02d5bc40000d34eb30",
+          "retrieved_utc": "2026-11-01T21:46:13.861739+00:00"
+        }
+      }
+    },
+    {
+      "label": "4",
+      "mac": "ac276eafeb88",
+      "legacy_node": "9135",
+      "location": "Keller, unterstes Stockwerk",
+      "color": "red",
+      "files": {
+        "result": {
+          "file": "b4.json",
+          "original_name": "ac276eafeb88-2026110101.log",
+          "bytes": 511,
+          "crc32": "782ba1c2",
+          "sha256": "2fc7b18835f361158fff4923a1ce9d6058bc52df3f14be013ea67a86ee0aa1a5",
+          "retrieved_utc": "2026-11-01T21:46:13.943522+00:00"
+        },
+        "topology": {
+          "file": "b4.top",
+          "original_name": "ac276eafeb88-2026110101.top",
+          "bytes": 6543,
+          "crc32": "2db4c663",
+          "sha256": "7ffc7f379db4c632290aae64311ef2ac3fa0f55448e6145eee241c1d66cbf4c6",
+          "retrieved_utc": "2026-11-01T21:46:13.982263+00:00"
+        }
+      }
+    },
+    {
+      "label": "5",
+      "mac": "ac276eb00868",
+      "legacy_node": "c3f1",
+      "location": "Hobbyraum, unterstes Stockwerk",
+      "color": "white",
+      "files": {
+        "result": {
+          "file": "b5.json",
+          "original_name": "ac276eb00868-2026110101.log",
+          "bytes": 509,
+          "crc32": "24317239",
+          "sha256": "c77a5719d8caf9c5c9826d328ed51b7e70f7824bf6713fc14d9ac2f8a6498fb9",
+          "retrieved_utc": "2026-11-01T21:46:13.885787+00:00"
+        },
+        "topology": {
+          "file": "b5.top",
+          "original_name": "ac276eb00868-2026110101.top",
+          "bytes": 3822,
+          "crc32": "5de065e5",
+          "sha256": "eb43e8bf0a5689a88f942508eb039189009d27570bd9f75675f665b546ee5a99",
+          "retrieved_utc": "2026-11-01T21:46:13.918562+00:00"
+        }
+      }
+    }
+  ],
+  "retrieval": {
+    "result_and_topology_crc_checked": 10,
+    "receivers_2_to_5_retrieved_after_user_reported_finished_then_power_disconnected_and_reconnected": true,
+    "receiver_archive_copies_before_power_disconnection_available": false,
+    "source_repeated_export_byte_identical": true,
+    "scope": "Successful retrieval of finished receiver files after collection; no before/after byte comparison across power loss for receivers in this run."
+  },
+  "placement_basis": "Planned room names, awaiting individual user confirmation; no independent survey."
+}

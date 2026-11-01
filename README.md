@@ -18,7 +18,9 @@ on all five boards. All six size runs delivered five pages to every receiver;
 a separate earlier repeat delivered only four. Raw results and delays are
 preserved. All 60 size-run files survived hardware resets unchanged. The
 [earlier run](res/usb1/README.md) also checked power-disconnection retention.
-House placement is the next test.
+The [1 November house run](res/h1/README.md) recorded eleven directed links.
+Receivers 3 and 4 obtained all five pages; 2 and 5 obtained four, both missing
+page 3. All ten files were retrieved. Source-off recovery is the next test.
 The published working branch is `prep`; `main` retains the upstream baseline
 for comparison.
 
