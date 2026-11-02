@@ -1,0 +1,8 @@
+{
+  "run": 2026110201,
+  "user_report": "1 ist aus",
+  "recorded_utc": "2026-11-01T23:07:13.988194+00:00",
+  "source_usb_absence_verified_utc": "2026-11-01T23:06:43.421367+00:00",
+  "sink5_start_request_utc": "2026-11-01T23:06:43.429297+00:00",
+  "note": "Physical source removal reported by user; controller independently required source MAC absent and other relays RUNNING before starting sink5."
+}

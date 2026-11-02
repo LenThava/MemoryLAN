@@ -1,0 +1,27 @@
+{
+  "ac276eb0f9b4": {
+    "label": "1",
+    "location": "USB-Test am Mac",
+    "color": "green"
+  },
+  "ac276eb0f9fc": {
+    "label": "2",
+    "location": "USB-Test am Mac",
+    "color": "yellow"
+  },
+  "ac276eb0059c": {
+    "label": "3",
+    "location": "USB-Test am Mac",
+    "color": "blue"
+  },
+  "ac276eafeb88": {
+    "label": "4",
+    "location": "USB-Test am Mac",
+    "color": "red"
+  },
+  "ac276eb00868": {
+    "label": "5",
+    "location": "USB-Test am Mac",
+    "color": "white"
+  }
+}

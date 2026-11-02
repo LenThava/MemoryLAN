@@ -1,0 +1,228 @@
+{
+  "utc": "2026-11-01T23:05:39.407047+00:00",
+  "relative_s": 4.44368279101036,
+  "records": {
+    "1": {
+      "mac": "ac276eb0f9b4",
+      "schema": 1,
+      "kind": "mlan-run",
+      "state": "running",
+      "storage_ok": true,
+      "node": "5d60",
+      "source": "5d60",
+      "run": 2026110201,
+      "total": 5,
+      "sent": 5,
+      "payload_bytes": 32,
+      "gap_ms": 1000,
+      "limit_ms": 300000,
+      "elapsed_ms": 4269,
+      "stop_reason": 0,
+      "cutoff": "local",
+      "build": "ca6fe90 2026-10-31 20:13",
+      "duplicates": 6,
+      "invalid": 0,
+      "rx": 8,
+      "tx": 7,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "peers": [
+        {
+          "id": "8e5a",
+          "rssi": -77,
+          "samples": 1,
+          "last_ms": 3819
+        },
+        {
+          "id": "9135",
+          "rssi": -60,
+          "samples": 1,
+          "last_ms": 4080
+        }
+      ]
+    },
+    "2": {
+      "mac": "ac276eb0f9fc",
+      "schema": 1,
+      "kind": "mlan-run",
+      "state": "running",
+      "storage_ok": true,
+      "node": "18c7",
+      "source": "5d60",
+      "run": 2026110201,
+      "total": 5,
+      "sent": 0,
+      "payload_bytes": 32,
+      "gap_ms": 1000,
+      "limit_ms": 300000,
+      "elapsed_ms": 4387,
+      "stop_reason": 0,
+      "cutoff": "local",
+      "build": "ca6fe90 2026-10-31 20:13",
+      "duplicates": 4,
+      "invalid": 0,
+      "rx": 12,
+      "tx": 6,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "peers": [
+        {
+          "id": "5d60",
+          "rssi": -50,
+          "samples": 1,
+          "last_ms": 3115
+        },
+        {
+          "id": "8e5a",
+          "rssi": -89,
+          "samples": 1,
+          "last_ms": 3926
+        },
+        {
+          "id": "9135",
+          "rssi": -89,
+          "samples": 1,
+          "last_ms": 4187
+        }
+      ]
+    },
+    "3": {
+      "mac": "ac276eb0059c",
+      "schema": 1,
+      "kind": "mlan-run",
+      "state": "running",
+      "storage_ok": true,
+      "node": "8e5a",
+      "source": "5d60",
+      "run": 2026110201,
+      "total": 5,
+      "sent": 0,
+      "payload_bytes": 32,
+      "gap_ms": 1000,
+      "limit_ms": 300000,
+      "elapsed_ms": 4369,
+      "stop_reason": 0,
+      "cutoff": "local",
+      "build": "ca6fe90 2026-10-31 20:13",
+      "duplicates": 0,
+      "invalid": 0,
+      "rx": 7,
+      "tx": 6,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "peers": [
+        {
+          "id": "18c7",
+          "rssi": -44,
+          "samples": 1,
+          "last_ms": 3807
+        },
+        {
+          "id": "9135",
+          "rssi": -37,
+          "samples": 1,
+          "last_ms": 4157
+        }
+      ]
+    },
+    "4": {
+      "mac": "ac276eafeb88",
+      "schema": 1,
+      "kind": "mlan-run",
+      "state": "running",
+      "storage_ok": true,
+      "node": "9135",
+      "source": "5d60",
+      "run": 2026110201,
+      "total": 5,
+      "sent": 0,
+      "payload_bytes": 32,
+      "gap_ms": 1000,
+      "limit_ms": 300000,
+      "elapsed_ms": 4357,
+      "stop_reason": 0,
+      "cutoff": "local",
+      "build": "ca6fe90 2026-10-31 20:13",
+      "duplicates": 1,
+      "invalid": 0,
+      "rx": 8,
+      "tx": 7,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "peers": [
+        {
+          "id": "5d60",
+          "rssi": -60,
+          "samples": 1,
+          "last_ms": 3061
+        },
+        {
+          "id": "8e5a",
+          "rssi": -35,
+          "samples": 1,
+          "last_ms": 3871
+        }
+      ]
+    }
+  },
+  "sink5": {
+    "mac": "ac276eb00868",
+    "schema": 1,
+    "kind": "mlan-run",
+    "state": "ready",
+    "storage_ok": true,
+    "node": "c3f1",
+    "source": "5d60",
+    "run": 2026110201,
+    "total": 5,
+    "sent": 0,
+    "payload_bytes": 32,
+    "gap_ms": 1000,
+    "limit_ms": 300000,
+    "elapsed_ms": 0,
+    "stop_reason": 0,
+    "cutoff": "local",
+    "build": "ca6fe90 2026-10-31 20:13",
+    "duplicates": 0,
+    "invalid": 0,
+    "rx": 0,
+    "tx": 0,
+    "rx_drop": 0,
+    "rx_bad": 0,
+    "tx_fail": 0,
+    "received": [],
+    "peers": []
+  }
+}

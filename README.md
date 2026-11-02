@@ -23,6 +23,9 @@ Receivers 3 and 4 obtained all five pages; 2 and 5 obtained four, both missing
 page 3. All ten files were retrieved. The [source-off test](res/h2/README.md)
 retrieved all ten files too, but delayed receiver 5 received no pages. That
 run did not demonstrate cached-copy delivery to 5.
+The [controlled USB cache check](res/b1/README.md) verified that relays held
+all five pages before source removal. The freshly started receiver 5 then
+received four pages from those relays, demonstrating partial cached-copy delivery.
 The published working branch is `prep`; `main` retains the upstream baseline
 for comparison.
 
