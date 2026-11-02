@@ -1,21 +1,11 @@
 # MemoryLAN - A Local Area Content Replication Mesh
 
-## Board LEDs
-
-[Code: trial_led()](esp32/trial.h#L44). WS2812 on GPIO21.
-Arduino: `rgbLedWrite(RGB_BUILTIN, r, g, b)`.
-
-1 green, 2 yellow, 3 blue, 4 red, 5 white.
-`label 1` to `label 5` saves the number in NVS.
-
-READY: slow blink. RUNNING: fast blink. Saved DONE: steady. Error: magenta.
-
 ## ESP32 trial branch
 
 Working branch: `prep`. Firmware: C++ / Arduino, Waveshare ESP32-S3-Zero.
 Optional test mode: `MLAN_TRIAL`.
 
-[Build and retrieval](test/README.md) · [Plan](PLAN.md) · [Results](res/README.md).
+[Build and retrieval](test/README.md) · [Plan](PLAN.md) · [Results](res/README.md) · [LED code](esp32/trial.h#L44).
 
 Raw measurements are in `data/`. Each run saves a result log and a
 `.top` log of directly heard transmissions, identified by full MAC address.
