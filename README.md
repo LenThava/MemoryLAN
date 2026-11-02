@@ -1,33 +1,30 @@
 # MemoryLAN - A Local Area Content Replication Mesh
 
+## Board LEDs
+
+Waveshare ESP32-S3-Zero: onboard WS2812 on GPIO21.
+Arduino call: `rgbLedWrite(RGB_BUILTIN, r, g, b)`.
+
+- 1 green, 2 yellow, 3 blue, 4 red, 5 white.
+- `label 1` to `label 5` saves the board label in NVS (`mlan_cfg`).
+- READY: 1 Hz blink. RUNNING: 4 Hz blink. Saved DONE: steady.
+- Interrupted run or missing archives: fast magenta blink.
+- Packet activity does not override the trial colour.
+
+Code: [trial_led()](esp32/trial.h#L44-L72),
+[label command](esp32/trial.h#L205-L212),
+[label loading](esp32/trial.h#L281-L287).
+
 ## ESP32 trial branch
 
-This branch adds Waveshare ESP32-S3-Zero support, core correctness fixes and an
-optional single-source measurement mode. See [trial instructions](test/README.md)
-for building, testing and retrieving results. The trial measures application-page
-delivery; topology observations alone do not establish a particular multi-hop route.
-The [experiment plan](PLAN.md) separates saved setup results, deterministic cache
-experiments and the hardware work still required. Historical inputs are under
-`data/`; `tool/report.py` verifies their hashes before generating reports.
-Saved reports and visualisation prototypes are in [res/](res/README.md).
-New trials identify boards by their full hardware MAC and record directed
-reception observations in separate `.top` files. `tool/topo.py` draws the
-observed topology. All boards need the same new firmware before testing.
-The [page-size check](res/size/README.md) tested 32, 64 and 120-byte pages twice
-on all five boards. All six size runs delivered five pages to every receiver;
-a separate earlier repeat delivered only four. Raw results and delays are
-preserved. All 60 size-run files survived hardware resets unchanged. The
-[earlier run](res/usb1/README.md) also checked power-disconnection retention.
-The [1 November house run](res/h1/README.md) recorded eleven directed links.
-Receivers 3 and 4 obtained all five pages; 2 and 5 obtained four, both missing
-page 3. All ten files were retrieved. The [source-off test](res/h2/README.md)
-retrieved all ten files too, but delayed receiver 5 received no pages. That
-run did not demonstrate cached-copy delivery to 5.
-The [controlled USB cache check](res/b1/README.md) verified that relays held
-all five pages before source removal. The freshly started receiver 5 then
-received four pages from those relays, demonstrating partial cached-copy delivery.
-The published working branch is `prep`; `main` retains the upstream baseline
-for comparison.
+Working branch: `prep`. Firmware: C++ / Arduino, Waveshare ESP32-S3-Zero.
+Optional test mode: `MLAN_TRIAL`.
+
+[Build and retrieval](test/README.md) · [Plan](PLAN.md) · [Results](res/README.md).
+
+Raw measurements are in `data/`. Each run saves a result log and a
+`.top` log of directly heard transmissions, identified by full MAC address.
+`main` keeps the upstream firmware for comparison.
 
 ---
 
