@@ -44,19 +44,29 @@ static void trial_observe(const uint8_t *pkt, const BleMeta &meta, int8_t rssi)
 static void trial_led()
 {
 #if defined(WAVESHARE_S3ZERO)
+    const uint8_t colors[6][3] = {
+        { 0,  0,  0},
+        { 0, 12,  0}, // 1 green
+        {12, 12,  0}, // 2 yellow
+        { 0,  0, 12}, // 3 blue
+        {12,  0,  0}, // 4 red
+        { 8,  8,  8}  // 5 white
+    };
     int state = trial_storage_ok ? trial.state : INTERRUPTED;
-    const uint8_t colors[6][3] = {{0,0,0}, {0,12,0}, {12,12,0},
-                                 {0,0,12}, {12,0,0}, {8,8,8}};
+    bool warning = state == INTERRUPTED ||
+                   (state == DONE && !(trial_result_saved && trial_topology_saved));
     unsigned r = 0, g = 0, b = 0;
-    bool warning = state == INTERRUPTED || (state == DONE && !(trial_result_saved && trial_topology_saved));
-    bool on = true;
+    unsigned blink_ms = 0;
+
     if (warning) {
         r = b = 12;
-        on = millis() % 250 < 125;
+        blink_ms = 250;
     } else if (trial_label) {
-        r = colors[trial_label][0]; g = colors[trial_label][1]; b = colors[trial_label][2];
-        if (state == READY) on = millis() % 1000 < 500;
-        if (state == RUNNING) on = millis() % 250 < 125;
+        r = colors[trial_label][0];
+        g = colors[trial_label][1];
+        b = colors[trial_label][2];
+        if (state == READY) blink_ms = 1000;
+        if (state == RUNNING) blink_ms = 250;
     } else {
         switch (state) {
         case READY: r = 12; g = 6; break;
@@ -64,7 +74,10 @@ static void trial_led()
         case DONE: g = 12; break;
         }
     }
-    if (!on) r = g = b = 0;
+
+    if (blink_ms && millis() % blink_ms >= blink_ms / 2)
+        r = g = b = 0;
+
     uint32_t shown = (r << 16) | (g << 8) | b;
     if (shown == trial_led_shown) return;
     trial_led_shown = shown;

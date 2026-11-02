@@ -2,18 +2,13 @@
 
 ## Board LEDs
 
-Waveshare ESP32-S3-Zero: onboard WS2812 on GPIO21.
-Arduino call: `rgbLedWrite(RGB_BUILTIN, r, g, b)`.
+[Code: trial_led()](esp32/trial.h#L44). WS2812 on GPIO21.
+Arduino: `rgbLedWrite(RGB_BUILTIN, r, g, b)`.
 
-- 1 green, 2 yellow, 3 blue, 4 red, 5 white.
-- `label 1` to `label 5` saves the board label in NVS (`mlan_cfg`).
-- READY: 1 Hz blink. RUNNING: 4 Hz blink. Saved DONE: steady.
-- Interrupted run or missing archives: fast magenta blink.
-- Packet activity does not override the trial colour.
+1 green, 2 yellow, 3 blue, 4 red, 5 white.
+`label 1` to `label 5` saves the number in NVS.
 
-Code: [trial_led()](esp32/trial.h#L44-L72),
-[label command](esp32/trial.h#L205-L212),
-[label loading](esp32/trial.h#L281-L287).
+READY: slow blink. RUNNING: fast blink. Saved DONE: steady. Error: magenta.
 
 ## ESP32 trial branch
 
