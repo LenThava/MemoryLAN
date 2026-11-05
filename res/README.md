@@ -2,6 +2,9 @@
 
 Working notes from the board tests.
 
+- [5 November, normal hub run](n1/README.md): all receivers got 5/5.
+- [5 November, pinned source](p1/README.md): all receivers got 5/5; source repeated 23 times.
+
 - [House 1](h1/README.md): 2 and 5 received 4/5 pages; 3 and 4 received 5/5.
 - [House, source off](h2/README.md): 5 received no pages.
 - [Cache check at the Mac](b1/README.md): 5 received 4/5 pages after source 1 was unplugged.

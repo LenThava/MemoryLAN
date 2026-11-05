@@ -1,0 +1,3345 @@
+[
+  {
+    "kind": "before_start",
+    "utc": "2026-11-05T20:03:00.758435+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "ready",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 0,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 0,
+        "tx": 0,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [],
+        "peers": []
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "ready",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 0,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 0,
+        "tx": 0,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [],
+        "peers": []
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "ready",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 0,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 0,
+        "tx": 0,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [],
+        "peers": []
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "ready",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 0,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 0,
+        "tx": 0,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [],
+        "peers": []
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "ready",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 0,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 0,
+        "tx": 0,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [],
+        "peers": []
+      }
+    }
+  },
+  {
+    "kind": "after_start",
+    "utc": "2026-11-05T20:03:01.038467+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 101,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 0,
+        "tx": 0,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [],
+        "peers": []
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 184,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 1,
+        "tx": 1,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0
+        ],
+        "peers": []
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 221,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 1,
+        "tx": 1,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0
+        ],
+        "peers": []
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 182,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 1,
+        "tx": 1,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0
+        ],
+        "peers": []
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 1,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 108,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 0,
+        "tx": 1,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0
+        ],
+        "peers": []
+      }
+    }
+  },
+  {
+    "kind": "status",
+    "utc": "2026-11-05T20:03:01.129250+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 182,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 0,
+        "tx": 0,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [],
+        "peers": []
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 270,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 1,
+        "tx": 1,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0
+        ],
+        "peers": []
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 308,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 1,
+        "tx": 1,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0
+        ],
+        "peers": []
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 271,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 1,
+        "tx": 1,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0
+        ],
+        "peers": []
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 1,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 198,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 0,
+        "invalid": 0,
+        "rx": 0,
+        "tx": 1,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0
+        ],
+        "peers": []
+      }
+    }
+  },
+  {
+    "kind": "status",
+    "utc": "2026-11-05T20:03:16.231071+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 15286,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 14,
+        "tx": 8,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -60,
+            "samples": 3,
+            "last_ms": 14621
+          },
+          {
+            "id": "5d60",
+            "rssi": -53,
+            "samples": 2,
+            "last_ms": 13849
+          },
+          {
+            "id": "8e5a",
+            "rssi": -89,
+            "samples": 1,
+            "last_ms": 14572
+          },
+          {
+            "id": "c3f1",
+            "rssi": -89,
+            "samples": 1,
+            "last_ms": 14675
+          }
+        ]
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 15371,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 3,
+        "invalid": 0,
+        "rx": 13,
+        "tx": 9,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -56,
+            "samples": 1,
+            "last_ms": 4394
+          },
+          {
+            "id": "8e5a",
+            "rssi": -45,
+            "samples": 2,
+            "last_ms": 14645
+          },
+          {
+            "id": "5d60",
+            "rssi": -46,
+            "samples": 1,
+            "last_ms": 13923
+          },
+          {
+            "id": "c3f1",
+            "rssi": -27,
+            "samples": 1,
+            "last_ms": 14748
+          }
+        ]
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 15408,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 4,
+        "invalid": 0,
+        "rx": 16,
+        "tx": 8,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -87,
+            "samples": 2,
+            "last_ms": 9691
+          },
+          {
+            "id": "5d60",
+            "rssi": -33,
+            "samples": 2,
+            "last_ms": 13949
+          },
+          {
+            "id": "18c7",
+            "rssi": -58,
+            "samples": 2,
+            "last_ms": 14411
+          },
+          {
+            "id": "8e5a",
+            "rssi": -34,
+            "samples": 1,
+            "last_ms": 14671
+          }
+        ]
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 15371,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 17,
+        "tx": 9,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -55,
+            "samples": 3,
+            "last_ms": 14361
+          },
+          {
+            "id": "9135",
+            "rssi": -44,
+            "samples": 3,
+            "last_ms": 14670
+          },
+          {
+            "id": "c3f1",
+            "rssi": -34,
+            "samples": 2,
+            "last_ms": 14724
+          },
+          {
+            "id": "5d60",
+            "rssi": -43,
+            "samples": 2,
+            "last_ms": 13899
+          }
+        ]
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 5,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 15300,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 7,
+        "invalid": 0,
+        "rx": 16,
+        "tx": 9,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -55,
+            "samples": 3,
+            "last_ms": 14586
+          },
+          {
+            "id": "c3f1",
+            "rssi": -35,
+            "samples": 2,
+            "last_ms": 14639
+          },
+          {
+            "id": "18c7",
+            "rssi": -56,
+            "samples": 2,
+            "last_ms": 14277
+          },
+          {
+            "id": "8e5a",
+            "rssi": -77,
+            "samples": 2,
+            "last_ms": 14536
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "status",
+    "utc": "2026-11-05T20:03:31.334631+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 30391,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 24,
+        "tx": 11,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -60,
+            "samples": 5,
+            "last_ms": 24606
+          },
+          {
+            "id": "5d60",
+            "rssi": -89,
+            "samples": 5,
+            "last_ms": 28623
+          },
+          {
+            "id": "8e5a",
+            "rssi": -63,
+            "samples": 3,
+            "last_ms": 29480
+          },
+          {
+            "id": "c3f1",
+            "rssi": -63,
+            "samples": 4,
+            "last_ms": 29576
+          }
+        ]
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 30475,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 3,
+        "invalid": 0,
+        "rx": 23,
+        "tx": 12,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -65,
+            "samples": 3,
+            "last_ms": 24615
+          },
+          {
+            "id": "8e5a",
+            "rssi": -45,
+            "samples": 4,
+            "last_ms": 29553
+          },
+          {
+            "id": "5d60",
+            "rssi": -53,
+            "samples": 4,
+            "last_ms": 28697
+          },
+          {
+            "id": "c3f1",
+            "rssi": -31,
+            "samples": 4,
+            "last_ms": 29649
+          }
+        ]
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 30514,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 4,
+        "invalid": 0,
+        "rx": 26,
+        "tx": 11,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -29,
+            "samples": 4,
+            "last_ms": 29551
+          },
+          {
+            "id": "5d60",
+            "rssi": -32,
+            "samples": 5,
+            "last_ms": 28723
+          },
+          {
+            "id": "18c7",
+            "rssi": -59,
+            "samples": 4,
+            "last_ms": 29770
+          },
+          {
+            "id": "8e5a",
+            "rssi": -35,
+            "samples": 4,
+            "last_ms": 29579
+          }
+        ]
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 30476,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 26,
+        "tx": 12,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -61,
+            "samples": 5,
+            "last_ms": 29719
+          },
+          {
+            "id": "9135",
+            "rssi": -50,
+            "samples": 6,
+            "last_ms": 29501
+          },
+          {
+            "id": "c3f1",
+            "rssi": -38,
+            "samples": 5,
+            "last_ms": 29625
+          },
+          {
+            "id": "5d60",
+            "rssi": -47,
+            "samples": 3,
+            "last_ms": 18801
+          }
+        ]
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 5,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 30404,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 7,
+        "invalid": 0,
+        "rx": 26,
+        "tx": 12,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -79,
+            "samples": 6,
+            "last_ms": 29417
+          },
+          {
+            "id": "c3f1",
+            "rssi": -37,
+            "samples": 5,
+            "last_ms": 29540
+          },
+          {
+            "id": "18c7",
+            "rssi": -68,
+            "samples": 4,
+            "last_ms": 29635
+          },
+          {
+            "id": "8e5a",
+            "rssi": -58,
+            "samples": 4,
+            "last_ms": 29445
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "status",
+    "utc": "2026-11-05T20:03:46.436770+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 45492,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 34,
+        "tx": 14,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -61,
+            "samples": 7,
+            "last_ms": 44249
+          },
+          {
+            "id": "5d60",
+            "rssi": -69,
+            "samples": 8,
+            "last_ms": 43377
+          },
+          {
+            "id": "8e5a",
+            "rssi": -57,
+            "samples": 5,
+            "last_ms": 44364
+          },
+          {
+            "id": "c3f1",
+            "rssi": -86,
+            "samples": 7,
+            "last_ms": 44375
+          }
+        ]
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 45577,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 3,
+        "invalid": 0,
+        "rx": 33,
+        "tx": 15,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -61,
+            "samples": 5,
+            "last_ms": 45119
+          },
+          {
+            "id": "8e5a",
+            "rssi": -53,
+            "samples": 6,
+            "last_ms": 44437
+          },
+          {
+            "id": "5d60",
+            "rssi": -47,
+            "samples": 7,
+            "last_ms": 43450
+          },
+          {
+            "id": "c3f1",
+            "rssi": -24,
+            "samples": 7,
+            "last_ms": 44448
+          }
+        ]
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 45617,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 4,
+        "invalid": 0,
+        "rx": 32,
+        "tx": 14,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -31,
+            "samples": 6,
+            "last_ms": 39164
+          },
+          {
+            "id": "5d60",
+            "rssi": -33,
+            "samples": 7,
+            "last_ms": 43476
+          },
+          {
+            "id": "18c7",
+            "rssi": -57,
+            "samples": 5,
+            "last_ms": 45146
+          },
+          {
+            "id": "8e5a",
+            "rssi": -34,
+            "samples": 5,
+            "last_ms": 39617
+          }
+        ]
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 45579,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 32,
+        "tx": 15,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -61,
+            "samples": 5,
+            "last_ms": 29719
+          },
+          {
+            "id": "9135",
+            "rssi": -46,
+            "samples": 7,
+            "last_ms": 44298
+          },
+          {
+            "id": "c3f1",
+            "rssi": -37,
+            "samples": 7,
+            "last_ms": 39433
+          },
+          {
+            "id": "5d60",
+            "rssi": -69,
+            "samples": 6,
+            "last_ms": 43426
+          }
+        ]
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 5,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 45506,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 7,
+        "invalid": 0,
+        "rx": 35,
+        "tx": 15,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -50,
+            "samples": 9,
+            "last_ms": 44214
+          },
+          {
+            "id": "c3f1",
+            "rssi": -35,
+            "samples": 8,
+            "last_ms": 44339
+          },
+          {
+            "id": "18c7",
+            "rssi": -58,
+            "samples": 5,
+            "last_ms": 45011
+          },
+          {
+            "id": "8e5a",
+            "rssi": -47,
+            "samples": 6,
+            "last_ms": 44329
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "status",
+    "utc": "2026-11-05T20:04:01.534051+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 60593,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 45,
+        "tx": 17,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -66,
+            "samples": 10,
+            "last_ms": 59081
+          },
+          {
+            "id": "5d60",
+            "rssi": -69,
+            "samples": 10,
+            "last_ms": 58226
+          },
+          {
+            "id": "8e5a",
+            "rssi": -60,
+            "samples": 8,
+            "last_ms": 59124
+          },
+          {
+            "id": "c3f1",
+            "rssi": -62,
+            "samples": 10,
+            "last_ms": 59635
+          }
+        ]
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 60677,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 3,
+        "invalid": 0,
+        "rx": 40,
+        "tx": 18,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -60,
+            "samples": 6,
+            "last_ms": 55094
+          },
+          {
+            "id": "8e5a",
+            "rssi": -48,
+            "samples": 9,
+            "last_ms": 59197
+          },
+          {
+            "id": "5d60",
+            "rssi": -45,
+            "samples": 8,
+            "last_ms": 53057
+          },
+          {
+            "id": "c3f1",
+            "rssi": -25,
+            "samples": 9,
+            "last_ms": 59708
+          }
+        ]
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 60716,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 4,
+        "invalid": 0,
+        "rx": 42,
+        "tx": 17,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -32,
+            "samples": 9,
+            "last_ms": 59180
+          },
+          {
+            "id": "5d60",
+            "rssi": -32,
+            "samples": 9,
+            "last_ms": 58325
+          },
+          {
+            "id": "18c7",
+            "rssi": -59,
+            "samples": 7,
+            "last_ms": 59954
+          },
+          {
+            "id": "8e5a",
+            "rssi": -88,
+            "samples": 8,
+            "last_ms": 59223
+          }
+        ]
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 60677,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 40,
+        "tx": 18,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -56,
+            "samples": 7,
+            "last_ms": 59904
+          },
+          {
+            "id": "9135",
+            "rssi": -54,
+            "samples": 9,
+            "last_ms": 59130
+          },
+          {
+            "id": "c3f1",
+            "rssi": -33,
+            "samples": 10,
+            "last_ms": 59684
+          },
+          {
+            "id": "5d60",
+            "rssi": -47,
+            "samples": 7,
+            "last_ms": 58275
+          }
+        ]
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 5,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 60604,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 7,
+        "invalid": 0,
+        "rx": 43,
+        "tx": 18,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -46,
+            "samples": 11,
+            "last_ms": 59046
+          },
+          {
+            "id": "c3f1",
+            "rssi": -37,
+            "samples": 9,
+            "last_ms": 54548
+          },
+          {
+            "id": "18c7",
+            "rssi": -66,
+            "samples": 7,
+            "last_ms": 59819
+          },
+          {
+            "id": "8e5a",
+            "rssi": -52,
+            "samples": 9,
+            "last_ms": 59089
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "status",
+    "utc": "2026-11-05T20:04:16.633383+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 75691,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 53,
+        "tx": 20,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -62,
+            "samples": 12,
+            "last_ms": 69339
+          },
+          {
+            "id": "5d60",
+            "rssi": -55,
+            "samples": 12,
+            "last_ms": 72921
+          },
+          {
+            "id": "8e5a",
+            "rssi": -63,
+            "samples": 9,
+            "last_ms": 69449
+          },
+          {
+            "id": "c3f1",
+            "rssi": -63,
+            "samples": 13,
+            "last_ms": 75065
+          }
+        ]
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 75778,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 3,
+        "invalid": 0,
+        "rx": 51,
+        "tx": 21,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -61,
+            "samples": 9,
+            "last_ms": 74916
+          },
+          {
+            "id": "8e5a",
+            "rssi": -46,
+            "samples": 11,
+            "last_ms": 74432
+          },
+          {
+            "id": "5d60",
+            "rssi": -46,
+            "samples": 11,
+            "last_ms": 72994
+          },
+          {
+            "id": "c3f1",
+            "rssi": -23,
+            "samples": 12,
+            "last_ms": 75138
+          }
+        ]
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 75817,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 4,
+        "invalid": 0,
+        "rx": 51,
+        "tx": 20,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -24,
+            "samples": 12,
+            "last_ms": 74626
+          },
+          {
+            "id": "5d60",
+            "rssi": -33,
+            "samples": 12,
+            "last_ms": 73020
+          },
+          {
+            "id": "18c7",
+            "rssi": -58,
+            "samples": 9,
+            "last_ms": 69915
+          },
+          {
+            "id": "8e5a",
+            "rssi": -37,
+            "samples": 9,
+            "last_ms": 69548
+          }
+        ]
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 75778,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 51,
+        "tx": 21,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -56,
+            "samples": 9,
+            "last_ms": 69865
+          },
+          {
+            "id": "9135",
+            "rssi": -44,
+            "samples": 12,
+            "last_ms": 74576
+          },
+          {
+            "id": "c3f1",
+            "rssi": -33,
+            "samples": 13,
+            "last_ms": 75114
+          },
+          {
+            "id": "5d60",
+            "rssi": -43,
+            "samples": 10,
+            "last_ms": 72970
+          }
+        ]
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 5,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 75704,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 7,
+        "invalid": 0,
+        "rx": 53,
+        "tx": 21,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -47,
+            "samples": 13,
+            "last_ms": 69304
+          },
+          {
+            "id": "c3f1",
+            "rssi": -36,
+            "samples": 12,
+            "last_ms": 75029
+          },
+          {
+            "id": "18c7",
+            "rssi": -57,
+            "samples": 10,
+            "last_ms": 74808
+          },
+          {
+            "id": "8e5a",
+            "rssi": -55,
+            "samples": 11,
+            "last_ms": 74323
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "status",
+    "utc": "2026-11-05T20:04:31.727365+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 90789,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 61,
+        "tx": 23,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -62,
+            "samples": 14,
+            "last_ms": 84254
+          },
+          {
+            "id": "5d60",
+            "rssi": -58,
+            "samples": 15,
+            "last_ms": 88166
+          },
+          {
+            "id": "8e5a",
+            "rssi": -55,
+            "samples": 10,
+            "last_ms": 84220
+          },
+          {
+            "id": "c3f1",
+            "rssi": -60,
+            "samples": 15,
+            "last_ms": 89861
+          }
+        ]
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 90873,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 3,
+        "invalid": 0,
+        "rx": 61,
+        "tx": 24,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -63,
+            "samples": 11,
+            "last_ms": 89546
+          },
+          {
+            "id": "8e5a",
+            "rssi": -49,
+            "samples": 13,
+            "last_ms": 89393
+          },
+          {
+            "id": "5d60",
+            "rssi": -45,
+            "samples": 14,
+            "last_ms": 88239
+          },
+          {
+            "id": "c3f1",
+            "rssi": -32,
+            "samples": 15,
+            "last_ms": 89934
+          }
+        ]
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 90911,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 4,
+        "invalid": 0,
+        "rx": 60,
+        "tx": 23,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -24,
+            "samples": 14,
+            "last_ms": 89243
+          },
+          {
+            "id": "5d60",
+            "rssi": -33,
+            "samples": 15,
+            "last_ms": 88265
+          },
+          {
+            "id": "18c7",
+            "rssi": -58,
+            "samples": 11,
+            "last_ms": 89572
+          },
+          {
+            "id": "8e5a",
+            "rssi": -38,
+            "samples": 11,
+            "last_ms": 89419
+          }
+        ]
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 90871,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 59,
+        "tx": 24,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -54,
+            "samples": 11,
+            "last_ms": 89522
+          },
+          {
+            "id": "9135",
+            "rssi": -47,
+            "samples": 14,
+            "last_ms": 84303
+          },
+          {
+            "id": "c3f1",
+            "rssi": -40,
+            "samples": 16,
+            "last_ms": 89910
+          },
+          {
+            "id": "5d60",
+            "rssi": -58,
+            "samples": 11,
+            "last_ms": 78094
+          }
+        ]
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 5,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 90798,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 7,
+        "invalid": 0,
+        "rx": 59,
+        "tx": 24,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -55,
+            "samples": 15,
+            "last_ms": 89109
+          },
+          {
+            "id": "c3f1",
+            "rssi": -36,
+            "samples": 12,
+            "last_ms": 75029
+          },
+          {
+            "id": "18c7",
+            "rssi": -73,
+            "samples": 12,
+            "last_ms": 84562
+          },
+          {
+            "id": "8e5a",
+            "rssi": -50,
+            "samples": 13,
+            "last_ms": 89284
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "status",
+    "utc": "2026-11-05T20:04:46.825218+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 105884,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 71,
+        "tx": 26,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -70,
+            "samples": 17,
+            "last_ms": 104058
+          },
+          {
+            "id": "5d60",
+            "rssi": -86,
+            "samples": 17,
+            "last_ms": 102929
+          },
+          {
+            "id": "8e5a",
+            "rssi": -61,
+            "samples": 13,
+            "last_ms": 104316
+          },
+          {
+            "id": "c3f1",
+            "rssi": -62,
+            "samples": 17,
+            "last_ms": 104918
+          }
+        ]
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 105969,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 3,
+        "invalid": 0,
+        "rx": 70,
+        "tx": 27,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -61,
+            "samples": 12,
+            "last_ms": 99573
+          },
+          {
+            "id": "8e5a",
+            "rssi": -49,
+            "samples": 16,
+            "last_ms": 104389
+          },
+          {
+            "id": "5d60",
+            "rssi": -44,
+            "samples": 16,
+            "last_ms": 103002
+          },
+          {
+            "id": "c3f1",
+            "rssi": -28,
+            "samples": 18,
+            "last_ms": 104991
+          }
+        ]
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 106007,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 4,
+        "invalid": 0,
+        "rx": 68,
+        "tx": 26,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -34,
+            "samples": 16,
+            "last_ms": 104157
+          },
+          {
+            "id": "5d60",
+            "rssi": -33,
+            "samples": 17,
+            "last_ms": 103028
+          },
+          {
+            "id": "18c7",
+            "rssi": -61,
+            "samples": 12,
+            "last_ms": 99600
+          },
+          {
+            "id": "8e5a",
+            "rssi": -87,
+            "samples": 14,
+            "last_ms": 104415
+          }
+        ]
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 105968,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 65,
+        "tx": 27,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -54,
+            "samples": 11,
+            "last_ms": 89522
+          },
+          {
+            "id": "9135",
+            "rssi": -55,
+            "samples": 15,
+            "last_ms": 99268
+          },
+          {
+            "id": "c3f1",
+            "rssi": -35,
+            "samples": 19,
+            "last_ms": 104967
+          },
+          {
+            "id": "5d60",
+            "rssi": -87,
+            "samples": 13,
+            "last_ms": 102978
+          }
+        ]
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "running",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 5,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 105896,
+        "stop_reason": 0,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 7,
+        "invalid": 0,
+        "rx": 68,
+        "tx": 27,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -50,
+            "samples": 18,
+            "last_ms": 104023
+          },
+          {
+            "id": "c3f1",
+            "rssi": -36,
+            "samples": 13,
+            "last_ms": 94994
+          },
+          {
+            "id": "18c7",
+            "rssi": -71,
+            "samples": 15,
+            "last_ms": 104526
+          },
+          {
+            "id": "8e5a",
+            "rssi": -51,
+            "samples": 15,
+            "last_ms": 104280
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "status",
+    "utc": "2026-11-05T20:05:01.927292+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 78,
+        "tx": 29,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -65,
+            "samples": 19,
+            "last_ms": 119180
+          },
+          {
+            "id": "5d60",
+            "rssi": -68,
+            "samples": 18,
+            "last_ms": 112812
+          },
+          {
+            "id": "8e5a",
+            "rssi": -89,
+            "samples": 16,
+            "last_ms": 119209
+          },
+          {
+            "id": "c3f1",
+            "rssi": -61,
+            "samples": 18,
+            "last_ms": 110056
+          }
+        ]
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 3,
+        "invalid": 0,
+        "rx": 77,
+        "tx": 30,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -66,
+            "samples": 15,
+            "last_ms": 119746
+          },
+          {
+            "id": "8e5a",
+            "rssi": -57,
+            "samples": 19,
+            "last_ms": 119282
+          },
+          {
+            "id": "5d60",
+            "rssi": -44,
+            "samples": 16,
+            "last_ms": 103002
+          },
+          {
+            "id": "c3f1",
+            "rssi": -25,
+            "samples": 19,
+            "last_ms": 110129
+          }
+        ]
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 4,
+        "invalid": 0,
+        "rx": 77,
+        "tx": 28,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -35,
+            "samples": 17,
+            "last_ms": 109206
+          },
+          {
+            "id": "5d60",
+            "rssi": -33,
+            "samples": 20,
+            "last_ms": 117987
+          },
+          {
+            "id": "18c7",
+            "rssi": -57,
+            "samples": 15,
+            "last_ms": 119772
+          },
+          {
+            "id": "8e5a",
+            "rssi": -47,
+            "samples": 16,
+            "last_ms": 119308
+          }
+        ]
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 73,
+        "tx": 30,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -54,
+            "samples": 14,
+            "last_ms": 119722
+          },
+          {
+            "id": "9135",
+            "rssi": -53,
+            "samples": 16,
+            "last_ms": 119229
+          },
+          {
+            "id": "c3f1",
+            "rssi": -89,
+            "samples": 21,
+            "last_ms": 115124
+          },
+          {
+            "id": "5d60",
+            "rssi": -60,
+            "samples": 15,
+            "last_ms": 117937
+          }
+        ]
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 5,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 7,
+        "invalid": 0,
+        "rx": 77,
+        "tx": 30,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -46,
+            "samples": 21,
+            "last_ms": 119145
+          },
+          {
+            "id": "c3f1",
+            "rssi": -36,
+            "samples": 14,
+            "last_ms": 110020
+          },
+          {
+            "id": "18c7",
+            "rssi": -52,
+            "samples": 17,
+            "last_ms": 119638
+          },
+          {
+            "id": "8e5a",
+            "rssi": -45,
+            "samples": 18,
+            "last_ms": 119173
+          }
+        ]
+      }
+    }
+  },
+  {
+    "kind": "after_retrieval",
+    "utc": "2026-11-05T20:05:02.554484+00:00",
+    "boards": {
+      "2": {
+        "mac": "ac276eb0f9fc",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "18c7",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 78,
+        "tx": 29,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -65,
+            "samples": 19,
+            "last_ms": 119180
+          },
+          {
+            "id": "5d60",
+            "rssi": -68,
+            "samples": 18,
+            "last_ms": 112812
+          },
+          {
+            "id": "8e5a",
+            "rssi": -89,
+            "samples": 16,
+            "last_ms": 119209
+          },
+          {
+            "id": "c3f1",
+            "rssi": -61,
+            "samples": 18,
+            "last_ms": 110056
+          }
+        ]
+      },
+      "4": {
+        "mac": "ac276eafeb88",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "9135",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 3,
+        "invalid": 0,
+        "rx": 77,
+        "tx": 30,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -66,
+            "samples": 15,
+            "last_ms": 119746
+          },
+          {
+            "id": "8e5a",
+            "rssi": -57,
+            "samples": 19,
+            "last_ms": 119282
+          },
+          {
+            "id": "5d60",
+            "rssi": -44,
+            "samples": 16,
+            "last_ms": 103002
+          },
+          {
+            "id": "c3f1",
+            "rssi": -25,
+            "samples": 19,
+            "last_ms": 110129
+          }
+        ]
+      },
+      "5": {
+        "mac": "ac276eb00868",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "c3f1",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 4,
+        "invalid": 0,
+        "rx": 77,
+        "tx": 28,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -35,
+            "samples": 17,
+            "last_ms": 109206
+          },
+          {
+            "id": "5d60",
+            "rssi": -33,
+            "samples": 20,
+            "last_ms": 117987
+          },
+          {
+            "id": "18c7",
+            "rssi": -57,
+            "samples": 15,
+            "last_ms": 119772
+          },
+          {
+            "id": "8e5a",
+            "rssi": -47,
+            "samples": 16,
+            "last_ms": 119308
+          }
+        ]
+      },
+      "3": {
+        "mac": "ac276eb0059c",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "8e5a",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 0,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 2,
+        "invalid": 0,
+        "rx": 73,
+        "tx": 30,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "18c7",
+            "rssi": -54,
+            "samples": 14,
+            "last_ms": 119722
+          },
+          {
+            "id": "9135",
+            "rssi": -53,
+            "samples": 16,
+            "last_ms": 119229
+          },
+          {
+            "id": "c3f1",
+            "rssi": -89,
+            "samples": 21,
+            "last_ms": 115124
+          },
+          {
+            "id": "5d60",
+            "rssi": -60,
+            "samples": 15,
+            "last_ms": 117937
+          }
+        ]
+      },
+      "1": {
+        "mac": "ac276eb0f9b4",
+        "schema": 1,
+        "kind": "mlan-run",
+        "state": "done",
+        "storage_ok": true,
+        "node": "5d60",
+        "source": "5d60",
+        "run": 2026110501,
+        "total": 5,
+        "sent": 5,
+        "payload_bytes": 32,
+        "source_pinned": false,
+        "repeat_ms": 0,
+        "repeat_attempts": 0,
+        "gap_ms": 1000,
+        "limit_ms": 120000,
+        "elapsed_ms": 120000,
+        "stop_reason": 2,
+        "cutoff": "local",
+        "build": "9539f99 2026-11-05 19:58",
+        "duplicates": 7,
+        "invalid": 0,
+        "rx": 77,
+        "tx": 30,
+        "rx_drop": 0,
+        "rx_bad": 0,
+        "tx_fail": 0,
+        "received": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "peers": [
+          {
+            "id": "9135",
+            "rssi": -46,
+            "samples": 21,
+            "last_ms": 119145
+          },
+          {
+            "id": "c3f1",
+            "rssi": -36,
+            "samples": 14,
+            "last_ms": 110020
+          },
+          {
+            "id": "18c7",
+            "rssi": -52,
+            "samples": 17,
+            "last_ms": 119638
+          },
+          {
+            "id": "8e5a",
+            "rssi": -45,
+            "samples": 18,
+            "last_ms": 119173
+          }
+        ]
+      }
+    }
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "run": 2026110501,
+  "seconds": 120,
+  "source": "5d60",
+  "total": 5,
+  "gap_ms": 1000,
+  "payload_bytes": 32,
+  "repeat_ms": 0,
+  "placement": "bench",
+  "boards": {
+    "ac276eb0f9b4": {
+      "label": "1",
+      "location": "At the Mac, same room (USB hub/direct USB)",
+      "legacy_node": "5d60"
+    },
+    "ac276eb0f9fc": {
+      "label": "2",
+      "location": "At the Mac, same room (USB hub/direct USB)",
+      "legacy_node": "18c7"
+    },
+    "ac276eb0059c": {
+      "label": "3",
+      "location": "At the Mac, same room (USB hub/direct USB)",
+      "legacy_node": "8e5a"
+    },
+    "ac276eafeb88": {
+      "label": "4",
+      "location": "At the Mac, same room (USB hub/direct USB)",
+      "legacy_node": "9135"
+    },
+    "ac276eb00868": {
+      "label": "5",
+      "location": "At the Mac, same room (USB hub/direct USB)",
+      "legacy_node": "c3f1"
+    }
+  }
+}

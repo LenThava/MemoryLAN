@@ -5,7 +5,7 @@
 Working branch: `prep`. Firmware: C++ / Arduino, Waveshare ESP32-S3-Zero.
 Optional test mode: `MLAN_TRIAL`.
 
-[Commands](test/README.md) · [Notes](PLAN.md) · [Runs](res/README.md) · [LED](esp32/trial.h#L44).
+[Commands](test/README.md) · [Notes](PLAN.md) · [Runs](res/README.md) · [LED](esp32/trial.h#L45).
 
 Raw measurements are in `data/`. Each run saves a result log and a
 `.top` log of directly heard transmissions, identified by full MAC address.
