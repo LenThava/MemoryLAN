@@ -77,7 +77,7 @@ bool MemoryLAN::loop(void) // return true if some counters changed
     return chg;
 }
 
-bool MemoryLAN::add(const uint8_t *mempg)
+bool MemoryLAN::add(const uint8_t *mempg, bool pinned)
 {
     if (!mempg || *mempg < 7 || *mempg > MEMLAN_PKT_LEN ||
         !memcmp(dmx_hdr, mempg + 1, 7))
@@ -85,10 +85,37 @@ bool MemoryLAN::add(const uint8_t *mempg)
 
     uint8_t pkt[MEMLAN_CLSZ];
     memcpy(pkt, mempg, *mempg + 1);
-    if (on_mempage(NULL, pkt))
-        for (int i = 0; i < if_cnt; i++)
-            broadcast(if_table[i], pkt, false, "mempage");
-    return true;
+    uint8_t *response = on_mempage(NULL, pkt);
+    for (int i = 0; i < cache_cnt; i++) {
+        uint8_t *entry = cache + i * MEMLAN_CLSZ;
+        if (*entry != *pkt || memcmp(entry + 1, pkt + 1, *pkt)) continue;
+        if (pinned && !pin_order[i]) pin_order[i] = ++pinned_count;
+        if (response)
+            for (int j = 0; j < if_cnt; j++)
+                broadcast(if_table[j], pkt, false, "mempage");
+        return true;
+    }
+    return false;
+}
+
+bool MemoryLAN::repeat_pinned()
+{
+    if (!if_cnt || !pinned_count) return false;
+    repeat_next = repeat_next % pinned_count + 1;
+    for (int i = 0; i < cache_cnt; i++) {
+        if (pin_order[i] != repeat_next) continue;
+        for (int j = 0; j < if_cnt; j++)
+            broadcast(if_table[j], cache + i * MEMLAN_CLSZ, false, "pinned");
+        return true;
+    }
+    return false;
+}
+
+void MemoryLAN::clear_cache()
+{
+    cache_cnt = hash_cnt = 0;
+    pinned_count = repeat_next = 0;
+    memset(pin_order, 0, sizeof(pin_order));
 }
 
 void MemoryLAN::set_update_cb(callback_fct* update_cb)
@@ -125,16 +152,25 @@ uint8_t* MemoryLAN::on_mempage(IO_device *iod, uint8_t *pkt)
         if (cache[i*MEMLAN_CLSZ] != len || memcmp(cache + i*MEMLAN_CLSZ + 1, pkt+1, len))
             continue; // content mismatch
         if (i == (cache_cnt-1)) break;                      // already at front
+        uint8_t order = pin_order[i];
         memmove(cache + i*MEMLAN_CLSZ, cache + (i+1)*MEMLAN_CLSZ, (cache_cnt - 1 - i) * MEMLAN_CLSZ);
+        memmove(pin_order + i, pin_order + i + 1, cache_cnt - 1 - i);
         memcpy(cache + (cache_cnt-1)*MEMLAN_CLSZ, pkt, len+1);
+        pin_order[cache_cnt-1] = order;
         break;
     }
     if (i == cache_cnt) { // need to add it
-        if (cache_cnt >= MEMLAN_CACHE_DEPTH) { // evict oldest entry
-            memmove(cache, cache + MEMLAN_CLSZ, (cache_cnt - 1) * MEMLAN_CLSZ);
+        if (cache_cnt >= MEMLAN_CACHE_DEPTH) {
+            int oldest = 0;
+            while (oldest < cache_cnt && pin_order[oldest]) oldest++;
+            if (oldest == cache_cnt) return NULL;
+            memmove(cache + oldest * MEMLAN_CLSZ, cache + (oldest + 1) * MEMLAN_CLSZ,
+                    (cache_cnt - 1 - oldest) * MEMLAN_CLSZ);
+            memmove(pin_order + oldest, pin_order + oldest + 1, cache_cnt - 1 - oldest);
             cache_cnt--;
         }
         memcpy(cache + cache_cnt*MEMLAN_CLSZ, pkt, len+1);
+        pin_order[cache_cnt] = 0;
         cache_cnt++;
     }
 

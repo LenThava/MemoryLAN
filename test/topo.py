@@ -111,6 +111,34 @@ class TopologyTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             topo.validate(value)
 
+    def test_source_mode_defaults_and_mixed_runs(self):
+        a = self.write("a.top", record(A, []))
+        normal = dict(record(), source_pinned=False, repeat_ms=0, repeat_attempts=0)
+        b = self.write("b.top", normal)
+        report = topo.analyse([a, b])
+        self.assertEqual((report["source_pinned"], report["repeat_ms"]), (False, 0))
+        self.assertEqual(report["receivers"][0]["repeat_attempts"], 0)
+        pinned = dict(record(A, []), source_pinned=True, repeat_ms=5000, repeat_attempts=7)
+        a = self.write("a.top", pinned)
+        with self.assertRaisesRegex(ValueError, "Mixed source-mode"):
+            topo.analyse([a, b])
+        b = self.write("b.top", dict(record(), source_pinned=True, repeat_ms=5000, repeat_attempts=0))
+        report = topo.analyse([a, b])
+        self.assertEqual((report["source_pinned"], report["repeat_ms"]), (True, 5000))
+        self.assertEqual(report["receivers"][0]["repeat_attempts"], 7)
+        b = self.write("b.top", dict(record(), source_pinned=True, repeat_ms=1000, repeat_attempts=0))
+        with self.assertRaisesRegex(ValueError, "Mixed source-mode"):
+            topo.analyse([a, b])
+
+    def test_invalid_source_mode(self):
+        changes = ({"repeat_ms": 5000},
+                   {"source_pinned": True, "repeat_ms": 0, "repeat_attempts": 0},
+                   {"source_pinned": False, "repeat_ms": 0, "repeat_attempts": 1},
+                   {"source_pinned": True, "repeat_ms": 5000, "repeat_attempts": True})
+        for change in changes:
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                topo.validate(dict(record(), **change))
+
     def test_labels_preserve_hardware_identity_and_escape_svg(self):
         labels = {A: dict(label="1", location="room & window"), B: dict(label="2", location="<door>")}
         label_path = self.write("labels.json", labels)

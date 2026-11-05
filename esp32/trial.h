@@ -8,6 +8,7 @@ static_assert(TRIAL_MAX_BYTES <= MEMLAN_PKT_LEN, "Trial page exceeds the cache l
 
 static Preferences trial_store;
 static TrialRecord trial;
+static TrialMode trial_mode;
 static bool trial_storage_ok;
 static bool trial_store_open;
 static Preferences trial_config;
@@ -15,7 +16,7 @@ static bool trial_config_open;
 static uint8_t trial_label;
 static bool trial_result_saved, trial_topology_saved;
 static uint32_t trial_led_shown = UINT32_MAX;
-static uint32_t trial_start_ms, trial_next_ms, trial_peer_ms;
+static uint32_t trial_start_ms, trial_next_ms, trial_peer_ms, trial_next_repeat_ms;
 static uint32_t trial_rx0, trial_tx0, trial_drop0, trial_bad0, trial_fail0;
 static TrialTopology trial_topology;
 
@@ -116,9 +117,17 @@ static bool trial_saved_file(bool topology)
 
 static bool trial_save()
 {
+    trial_mode.run = trial.run;
+    trial_mode.checksum = trial_mode_checksum(trial_mode);
     trial.checksum = trial_checksum(trial);
     TrialRecord check = {};
-    bool ok = trial_store.putBytes("run", &trial, sizeof(trial)) == sizeof(trial) &&
+    TrialMode mode_check = {};
+    bool ok = trial_mode_valid(trial_mode, trial) &&
+        trial_store.putBytes("mode", &trial_mode, sizeof(trial_mode)) == sizeof(trial_mode) &&
+        trial_store.getBytesLength("mode") == sizeof(mode_check) &&
+        trial_store.getBytes("mode", &mode_check, sizeof(mode_check)) == sizeof(mode_check) &&
+        !memcmp(&mode_check, &trial_mode, sizeof(mode_check)) &&
+        trial_store.putBytes("run", &trial, sizeof(trial)) == sizeof(trial) &&
         trial_store.getBytesLength("run") == sizeof(check) &&
         trial_store.getBytes("run", &check, sizeof(check)) == sizeof(check) &&
         memcmp(&check, &trial, sizeof(check)) == 0;
@@ -177,15 +186,17 @@ static void trial_stop(uint32_t reason)
 static void trial_begin()
 {
     if (!trial_storage_ok || trial.state != READY) { trial_reply(false, "prepare a new run first"); return; }
+    trial_mode.repeat_attempts = 0;
     trial.state = RUNNING;
     if (!trial_save()) { trial.state = INTERRUPTED; trial_reply(false, "start save failed"); return; }
-    mlan->cache_cnt = mlan->hash_cnt = 0;
+    mlan->clear_cache();
     while (uint8_t *pkt = ble_if->from_brcast->dequeue()) free(pkt);
     memset(ble_if->neigh_tab, 0, sizeof(ble_if->neigh_tab));
     trial_rx0 = ble_if->rx_cnt; trial_tx0 = ble_if->tx_cnt;
     trial_drop0 = ble_if->rx_drop.load(); trial_bad0 = ble_if->rx_bad.load();
     trial_fail0 = ble_if->tx_fail.load();
     trial_start_ms = trial_next_ms = trial_peer_ms = millis();
+    trial_next_repeat_ms = 0;
     memset(&trial_topology, 0, sizeof(trial_topology));
     trial_topology.run = trial.run;
     trial_result_saved = trial_topology_saved = false;
@@ -203,7 +214,8 @@ static void trial_dump()
     if (!Serial) return;
     if (trial.state == RUNNING) { trial_stats(); trial_peers(); }
     Serial.print("@MLAN ");
-    trial_json(Serial, trial, trial_storage_ok, (uint16_t(my_id[0]) << 8) | my_id[1], hardware_mac);
+    trial_json(Serial, trial, trial_storage_ok, (uint16_t(my_id[0]) << 8) | my_id[1], hardware_mac,
+        trial.version >= 3 ? &trial_mode : nullptr);
 }
 
 static void trial_command(const char *line)
@@ -257,30 +269,35 @@ static void trial_command(const char *line)
         if (trial.state == RUNNING) { trial_reply(false, "stop and export first"); return; }
         if (!trial_store_open) { trial_reply(false, "NVS unavailable"); return; }
         bool ok = !trial_store.isKey("run") || trial_store.remove("run");
+        if (ok && trial_store.isKey("mode")) ok = trial_store.remove("mode");
         if (ok) {
             memset(&trial, 0, sizeof(trial));
+            memset(&trial_mode, 0, sizeof(trial_mode));
             memset(&trial_topology, 0, sizeof(trial_topology));
             trial_result_saved = trial_topology_saved = false;
             ble_if->run_id = 0; trial_storage_ok = true;
         }
         trial_reply(ok, ok ? "cleared" : "clear failed"); return;
     }
-    uint32_t fields[6];
+    uint32_t fields[7];
     if (trial_parse(line, fields)) {
         uint32_t run = fields[0], source = fields[1], total = fields[2], gap = fields[3], seconds = fields[4];
         if (!trial_storage_ok || trial.state != EMPTY) { trial_reply(false, "export then clear the existing record"); return; }
         if (!run || source > 65535 || !total || total > TRIAL_MAX || gap < 100 || gap > 60000 ||
             seconds < 1 || seconds > 3600 || !trial_size_valid(fields[5]) ||
+            (fields[6] && (fields[6] < 1000 || fields[6] > 60000 || total > TRIAL_PIN_MAX)) ||
             uint64_t(total) * gap >= uint64_t(seconds) * 1000) {
             trial_reply(false, "invalid run, source, count, interval or duration"); return;
         }
         char path[40]; trial_log_path(path, sizeof(path), node, run);
         if (trial_files_ok && trial_run_exists(node, run)) { trial_reply(false, "run number already archived; choose a new one"); return; }
         memset(&trial, 0, sizeof(trial));
-        trial.version = 2; trial.payload_bytes = fields[5];
+        memset(&trial_mode, 0, sizeof(trial_mode));
+        trial.version = 3; trial.payload_bytes = fields[5];
         trial.run = run; trial.source = source; trial.total = total;
         trial.node = (uint16_t(my_id[0]) << 8) | my_id[1];
         trial.gap_ms = gap; trial.limit_ms = seconds * 1000; trial.state = READY;
+        trial_mode.run = run; trial_mode.repeat_ms = fields[6];
         #define MLAN_STR_(x) #x
         #define MLAN_STR(x) MLAN_STR_(x)
         snprintf(trial.build, sizeof(trial.build), "%s %s", MLAN_STR(MLAN_REV), COMPILE_DATE);
@@ -288,7 +305,7 @@ static void trial_command(const char *line)
         if (ok) ble_if->run_id = trial.run;
         trial_reply(ok, ok ? "prepared; move to final power, then hold BOOT briefly" : "prepare save failed"); return;
     }
-    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC [BYTES]; start; stop; dump [RUN]; topo RUN; label N; clear; id; files; fsinit");
+    trial_reply(false, "commands: prep RUN SOURCE_HEX COUNT GAP_MS LIMIT_SEC [BYTES [REPEAT_MS]]; start; stop; dump [RUN]; topo RUN; label N; clear; id; files; fsinit");
 }
 
 static void trial_setup()
@@ -307,6 +324,7 @@ static void trial_setup()
     memset(&trial_topology, 0, sizeof(trial_topology));
     trial_files_ok = LittleFS.begin(false);
     trial_store_open = trial_storage_ok = trial_store.begin("mlan_lab", false);
+    memset(&trial_mode, 0, sizeof(trial_mode));
     if (!trial_storage_ok) { trial_reply(false, "NVS unavailable"); return; }
     if (trial_store.isKey("run")) {
         TrialRecord saved = {};
@@ -316,6 +334,15 @@ static void trial_setup()
             trial_reply(false, "invalid saved record; preserved until explicit clear"); return;
         }
         trial = saved;
+        trial_mode.run = trial.run;
+        if (trial.version >= 3 &&
+            (trial_store.getBytesLength("mode") != sizeof(trial_mode) ||
+             trial_store.getBytes("mode", &trial_mode, sizeof(trial_mode)) != sizeof(trial_mode) ||
+             !trial_mode_valid(trial_mode, trial))) {
+            trial_storage_ok = false;
+            trial.state = INTERRUPTED;
+            trial_reply(false, "invalid saved source mode; preserved until explicit clear"); return;
+        }
         ble_if->run_id = trial.run;
         if (trial.state == RUNNING) { trial.state = INTERRUPTED; trial_save(); }
         if (trial_storage_ok && (trial.state == DONE || trial.state == INTERRUPTED)) {
@@ -353,8 +380,17 @@ static void trial_loop()
     if (trial.node == trial.source && trial.sent < trial.total && int32_t(now - trial_next_ms) >= 0) {
         uint8_t pkt[TRIAL_MAX_BYTES + 1];
         trial_page(pkt, trial, trial.sent);
-        if (mlan->add(pkt)) trial.sent++;
+        if (mlan->add(pkt, trial_mode.repeat_ms != 0)) {
+            trial.sent++;
+            if (trial.sent == trial.total)
+                trial_next_repeat_ms = millis() + trial_mode.repeat_ms;
+        }
         trial_next_ms = millis() + trial.gap_ms;
+    }
+    if (trial.node == trial.source && trial_mode.repeat_ms && trial.sent == trial.total &&
+        int32_t(millis() - trial_next_repeat_ms) >= 0) {
+        if (mlan->repeat_pinned()) trial_mode.repeat_attempts++;
+        trial_next_repeat_ms = millis() + trial_mode.repeat_ms;
     }
     if (now - trial_peer_ms >= 1000) { trial_peers(); trial_peer_ms = now; }
 }

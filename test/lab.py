@@ -42,6 +42,51 @@ class LabTest(unittest.TestCase):
             with self.subTest(size=size), self.assertRaises(ValueError):
                 lab.validate(records)
 
+    def test_source_mode_and_legacy_defaults(self):
+        records = fixture()
+        records[1].update(source_pinned=False, repeat_ms=0, repeat_attempts=0)
+        self.assertEqual(lab.source_mode(lab.validate(records)), (False, 0, 0))
+        for record in records:
+            record.update(source_pinned=True, repeat_ms=5000, repeat_attempts=0)
+        records[0]["repeat_attempts"] = 7
+        self.assertEqual(lab.source_mode(lab.validate(records)), (True, 5000, 7))
+        with tempfile.TemporaryDirectory(prefix="mlan-test-") as temp:
+            summary = json.loads(lab.plots(records, temp)[2].read_text())
+            self.assertEqual((summary["source_pinned"], summary["repeat_ms"], summary["repeat_attempts"]),
+                             (True, 5000, 7))
+
+    def test_reject_source_mode_mismatch_and_invalid_values(self):
+        records = fixture()
+        records[0].update(source_pinned=True, repeat_ms=5000, repeat_attempts=0)
+        with self.assertRaisesRegex(ValueError, "Mixed run"):
+            lab.validate(records)
+        invalid = ({"source_pinned": True},
+                   {"source_pinned": 1, "repeat_ms": 5000, "repeat_attempts": 0},
+                   {"source_pinned": True, "repeat_ms": 0, "repeat_attempts": 0},
+                   {"source_pinned": False, "repeat_ms": 5000, "repeat_attempts": 0},
+                   {"source_pinned": True, "repeat_ms": 999, "repeat_attempts": 0},
+                   {"source_pinned": True, "repeat_ms": 60001, "repeat_attempts": 0},
+                   {"source_pinned": True, "repeat_ms": True, "repeat_attempts": 0},
+                   {"source_pinned": False, "repeat_ms": 0, "repeat_attempts": 1},
+                   {"source_pinned": False, "repeat_ms": 0, "repeat_attempts": -1},
+                   {"source_pinned": False, "repeat_ms": 0, "repeat_attempts": True})
+        for change in invalid:
+            records = fixture()
+            records[0].update(change)
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                lab.validate(records)
+        records = fixture()
+        for record in records:
+            record.update(source_pinned=True, repeat_ms=5000, repeat_attempts=1)
+        with self.assertRaisesRegex(ValueError, "receiver reports source repeat"):
+            lab.validate(records)
+        records = fixture()
+        for record in records:
+            record.update(source_pinned=True, repeat_ms=5000, repeat_attempts=0, total=11)
+        records[0].update(sent=11, received=list(range(11)))
+        with self.assertRaisesRegex(ValueError, "ten-page cache"):
+            lab.validate(records)
+
     def test_reject(self):
         for key, value in [("schema", True), ("state", "interrupted"), ("storage_ok", False),
                            ("run", 43), ("build", "different"), ("node", "0001"),

@@ -7,12 +7,13 @@
 Next:
 - Check Tschudin's next code update.
 - Repeat a short hub test, then a house test.
+- Compare normal mode with pinned source pages and periodic repeats.
 - Record who hears whom. Do not assume a 1–2–3–4–5 chain.
 - Draw the topology from those logs.
 
 Still open:
 - Why some pages are missing.
-- Source pinning and repeated sending.
+- Check the new source mode on the boards.
 - Record page-send attempts and cache contents.
 - DONE stops forwarding. Boards need enough shared running time.
-- Longer tests may fill the current 256-event log.
+- Longer tests may fill the 512-event log.

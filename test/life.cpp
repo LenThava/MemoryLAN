@@ -72,18 +72,29 @@ struct TestLAN {
     unsigned cache_cnt = 0, hash_cnt = 0;
     void (*callback)(uint8_t*) = nullptr;
     std::vector<std::vector<uint8_t>> sent;
+    std::vector<std::vector<uint8_t>> pinned;
+    unsigned next_pinned = 0;
     bool accept = true;
     bool is_beacon(const uint8_t* pkt) const
     { return pkt && pkt[0] == 48 && pkt[1] == 'B'; }
     void set_update_cb(void (*cb)(uint8_t*)) { callback = cb; }
-    bool add(const uint8_t* pkt)
+    void clear_cache()
+    { cache_cnt = hash_cnt = next_pinned = 0; pinned.clear(); }
+    bool add(const uint8_t* pkt, bool pin = false)
     {
         if (!accept) return false;
         sent.emplace_back(pkt, pkt + pkt[0] + 1);
+        if (pin) pinned.emplace_back(pkt, pkt + pkt[0] + 1);
         if (callback) {
             auto* copy = static_cast<uint8_t*>(malloc(pkt[0] + 1));
             assert(copy); memcpy(copy, pkt, pkt[0] + 1); callback(copy);
         }
+        return true;
+    }
+    bool repeat_pinned()
+    {
+        if (pinned.empty()) return false;
+        sent.push_back(pinned[next_pinned++ % pinned.size()]);
         return true;
     }
 } lan;
@@ -96,6 +107,7 @@ static void reset()
     Preferences::reset();
     LittleFS.reset();
     memset(&trial, 0, sizeof(trial));
+    memset(&trial_mode, 0, sizeof(trial_mode));
     memset(&trial_topology, 0, sizeof(trial_topology));
     trial_storage_ok = trial_store_open = false;
     trial_config_open = false; trial_label = 0;
@@ -105,7 +117,7 @@ static void reset()
     trial_files_ok = false;
     now_ms = 1000;
     lan.callback = nullptr; lan.sent.clear(); lan.accept = true;
-    lan.cache_cnt = lan.hash_cnt = 0;
+    lan.clear_cache();
     while (auto* p = radio.queue.dequeue()) free(p);
     radio.rx_cnt = radio.tx_cnt = radio.run_id = 0;
     radio.observe = nullptr;
@@ -771,7 +783,7 @@ static void packet_sizes()
         char command[64];
         snprintf(command, sizeof(command), "prep 90 1234 2 1000 10 %u", bytes);
         trial_command(command);
-        assert(trial.state == READY && trial.version == 2 && trial_bytes(trial) == bytes);
+        assert(trial.state == READY && trial.version == 3 && trial_bytes(trial) == bytes);
         auto ready = Preferences::bytes;
         trial_setup();
         assert(trial.state == READY && trial_bytes(trial) == bytes && Preferences::bytes == ready);
@@ -808,11 +820,135 @@ static void packet_sizes()
         assert(trial.state == EMPTY && Preferences::bytes.empty());
     }
     trial_command("prep 90 1234 2 1000 10");
-    assert(trial.version == 2 && trial_bytes(trial) == 32);
+    assert(trial.version == 3 && trial_bytes(trial) == 32);
+}
+
+static void source_mode()
+{
+    reset(); trial_setup();
+    for (const char* command : {"prep 91 1234 11 1000 60 32 5000",
+             "prep 91 1234 5 1000 60 32 999", "prep 91 1234 5 1000 60 32 60001"}) {
+        trial_command(command);
+        assert(trial.state == EMPTY && Preferences::bytes.empty() && Preferences::mode_bytes.empty());
+    }
+    trial_command("prep 91 1234 2 1000 60 32 5000");
+    auto ready = Preferences::bytes, ready_mode = Preferences::mode_bytes;
+    trial_setup();
+    assert(trial.state == READY && trial_mode.repeat_ms == 5000 && trial_mode.repeat_attempts == 0);
+    assert(Preferences::bytes == ready && Preferences::mode_bytes == ready_mode);
+    trial_begin();
+    trial_loop();
+    assert(trial.sent == 1 && lan.pinned.size() == 1 && !trial_mode.repeat_attempts);
+    now_ms += 1000; trial_loop();
+    assert(trial.sent == 2 && lan.pinned.size() == 2 && lan.sent.size() == 2);
+    const auto originals = lan.sent;
+    now_ms += 4999; trial_loop();
+    assert(lan.sent.size() == 2 && !trial_mode.repeat_attempts);
+    now_ms++; trial_loop();
+    assert(lan.sent.size() == 3 && lan.sent.back() == originals[0]);
+    now_ms += 5000; trial_loop();
+    assert(lan.sent.size() == 4 && lan.sent.back() == originals[1]);
+    assert(trial_mode.repeat_attempts == 2 && trial.sent == 2 && trial.duplicates == 0);
+    assert(trial_seen(trial, 0) && trial_seen(trial, 1));
+    trial_stop(1);
+    std::string result = LittleFS.contents("/123456789abc-91.log");
+    std::string topology = LittleFS.contents("/123456789abc-91.top");
+    for (const auto& json : {result, topology}) {
+        assert(json.find("\"source_pinned\":true") != std::string::npos);
+        assert(json.find("\"repeat_ms\":5000") != std::string::npos);
+        assert(json.find("\"repeat_attempts\":2") != std::string::npos);
+    }
+    now_ms += 5000; trial_loop();
+    assert(lan.sent.size() == 4);
+    trial_setup();
+    assert(trial.state == DONE && trial_mode.repeat_attempts == 2 && trial_mode.repeat_ms == 5000);
+    assert(trial_result_saved && trial_topology_saved && raw_json() == result);
+    trial_command("clear");
+    assert(Preferences::bytes.empty() && Preferences::mode_bytes.empty());
+    assert(LittleFS.contents("/123456789abc-91.log") == result);
+
+    reset(); trial_setup(); trial_command("prep 92 9999 2 1000 60 32 5000");
+    trial_begin(); now_ms += 20000; trial_loop();
+    assert(trial_mode.repeat_ms == 5000 && !trial_mode.repeat_attempts);
+    assert(lan.pinned.empty() && lan.sent.empty() && !trial.sent);
+
+    reset(); trial_setup(); trial_command("prep 93 1234 2 1000 60 32 0");
+    trial_begin(); trial_loop(); now_ms += 1000; trial_loop();
+    now_ms += 20000; trial_loop();
+    assert(trial.sent == 2 && lan.sent.size() == 2 && lan.pinned.empty());
+    assert(!trial_mode.repeat_ms && !trial_mode.repeat_attempts);
+}
+
+static void source_mode_storage()
+{
+    reset(); trial_setup(); trial_command("prep 94 1234 5 1000 60 32 5000");
+    auto run_bytes = Preferences::bytes, mode_bytes = Preferences::mode_bytes;
+    for (unsigned bad = 0; bad < 5; bad++) {
+        reset(); Preferences::bytes = run_bytes; Preferences::mode_bytes = mode_bytes;
+        if (bad == 0) Preferences::mode_bytes.clear();
+        else if (bad == 1) Preferences::mode_bytes.pop_back();
+        else {
+            TrialMode mode;
+            memcpy(&mode, mode_bytes.data(), sizeof(mode));
+            if (bad == 2) mode.run++;
+            if (bad == 3) mode.repeat_ms = 999;
+            mode.checksum = trial_mode_checksum(mode);
+            if (bad == 4) mode.checksum++;
+            memcpy(Preferences::mode_bytes.data(), &mode, sizeof(mode));
+        }
+        auto invalid = Preferences::mode_bytes;
+        trial_setup(); trial_begin();
+        assert(!trial_storage_ok && trial.state == INTERRUPTED);
+        assert(Preferences::bytes == run_bytes && Preferences::mode_bytes == invalid);
+        assert(LittleFS.files.empty() && lan.sent.empty());
+        trial_command("clear");
+        assert(Preferences::bytes.empty() && Preferences::mode_bytes.empty());
+    }
+
+    reset();
+    TrialRecord old;
+    memcpy(&old, run_bytes.data(), sizeof(old));
+    old.version = 2; old.checksum = trial_checksum(old);
+    Preferences::bytes.assign((uint8_t*)&old, (uint8_t*)&old + sizeof(old));
+    trial_setup();
+    assert(trial_storage_ok && trial.state == READY && !trial_mode.repeat_ms);
+    assert(Preferences::mode_bytes.empty());
+
+    reset(); trial_setup(); Preferences::fail_write = true;
+    trial_command("prep 95 1234 5 1000 60 32 5000");
+    assert(!trial_storage_ok && Preferences::bytes.empty());
+    trial_begin(); assert(lan.sent.empty());
+}
+
+static void largest_topology()
+{
+    reset(); trial_setup(); trial_command("prep 4294967295 1234 10 1000 3600 120 1000");
+    trial_begin();
+    trial.state = DONE; trial.elapsed_ms = UINT32_MAX; trial.stop_reason = 1;
+    memset(trial.build, 'x', sizeof(trial.build) - 1); trial.build[sizeof(trial.build) - 1] = 0;
+    trial_mode.repeat_attempts = UINT32_MAX;
+    trial_topology.count = TRIAL_EVENTS;
+    trial_topology.overflow = trial_topology.ignored_run = UINT32_MAX;
+    for (auto& event : trial_topology.events) {
+        memset(event.sender, 0xff, sizeof(event.sender));
+        event.sequence = event.ms = UINT32_MAX;
+        event.rssi = -128; event.type = 1; event.page = -1;
+    }
+    assert(trial_save() && trial_archive_topology(trial));
+    const auto json = LittleFS.contents("/123456789abc-4294967295.top");
+    assert(json.size() < TRIAL_FILE_BYTES && trial_topology.count == 512);
+    printf("largest topology: %zu bytes (limit %u)\n", json.size(), TRIAL_FILE_BYTES);
+    Serial.output.clear(); trial_command("topo 4294967295");
+    assert(Serial.output.find("begin 644 123456789abc-4294967295.top\n") != std::string::npos);
 }
 
 int main(int argc, char **argv)
 {
+    if (argc == 2 && !strcmp(argv[1], "--worst-topology-transfer")) {
+        largest_topology();
+        fwrite(Serial.output.data(), 1, Serial.output.size(), stdout);
+        return 0;
+    }
     if (argc == 2 && !strcmp(argv[1], "--topology-transfer")) {
         reset(); trial_setup();
         trial_command("prep 7 9999 3 1000 10"); trial_begin();
@@ -854,5 +990,8 @@ int main(int argc, char **argv)
     legacy_reboot_archive();
     captured_v1_record();
     packet_sizes();
+    source_mode();
+    source_mode_storage();
+    largest_topology();
     puts("trial lifecycle: all tests passed");
 }

@@ -134,19 +134,25 @@ static void payload_versions()
         assert(!trial_valid(r));
     }
     r.version = 3; r.payload_bytes = 32; r.checksum = trial_checksum(r);
+    assert(trial_valid(r));
+    r.version = 4; r.checksum = trial_checksum(r);
     assert(!trial_valid(r));
 }
 
 int main()
 {
-    uint32_t fields[6];
+    uint32_t fields[7];
     assert(trial_parse("prep 1 abcd 100 1000 600", fields) && fields[1] == 0xabcd && fields[5] == 32);
     for (const char *line : {"prep 1 abcd 100 1000 600 64", "prep 1 abcd 100 1000 600 64  "})
         assert(trial_parse(line, fields) && fields[5] == 64);
     assert(trial_parse("prep 1 abcd 100 1000 600 120", fields) && fields[5] == 120);
     assert(!trial_parse("prep 1 abcd 100 1000 600 -32", fields));
     assert(!trial_parse("prep 1 abcd 100 1000 600 4294967296", fields));
-    assert(!trial_parse("prep 1 abcd 100 1000 600 64 32", fields));
+    assert(trial_parse("prep 1 abcd 5 1000 600 64 5000", fields) && fields[6] == 5000);
+    assert(trial_parse("prep 1 abcd 5 1000 600 64 0", fields) && fields[6] == 0);
+    assert(!trial_parse("prep 1 abcd 5 1000 600 64 -1", fields));
+    assert(!trial_parse("prep 1 abcd 5 1000 600 64 4294967296", fields));
+    assert(!trial_parse("prep 1 abcd 5 1000 600 64 5000 extra", fields));
     assert(!trial_parse("prep 1 abcd 100 1000 600 64 extra", fields));
     assert(!trial_parse("prep -1 abcd 100 1000 600", fields));
     assert(!trial_parse("prep \t-1 abcd 100 1000 600", fields));

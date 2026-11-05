@@ -81,6 +81,20 @@ def payload_bytes(record):
     return value
 
 
+def source_mode(record):
+    keys = ("source_pinned", "repeat_ms", "repeat_attempts")
+    if not any(key in record for key in keys):
+        return False, 0, 0
+    if not all(key in record for key in keys) or type(record["source_pinned"]) is not bool:
+        raise ValueError("Invalid source-mode metadata")
+    pinned = record["source_pinned"]
+    period = integer(record, "repeat_ms", 0, 60000)
+    attempts = integer(record, "repeat_attempts")
+    if pinned != (period > 0) or (pinned and period < 1000) or (not pinned and attempts):
+        raise ValueError("Invalid source-mode settings")
+    return pinned, period, attempts
+
+
 def validate(records):
     if len(records) < 2:
         raise ValueError("Include the source and at least one receiving node")
@@ -105,6 +119,11 @@ def validate(records):
         nodes.add(r["node"])
         integer(r, "run", 1)
         total = integer(r, "total", 1, 256)
+        mode = source_mode(r)
+        if mode[0] and total > 10:
+            raise ValueError("Pinned source exceeds the ten-page cache")
+        if r["node"] != r["source"] and mode[2]:
+            raise ValueError("A receiver reports source repeat attempts")
         integer(r, "sent", 0, total)
         integer(r, "gap_ms", 100, 60000)
         integer(r, "limit_ms", 1000, 3600000)
@@ -119,7 +138,7 @@ def validate(records):
             raise ValueError("Invalid received-page IDs")
         if len(ids) != len(set(ids)):
             raise ValueError("Received-page IDs must already be deduplicated")
-        signature = tuple(r[k] for k in ("run", "source", "total", "gap_ms", "limit_ms", "build")) + (payload_bytes(r),)
+        signature = tuple(r[k] for k in ("run", "source", "total", "gap_ms", "limit_ms", "build")) + (payload_bytes(r), mode[0], mode[1])
         if config is not None and signature != config:
             raise ValueError("Mixed run/configuration/firmware records")
         config = signature
@@ -144,6 +163,7 @@ def svg_start(width, height, title, subtitle):
 
 def plots(records, out):
     source = validate(records)
+    pinned, repeat_ms, repeat_attempts = source_mode(source)
     rows = sorted((r for r in records if r is not source), key=lambda r: r["node"])
     total = source["sent"]
     subtitle = f'Run {source["run"]}; source {source["node"]}; {total} pages of {payload_bytes(source)} bytes. Local, unsynchronised windows.'
@@ -151,7 +171,8 @@ def plots(records, out):
     bars.append('<text x="24" y="78" class="small">Node IDs are not hop counts. Missing content does not identify physical-link loss.</text>')
     summary = {"run": source["run"], "source": source["node"], "injected": total,
                "cutoff": "local, unsynchronised", "build": source["build"],
-               "payload_bytes": payload_bytes(source), "nodes": []}
+               "payload_bytes": payload_bytes(source), "source_pinned": pinned,
+               "repeat_ms": repeat_ms, "repeat_attempts": repeat_attempts, "nodes": []}
     if "mac" in source:
         summary["mac"] = source["mac"]
     for index, r in enumerate(rows):

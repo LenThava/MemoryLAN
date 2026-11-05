@@ -208,6 +208,86 @@ static void emitted_beacon()
     for (size_t i = 33; i < pkt.size(); i++) assert(pkt[i] == 0);
 }
 
+static bool cached(const MemoryLAN& lan, const Packet& pkt)
+{
+    for (int i = 0; i < lan.cache_cnt; i++) {
+        const uint8_t *entry = lan.cache + i * MEMLAN_CLSZ;
+        if (*entry == pkt[0] && !memcmp(entry + 1, pkt.data() + 1, *entry))
+            return true;
+    }
+    return false;
+}
+
+static void pinned_retention()
+{
+    Fixture f;
+    assert(f.lan.add(page(1).data()));
+    assert(f.lan.add(page(2).data()));
+    assert(f.lan.add(page(1).data(), true));
+    assert(f.lan.add(page(3).data(), true));
+    for (unsigned i = 4; i <= 11; i++)
+        assert(f.lan.add(page(i).data()));
+    assert(!cached(f.lan, page(2)));
+    assert(cached(f.lan, page(1)) && cached(f.lan, page(3)));
+
+    f.receive(page(1));
+    f.receive(page(3));
+    for (unsigned i = 12; i <= 30; i++) {
+        assert(f.lan.add(page(i).data()));
+        assert(cached(f.lan, page(1)) && cached(f.lan, page(3)));
+    }
+    assert(f.lan.cache_cnt == MEMLAN_CACHE_DEPTH);
+}
+
+static void pinned_full()
+{
+    Fixture f;
+    for (unsigned i = 1; i <= MEMLAN_CACHE_DEPTH; i++)
+        assert(f.lan.add(page(i).data(), true));
+    size_t calls = updates.size(), sends = f.radio.sent.size();
+    int history = f.lan.hash_cnt;
+    assert(!f.lan.add(page(99).data()));
+    assert(!f.lan.add(page(99).data(), true));
+    f.receive(page(99));
+    assert(!cached(f.lan, page(99)));
+    assert(f.lan.cache_cnt == MEMLAN_CACHE_DEPTH && f.lan.hash_cnt == history);
+    assert(updates.size() == calls && f.radio.sent.size() == sends);
+    for (unsigned i = 1; i <= MEMLAN_CACHE_DEPTH; i++)
+        assert(cached(f.lan, page(i)));
+}
+
+static void pinned_repeat_and_clear()
+{
+    Fixture f;
+    assert(!f.lan.repeat_pinned());
+    const Packet first = page(2, 32), second = page(4, 64), third = page(6, 120);
+    assert(f.lan.add(first.data(), true));
+    assert(f.lan.add(second.data(), true));
+    assert(f.lan.add(page(3).data()));
+    assert(f.lan.add(third.data(), true));
+    int history = f.lan.hash_cnt;
+    for (unsigned round = 0; round < 3; round++) {
+        for (const Packet& pkt : {first, second, third}) {
+            size_t calls = updates.size(), sends = f.radio.sent.size();
+            assert(f.lan.repeat_pinned());
+            assert(f.radio.sent.size() == sends + 1 && f.radio.sent.back() == pkt);
+            assert(updates.size() == calls && f.lan.hash_cnt == history);
+            f.receive(pkt); // duplicate reception changes cache order
+        }
+    }
+    f.lan.if_cnt = 0;
+    assert(!f.lan.repeat_pinned());
+    f.lan.if_cnt = 1;
+    f.lan.clear_cache();
+    assert(f.lan.cache_cnt == 0 && f.lan.hash_cnt == 0 && !f.lan.repeat_pinned());
+    assert(f.lan.add(page(44).data()));
+    for (unsigned i = 45; i <= 55; i++) assert(f.lan.add(page(i).data()));
+    assert(!cached(f.lan, page(44)) && !f.lan.repeat_pinned());
+    f.lan.clear_cache();
+    assert(f.lan.add(first.data(), true) && f.lan.add(second.data(), true));
+    assert(f.lan.repeat_pinned() && f.radio.sent.back() == first);
+}
+
 int main()
 {
     bloom();
@@ -216,6 +296,9 @@ int main()
     invalid_packets();
     local_content();
     emitted_beacon();
+    pinned_retention();
+    pinned_full();
+    pinned_repeat_and_clear();
     assert(live.empty());
     assert(MLAN_DEBUG ? Serial.writes > 0 : Serial.writes == 0);
     puts("core: all tests passed");

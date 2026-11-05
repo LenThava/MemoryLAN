@@ -98,7 +98,7 @@ static bool trial_archive(const TrialRecord &r)
     if (!trial_files_ok || !trial_valid(r) || (r.state != DONE && r.state != INTERRUPTED)) return false;
     static TrialText text;
     text.used = 0; text.ok = true;
-    trial_json(text, r, true, r.node, hardware_mac);
+    trial_json(text, r, true, r.node, hardware_mac, r.version >= 3 ? &trial_mode : nullptr);
     if (!text.ok) return false;
     char path[40]; trial_log_path(path, sizeof(path), r.node, r.run);
     return trial_write_archive(path, text.data, text.used);
@@ -109,7 +109,7 @@ static bool trial_archive_topology(const TrialRecord &r)
     if (!trial_files_ok || !trial_valid(r) || r.state != DONE || trial_topology.run != r.run) return false;
     static TrialBuffer<TRIAL_FILE_BYTES> text;
     text.used = 0; text.ok = true;
-    trial_topology_json(text, r, trial_topology, hardware_mac);
+    trial_topology_json(text, r, trial_topology, hardware_mac, r.version >= 3 ? &trial_mode : nullptr);
     if (!text.ok) return false;
     char path[40]; trial_log_path(path, sizeof(path), r.node, r.run, true);
     return trial_write_archive(path, text.data, text.used);

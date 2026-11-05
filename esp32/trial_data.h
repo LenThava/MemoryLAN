@@ -9,20 +9,22 @@ enum TrialState { EMPTY, READY, RUNNING, DONE, INTERRUPTED };
 const unsigned TRIAL_MAX = 256;
 const unsigned TRIAL_BYTES = 32;
 const unsigned TRIAL_MAX_BYTES = 120;
+const unsigned TRIAL_PIN_MAX = 10;
 
 inline bool trial_size_valid(unsigned bytes)
 {
     return bytes == 32 || bytes == 64 || bytes == TRIAL_MAX_BYTES;
 }
 
-inline bool trial_parse(const char *line, uint32_t fields[6])
+inline bool trial_parse(const char *line, uint32_t fields[7])
 {
     if (strncmp(line, "prep ", 5)) return false;
     const char *p = line + 5;
     fields[5] = TRIAL_BYTES;
-    for (unsigned i = 0; i < 6; i++) {
+    fields[6] = 0;
+    for (unsigned i = 0; i < 7; i++) {
         while (*p == ' ') p++;
-        if (i == 5 && !*p) return true;
+        if (i >= 5 && !*p) return true;
         if (!(*p >= '0' && *p <= '9') &&
             !(i == 1 && ((*p >= 'a' && *p <= 'f') || (*p >= 'A' && *p <= 'F'))))
             return false;
@@ -56,6 +58,27 @@ struct TrialRecord {
     uint32_t checksum;
 };
 
+struct TrialMode {
+    uint32_t run, repeat_ms, repeat_attempts, checksum;
+};
+
+inline uint32_t trial_mode_checksum(const TrialMode &mode)
+{
+    uint32_t h = 2166136261u;
+    const uint8_t *p = (const uint8_t*)&mode;
+    for (size_t i = 0; i < offsetof(TrialMode, checksum); i++)
+        h = (h ^ p[i]) * 16777619u;
+    return h;
+}
+
+inline bool trial_mode_valid(const TrialMode &mode, const TrialRecord &r)
+{
+    return mode.run == r.run && mode.checksum == trial_mode_checksum(mode) &&
+        ((!mode.repeat_ms && !mode.repeat_attempts) ||
+         (mode.repeat_ms >= 1000 && mode.repeat_ms <= 60000 && r.total <= TRIAL_PIN_MAX)) &&
+        (r.node == r.source || !mode.repeat_attempts);
+}
+
 static_assert(sizeof(TrialRecord) == 356 && offsetof(TrialRecord, checksum) == 352,
               "Retained trial layout changed");
 
@@ -76,7 +99,7 @@ inline uint32_t trial_checksum(const TrialRecord &r)
 inline bool trial_valid(const TrialRecord &r)
 {
     return ((r.version == 1 && r.payload_bytes == 0) ||
-            (r.version == 2 && trial_size_valid(r.payload_bytes))) &&
+            ((r.version == 2 || r.version == 3) && trial_size_valid(r.payload_bytes))) &&
         r.run && r.total >= 1 && r.total <= TRIAL_MAX &&
         r.state >= READY && r.state <= INTERRUPTED && r.sent <= r.total &&
         r.gap_ms >= 100 && r.gap_ms <= 60000 &&

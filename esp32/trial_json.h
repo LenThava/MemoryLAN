@@ -4,7 +4,7 @@
 
 template<class Output>
 static void trial_json(Output &out, const TrialRecord &r, bool storage_ok, uint16_t node,
-                       const uint8_t *mac = nullptr)
+                       const uint8_t *mac = nullptr, const TrialMode *mode = nullptr)
 {
     const char *states[] = {"empty", "ready", "running", "done", "interrupted"};
     out.print("{");
@@ -16,7 +16,9 @@ static void trial_json(Output &out, const TrialRecord &r, bool storage_ok, uint1
         states[r.state], storage_ok ? "true" : "false");
     out.printf("\"node\":\"%04x\",\"source\":\"%04x\",\"run\":%u,\"total\":%u,\"sent\":%u,",
         node, r.source, r.run, r.total, r.sent);
-    if (r.version == 2) out.printf("\"payload_bytes\":%u,", r.payload_bytes);
+    if (r.version >= 2) out.printf("\"payload_bytes\":%u,", r.payload_bytes);
+    if (mode) out.printf("\"source_pinned\":%s,\"repeat_ms\":%u,\"repeat_attempts\":%u,",
+        mode->repeat_ms ? "true" : "false", mode->repeat_ms, mode->repeat_attempts);
     out.printf("\"gap_ms\":%u,\"limit_ms\":%u,\"elapsed_ms\":%u,\"stop_reason\":%u,\"cutoff\":\"local\",",
         r.gap_ms, r.limit_ms, r.elapsed_ms, r.stop_reason);
     out.printf("\"build\":\"%s\",\"duplicates\":%u,\"invalid\":%u,\"rx\":%u,\"tx\":%u,",

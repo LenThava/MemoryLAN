@@ -27,7 +27,9 @@ public:
     bool loop(); // serve MemoryLAN protocol on all interfaces, true if changes
 
     // in case we have applications on top of this MemoryLAN switch:
-    bool add(const uint8_t *mempg); // borrowed [N][byte1]..[byteN], true if accepted
+    bool add(const uint8_t *mempg, bool pinned = false); // borrowed [N][byte1]..[byteN]
+    bool repeat_pinned(); // send one pinned page, rotating through the originals
+    void clear_cache();
     void set_update_cb(callback_fct* update_cb);
     bool is_beacon(const uint8_t *pkt) const;
     // uint8_t* get_update();    // NULL or ptr to buffer as above, to be freed
@@ -49,6 +51,8 @@ public:
     unsigned long timefifo[MEMLAN_HHIST_DEPTH]; // list, time when added
     
 private:
+    uint8_t pin_order[MEMLAN_CACHE_DEPTH] = {}; // 0 means unpinned
+    uint8_t pinned_count = 0, repeat_next = 0;
     uint8_t my_id[6];
     void on_recv(IO_device *iod, uint8_t *pkt);
     uint8_t* on_beacon(IO_device *iod, uint8_t *pkt);

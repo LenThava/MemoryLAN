@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 
 from files import mac_id, node_id, number
-from lab import payload_bytes
+from lab import payload_bytes, source_mode
 
 
 def integer(value, name, low=0, high=0xffffffff):
@@ -25,6 +25,7 @@ def validate(record):
     node_id(record.get("node"))
     run = number(record.get("run"))
     payload_bytes(record)
+    source_mode(record)
     if record.get("clock") != "local_ms_since_start":
         raise ValueError("Unknown topology clock")
     if not isinstance(record.get("build"), str) or not record["build"]:
@@ -98,6 +99,8 @@ def analyse(paths, labels=None):
         raise ValueError("Mixed firmware builds: use the same binary on every board")
     if len({payload_bytes(r) for r in records}) != 1:
         raise ValueError("Mixed trial payload sizes")
+    if len({source_mode(r)[:2] for r in records}) != 1:
+        raise ValueError("Mixed source-mode settings")
     nodes = observers | set(labels)
     edges = {}
     warnings = ["Times are local to each receiver; they are not synchronised across boards.",
@@ -127,12 +130,15 @@ def analyse(paths, labels=None):
     if missing:
         warnings.append("No receiver log supplied for: " + ", ".join(missing) + ". Their matrix columns are blank.")
     return dict(schema=1, kind="mlan-topology-report", run=records[0]["run"],
-                clock="local_ms_since_start", payload_bytes=payload_bytes(records[0]), inputs=inputs, warnings=warnings,
+                clock="local_ms_since_start", payload_bytes=payload_bytes(records[0]),
+                source_pinned=source_mode(records[0])[0], repeat_ms=source_mode(records[0])[1],
+                inputs=inputs, warnings=warnings,
                 nodes=[dict(mac=mac, label=labels.get(mac, {}).get("label", mac),
                             location=labels.get(mac, {}).get("location", ""),
                             receiver_log_supplied=mac in observers) for mac in ordered],
-                receivers=[{key: record[key] for key in ("mac", "node", "build", "elapsed_ms",
-                           "capacity", "overflow", "ignored_run")} for record in records],
+                receivers=[dict({key: record[key] for key in ("mac", "node", "build", "elapsed_ms",
+                           "capacity", "overflow", "ignored_run")},
+                           repeat_attempts=source_mode(record)[2]) for record in records],
                 links=[edges[key] for key in sorted(edges)])
 
 

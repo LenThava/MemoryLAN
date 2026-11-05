@@ -30,6 +30,9 @@ python3 tool/lab.py ctl "$PORT" prep "$RUN" 5d60 5 1000 300 32
 ```
 
 Repeat preparation on each board, changing `PORT` but keeping `RUN`.
+Append `5000` after `32` to pin source pages and repeat one page every 5 s.
+Use the same setting on all boards. Omit it or use `0` for normal mode.
+Pinned runs allow up to ten pages; repetitions keep the original page IDs.
 For the house test, move prepared boards to their final power supplies.
 Start 5, 4, 3, 2, then source 1. Hold BOOT briefly, or use USB:
 
@@ -61,5 +64,5 @@ python3 tool/lab.py ctl "$PORT" clear
 - A beacon contact does not mean a data page arrived. Times are local per board.
 - Pages are cached in RAM. Finished log files are stored in LittleFS.
 - A power cut during a run loses the latest RAM observations.
-- The trace holds 256 events per board; check overflow before interpreting it.
+- The trace holds 512 events per board; check overflow before interpreting it.
 - Every new physical test gets a new run number. Source-off tests need active relays.

@@ -3,7 +3,7 @@
 #include "mac_id.h"
 #include "trial_data.h"
 
-const unsigned TRIAL_EVENTS = 256;
+const unsigned TRIAL_EVENTS = 512;
 
 struct TrialEvent {
     uint8_t sender[6];
@@ -20,14 +20,17 @@ struct TrialTopology {
 
 template<class Output>
 static void trial_topology_json(Output &out, const TrialRecord &r,
-                                const TrialTopology &topology, const uint8_t mac[6])
+                                const TrialTopology &topology, const uint8_t mac[6],
+                                const TrialMode *mode = nullptr)
 {
     char address[13]; mac_text(mac, address);
     out.printf("{\"mac\":\"%s\",\"node\":\"%04x\",\"run\":%u,\"schema\":1,\"kind\":\"mlan-topology\",",
         address, r.node, r.run);
     out.printf("\"build\":\"%s\",\"clock\":\"local_ms_since_start\",\"elapsed_ms\":%u,",
         r.build, r.elapsed_ms);
-    if (r.version == 2) out.printf("\"payload_bytes\":%u,", r.payload_bytes);
+    if (r.version >= 2) out.printf("\"payload_bytes\":%u,", r.payload_bytes);
+    if (mode) out.printf("\"source_pinned\":%s,\"repeat_ms\":%u,\"repeat_attempts\":%u,",
+        mode->repeat_ms ? "true" : "false", mode->repeat_ms, mode->repeat_attempts);
     out.printf("\"capacity\":%u,\"overflow\":%u,\"ignored_run\":%u,\"events\":[",
         TRIAL_EVENTS, topology.overflow, topology.ignored_run);
     const char *types[] = {"other", "beacon", "page"};
