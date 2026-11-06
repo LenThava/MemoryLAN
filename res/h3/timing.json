@@ -1,0 +1,56 @@
+{
+  "method": "Approximate start offsets from shared sender/run/sequence frames",
+  "source_board": 1,
+  "offsets_ms": {
+    "1": 0,
+    "2": -10351,
+    "3": -22688.0,
+    "4": -33766.0,
+    "5": -42907.0
+  },
+  "constraints": [
+    {
+      "a": 1,
+      "b": 2,
+      "samples": 35,
+      "start_b_minus_a_ms": -10351,
+      "spread_ms": 2
+    },
+    {
+      "a": 1,
+      "b": 3,
+      "samples": 26,
+      "start_b_minus_a_ms": -22688.0,
+      "spread_ms": 1
+    },
+    {
+      "a": 1,
+      "b": 4,
+      "samples": 18,
+      "start_b_minus_a_ms": -33766.0,
+      "spread_ms": 1
+    },
+    {
+      "a": 2,
+      "b": 3,
+      "samples": 65,
+      "start_b_minus_a_ms": -12337,
+      "spread_ms": 1
+    },
+    {
+      "a": 2,
+      "b": 4,
+      "samples": 13,
+      "start_b_minus_a_ms": -23415,
+      "spread_ms": 1
+    },
+    {
+      "a": 3,
+      "b": 5,
+      "samples": 16,
+      "start_b_minus_a_ms": -20219.0,
+      "spread_ms": 1
+    }
+  ],
+  "common_window_ms": 257093.0
+}

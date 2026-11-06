@@ -2,6 +2,7 @@
 
 Working notes from the board tests.
 
+- [5 November, house with pinned source](h3/README.md): all receivers got 5/5; contacts form a triangle 1–2–3, then 3–4–5.
 - [5 November, normal hub run](n1/README.md): all receivers got 5/5.
 - [5 November, pinned source](p1/README.md): all receivers got 5/5; source repeated 23 times.
 

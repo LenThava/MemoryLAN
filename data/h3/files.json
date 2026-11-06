@@ -1,0 +1,66 @@
+{
+  "run": 2026110503,
+  "source_commit": "9539f9952a474b903c5e89d58fef364e5512aaaf",
+  "files": [
+    {
+      "file": "b1.json",
+      "bytes": 573,
+      "sha256": "fdb8862077846f7d8280ab61fbd875c493b83485f00cd91598e92f9d9b17f47f",
+      "crc32": "82d883ae"
+    },
+    {
+      "file": "b1.top",
+      "bytes": 12045,
+      "sha256": "5fb6b8d53dc3d9de11c5e04adc00cd812a0fd581b385de928cf6b1297858ca20",
+      "crc32": "1124b337"
+    },
+    {
+      "file": "b2.json",
+      "bytes": 572,
+      "sha256": "02d1a5373ccd3dde3c1f3162798596f21021c8f2429dc04aabede5ecec4186dc",
+      "crc32": "5ae4c6a8"
+    },
+    {
+      "file": "b2.top",
+      "bytes": 15630,
+      "sha256": "69cda59fa8d29623c7874fd717b0a67391a9eb7b0ebeeb1a5869754a3f669756",
+      "crc32": "d53f7d10"
+    },
+    {
+      "file": "b3.json",
+      "bytes": 627,
+      "sha256": "8eb0188bc00a7a1688c0d118d07f88b107b782b72b71cc623bf5349ed2322916",
+      "crc32": "0bddd687"
+    },
+    {
+      "file": "b3.top",
+      "bytes": 15878,
+      "sha256": "d93df53a25f8e404aa8b575364486d66a158ba4c19c6c87862ea65b24ac661c2",
+      "crc32": "47c21c83"
+    },
+    {
+      "file": "b4.json",
+      "bytes": 570,
+      "sha256": "ef4baae87893b365b7196eb17eeaed1c4db0e6995bad10c76fa98ed453a57ef1",
+      "crc32": "dca75a69"
+    },
+    {
+      "file": "b4.top",
+      "bytes": 8625,
+      "sha256": "55e43acde4d2c6f12b21f239e4774e91cf0ad46eab5bfe7252d8ca1df84d97cc",
+      "crc32": "90da733f"
+    },
+    {
+      "file": "b5.json",
+      "bytes": 514,
+      "sha256": "d1b74e4748df480c8d039ab6d2120811e9cb3aa6a63cb4d244f8f12fbf82705b",
+      "crc32": "537d16ff"
+    },
+    {
+      "file": "b5.top",
+      "bytes": 4766,
+      "sha256": "05852b4c07623553b12c160636c2731c1fa0be4a8c4f346fbba1ea2b82311de4",
+      "crc32": "f817938d"
+    }
+  ]
+}

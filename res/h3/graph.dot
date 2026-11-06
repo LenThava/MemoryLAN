@@ -1,0 +1,17 @@
+digraph house {
+  graph [layout=neato, start=12, overlap=false, splines=true, sep="+12",
+         outputorder=edgesfirst, fontname="Helvetica", fontsize=11, labelloc=b,
+         label="Hauslauf 2026110503\nPfeile: Sender → Empfänger. Gesamter Lauf; Anordnung schematisch."];
+  node [shape=circle, fixedsize=true, width=1.25, height=1.25, fontname="Helvetica", fontsize=12];
+  edge [arrowsize=0.7, len=1.7];
+  n1 [label="1\nQuelle\nLaptop"];
+  n2 [label="2\nKorridor"];
+  n3 [label="3\nWohnzimmer"];
+  n4 [label="4\nKeller"];
+  n5 [label="5\nHobbyraum"];
+  n4 -> n3 [dir=both, style=solid];
+  n4 -> n5 [dir=both, style=solid];
+  n3 -> n1 [dir=both, style=solid];
+  n3 -> n2 [dir=both, style=solid];
+  n1 -> n2 [dir=both, style=solid];
+}
