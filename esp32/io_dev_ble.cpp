@@ -241,8 +241,8 @@ IO_dev_ble::IO_dev_ble(uint8_t *my_id, char *ssid)
     ext_adv.setFlags(0);
     ext_adv.setConnectable(false);
     ext_adv.setScannable(false);
-    // ext_adv.setMinInterval(80);
-    // ext_adv.setMaxInterval(160);
+    ext_adv.setMinInterval(80);
+    ext_adv.setMaxInterval(160);
     // must set type to BLE_HCI_ADV_RPT_EVTYPE_NONCONN_IND, how?
 
     if (!lr_sender->setInstanceData(EXTENDED_ADV_INST, ext_adv))
@@ -310,7 +310,7 @@ void IO_dev_ble::brcast_send(const uint8_t *pkt, char *comment)
         }
         if (lr_receiver)
             lr_receiver->stop(); // scanner
-        if (!lr_sender->start(EXTENDED_ADV_INST, 0, 2)) { // (instID, dur, #evt)
+        if (!lr_sender->start(EXTENDED_ADV_INST, 0, 1)) { // (instID, dur, #evt)
                                     // this will also restart the receiver
             if (MLAN_DEBUG && Serial)
                 Serial.printf("failed to start extd advertising\r\n");
