@@ -51,7 +51,7 @@ NimBLEScan           *lr_receiver; // "nimBLE scanner"
 NimBLEExtAdvertising *lr_sender;   // "nimBLE advertiser"
 
 NimBLEExtAdvertisement lgc_adv(BLE_HCI_LE_PHY_1M, BLE_HCI_LE_PHY_1M); // 1st!
-NimBLEExtAdvertisement ext_adv(BLE_HCI_LE_PHY_CODED, BLE_HCI_LE_PHY_CODED);
+NimBLEExtAdvertisement ext_adv(BLE_HCI_LE_PHY_1M, BLE_HCI_LE_PHY_1M);
 // in BLE 5.4, we should be able to pick S8 instead of S2?
 
 class BLE_ScanCallbacks : public NimBLEScanCallbacks {
@@ -269,7 +269,7 @@ IO_dev_ble::IO_dev_ble(uint8_t *my_id, char *ssid)
     lr_receiver->setActiveScan(false);
     lr_receiver->setDuplicateFilter(false);
     // lr_receiver->setMaxResults(1);
-    lr_receiver->setPhy(NimBLEScan::Phy::SCAN_CODED); // force PHY_CODED
+    lr_receiver->setPhy(NimBLEScan::Phy::SCAN_1M); // force PHY_1M
     if (!lr_receiver->start(0)) // must start AFTER starting legacy adverisment!
         if (MLAN_DEBUG && Serial) Serial.printf("cannot start scanner\r\n");
 
