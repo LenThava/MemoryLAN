@@ -310,7 +310,7 @@ void IO_dev_ble::brcast_send(const uint8_t *pkt, char *comment)
         }
         if (lr_receiver)
             lr_receiver->stop(); // scanner
-        if (!lr_sender->start(EXTENDED_ADV_INST, 0, 1)) { // (instID, dur, #evt)
+        if (!lr_sender->start(EXTENDED_ADV_INST, 0, 2)) { // (instID, dur, #evt)
                                     // this will also restart the receiver
             if (MLAN_DEBUG && Serial)
                 Serial.printf("failed to start extd advertising\r\n");
