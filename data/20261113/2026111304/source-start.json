@@ -1,0 +1,41 @@
+{
+  "run": 2026111304,
+  "command": "start",
+  "previous_state": "ready",
+  "command_began_utc": "2026-11-13T04:57:24.266416+00:00",
+  "confirmed_utc": "2026-11-13T04:57:24.502766+00:00",
+  "source": {
+    "mac": "ac276eb0f9b4",
+    "schema": 1,
+    "kind": "mlan-run",
+    "state": "running",
+    "storage_ok": true,
+    "node": "5d60",
+    "source": "5d60",
+    "run": 2026111304,
+    "total": 5,
+    "sent": 1,
+    "payload_bytes": 32,
+    "source_pinned": true,
+    "repeat_ms": 5000,
+    "repeat_attempts": 0,
+    "gap_ms": 1000,
+    "limit_ms": 300000,
+    "elapsed_ms": 191,
+    "stop_reason": 0,
+    "cutoff": "local",
+    "build": "bleE 2026-11-07 17:44",
+    "duplicates": 0,
+    "invalid": 0,
+    "rx": 0,
+    "tx": 1,
+    "rx_drop": 0,
+    "rx_bad": 0,
+    "tx_fail": 0,
+    "received": [
+      0
+    ],
+    "peers": []
+  },
+  "physical_removal_verified": false
+}

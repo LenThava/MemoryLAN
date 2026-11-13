@@ -1,0 +1,18 @@
+digraph G {
+graph [overlap=true,splines=true,outputorder=edgesfirst,pad=.14];
+node [shape=circle,width=.34,height=.34,fixedsize=true,fontname="Helvetica",fontsize=12];
+edge [arrowsize=.54,penwidth=1];
+1 [pos="0,45!",penwidth=1.6];
+2 [pos="0,-35!"];
+3 [pos="93,5!"];
+4 [pos="186,5!"];
+5 [pos="270,5!"];
+1 -> 2 [dir=both,style=solid];
+1 -> 3 [dir=both,style=solid];
+2 -> 3 [dir=both,style=solid];
+2 -> 4 [dir=forward,style=solid];
+3 -> 4 [dir=both,style=solid];
+3 -> 5 [dir=forward,style=dashed];
+4 -> 2 [dir=forward,style=dashed];
+4 -> 5 [dir=both,style=solid];
+}

@@ -1,0 +1,84 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=22mm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{lmodern,booktabs,enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\renewcommand{\arraystretch}{1.17}
+\setlist[itemize]{leftmargin=*,itemsep=4pt,topsep=4pt}
+\begin{document}
+\textbf{MemoryLAN, 13. November 2026} \hfill \textbf{Hub}
+
+Fünf Boards, fünf Seiten à 32 Byte, eine neue Seite pro Sekunde. Vier Hub- und fünf Hausläufe. Der Hubvergleich prüft die BLE-Einstellungen bei kurzen Distanzen.
+
+\begin{center}
+\small
+\begin{tabular}{llllrr}\toprule
+Lauf & Profil & Änderung & PHY & Empfang & Alle bei 5/5 \\ \midrule
+2026111306 & A & Ausgangsstand & CODED & 0,71 & 19,3 s \\
+2026111307 & B & Scannerlimit entfernt & CODED & 0,69 & 4,6 s \\
+2026111308 & F & Zweites Advertising-Event & CODED & 0,87 & 4,2 s \\
+2026111309 & E & Standardintervalle & CODED & 0,85 & 4,1 s \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Was sich geändert hat}
+\begin{itemize}
+\item \textbf{A zu B.} Der Scanner speichert Ergebnisse ohne das bisherige Limit von einem Eintrag. Der Empfangswert stieg bei 10 von 20 Kontakten. Der Median der Änderungen lag bei 0,00.
+\item \textbf{B zu F.} Derselbe Frame wird in zwei Advertising-Events gesendet. Ein Empfänger braucht eine Kopie. Der Empfangswert stieg an allen 20 Kontakten, im Median um 15 Prozentpunkte.
+\item \textbf{F zu E.} Das explizite Intervall von 50--100 ms entfällt. Die Standardwerte der Bibliothek gelten. Der Empfangswert stieg an 10 von 20 Kontakten, mit einem Median der Änderungen von 0,00.
+\item \textbf{E zu D.} Der Sender und Scanner verwenden 1M anstelle von CODED. Diesen Schritt haben wir im Haus geprüft (Seite 2).
+\end{itemize}
+
+\textbf{Wie die Zahlen zustande kommen}
+
+Für jeden gerichteten Kontakt zählen wir, welche Sequenznummern vom Sender ankamen. Der Nenner ist der Bereich von der ersten bis zur letzten gehörten Sequenz. Zwei Kopien zählen einmal. Die Tabelle zeigt den Median der 20 Kontakte. Verluste am Anfang und Ende können ausserhalb dieses Bereichs liegen.
+
+Die Zeiten beziehen sich auf den geschätzten Start der Quelle. Sie enthalten das Erzeugen, Weiterleiten und Nachliefern der Seiten. In A fehlte dieselbe Seite bei allen vier Empfängern bis ungefähr Sekunde 19. Der Auslöser lässt sich aus dem Log nicht bestimmen.
+
+Bei A und B hörte keines der vier anderen Boards rund 6--9\,\% der Sequenzen innerhalb der beobachteten Senderbereiche. Bei F und E waren es rund 2--3\,\%. Einige Ausfälle trafen also mehrere Empfänger zugleich. Pro Einstellung lief diese Reihe einmal. Die 20 Kontakte teilen sich dieselben fünf Geräte und denselben Funkkanal.
+
+\newpage
+\textbf{MemoryLAN, 13. November 2026} \hfill \textbf{Haus und Cache}
+
+\begin{center}
+\small
+\begin{tabular}{llcccc}\toprule
+Lauf & Aufbau & Board 2 & Board 3 & Board 4 & Board 5 \\ \midrule
+2026111301 & E, normal & 5/5 & 5/5 & 3/5 & 3/5 \\
+2026111302 & A, normal & 5/5 & 5/5 & 0/5 & 0/5 \\
+2026111303 & D, normal & 5/5 & 5/5 & 0/5 & 0/5 \\
+2026111304 & E, Quelle gestoppt & 5/5 & 5/5 & 5/5 & 5/5 \\
+2026111305 & A, Quelle gestoppt & 5/5 & 5/5 & 5/5 & 0/5 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+{\small Seiten am Ende der lokalen Logs. Die drei Normalläufe speicherten je 420 s. Mit D hatte Board 3 in den ersten 300 s ab Start der Quelle erst 2/5.}
+
+\textbf{Wer hörte wen?}
+
+Board 1 stand am Laptop, 2 im Korridor, 3 im Wohnzimmer, 4 im Keller und 5 im Hobbyraum. Die Funkkontakte ergeben sich aus den Logs. Ein Pfeil vom Sender zum Empfänger zeigt einen direkt gehörten Frame.
+
+Im Normallauf E gelangten die Seiten 0, 3 und 4 zu 4 und 5. In A hörten die beiden Seiten der Kellergrenze Beacons voneinander. In D hörte 4 fünf Beacons von 3. Bei 5 blieb das Empfangslog leer. E und D unterscheiden sich in der PHY. Je ein Lauf zeigt den Unterschied an diesem Aufbau.
+
+\textbf{Was kam nach dem Stopp der Quelle an?}
+
+Die Quelle hielt die Seiten im Cache und wiederholte alle fünf Sekunden je eine Seite. Vor dem Software-Stopp hatten 2--4 alle Seiten. Board 5 startete danach leer und lief 300 s, während 2--4 weiterliefen.
+
+\begin{itemize}
+\item \textbf{E.} Board 5 erhielt alle fünf Seiten direkt von 4. Die erste kam nach 99,1 s, die letzte nach 243,6 s ab Start von 5.
+\item \textbf{A.} Board 5 hörte 19 Beacons von 4 und erhielt 0/5 Seiten. Andere Boards hörten Seiten von 4. Der Grund für die fehlende Zustellung zu 5 bleibt offen.
+\end{itemize}
+
+Die Einstiegspausen lagen geschätzt bei 55 s mit E und 75 s mit A. Der Wert für A stützt sich auf wenige gemeinsame Frames. Zeiten ab Start von 5 lassen sich direkt aus dessen Log lesen. A und E unterscheiden sich in drei BLE-Einstellungen.
+
+\textbf{Noch testen?}
+
+Für die Besprechung reicht die Hubreihe. Wenn der Hausbefund abgesichert werden soll, zuerst das A/E-Cachepaar mit gleicher Platzierung und Einstiegspause wiederholen. Fünf Seiten passen in zehn Cacheplätze. Falls die Abgabe ein Ergebnis zur Verdrängung braucht, dafür gezielt mehr als zehn verschiedene Seiten einspeisen und den Cachebestand mitschreiben.
+
+{\small Die Einzelgrafiken und die Empfangsmatrizen stehen im Laufbericht. Rohdaten nach Datum und Laufnummer unter \texttt{data/20261113}.}
+\end{document}

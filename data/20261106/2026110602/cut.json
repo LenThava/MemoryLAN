@@ -1,0 +1,233 @@
+{
+  "run": 2026110602,
+  "confirmed_utc": "2026-11-06T01:29:45.583872+00:00",
+  "source": {
+    "mac": "ac276eb0f9b4",
+    "schema": 1,
+    "kind": "mlan-run",
+    "state": "done",
+    "storage_ok": true,
+    "node": "5d60",
+    "source": "5d60",
+    "run": 2026110602,
+    "total": 5,
+    "sent": 5,
+    "payload_bytes": 32,
+    "source_pinned": true,
+    "repeat_ms": 5000,
+    "repeat_attempts": 35,
+    "gap_ms": 1000,
+    "limit_ms": 300000,
+    "elapsed_ms": 180145,
+    "stop_reason": 1,
+    "cutoff": "local",
+    "build": "9539f99 2026-11-05 19:58",
+    "duplicates": 24,
+    "invalid": 0,
+    "rx": 95,
+    "tx": 93,
+    "rx_drop": 0,
+    "rx_bad": 0,
+    "tx_fail": 0,
+    "received": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "peers": [
+      {
+        "id": "8e5a",
+        "rssi": -60,
+        "samples": 24,
+        "last_ms": 179737
+      },
+      {
+        "id": "9135",
+        "rssi": -67,
+        "samples": 27,
+        "last_ms": 179199
+      },
+      {
+        "id": "18c7",
+        "rssi": -81,
+        "samples": 20,
+        "last_ms": 169296
+      }
+    ]
+  },
+  "relay_records": {
+    "2": {
+      "mac": "ac276eb0f9fc",
+      "schema": 1,
+      "kind": "mlan-run",
+      "state": "running",
+      "storage_ok": true,
+      "node": "18c7",
+      "source": "5d60",
+      "run": 2026110602,
+      "total": 5,
+      "sent": 0,
+      "payload_bytes": 32,
+      "source_pinned": true,
+      "repeat_ms": 5000,
+      "repeat_attempts": 0,
+      "gap_ms": 1000,
+      "limit_ms": 900000,
+      "elapsed_ms": 180426,
+      "stop_reason": 0,
+      "cutoff": "local",
+      "build": "9539f99 2026-11-05 19:58",
+      "duplicates": 41,
+      "invalid": 0,
+      "rx": 120,
+      "tx": 72,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "peers": [
+        {
+          "id": "5d60",
+          "rssi": -75,
+          "samples": 24,
+          "last_ms": 178946
+        },
+        {
+          "id": "8e5a",
+          "rssi": -89,
+          "samples": 23,
+          "last_ms": 174952
+        },
+        {
+          "id": "9135",
+          "rssi": -49,
+          "samples": 27,
+          "last_ms": 179243
+        }
+      ]
+    },
+    "3": {
+      "mac": "ac276eb0059c",
+      "schema": 1,
+      "kind": "mlan-run",
+      "state": "running",
+      "storage_ok": true,
+      "node": "8e5a",
+      "source": "5d60",
+      "run": 2026110602,
+      "total": 5,
+      "sent": 0,
+      "payload_bytes": 32,
+      "source_pinned": true,
+      "repeat_ms": 5000,
+      "repeat_attempts": 0,
+      "gap_ms": 1000,
+      "limit_ms": 900000,
+      "elapsed_ms": 180428,
+      "stop_reason": 0,
+      "cutoff": "local",
+      "build": "9539f99 2026-11-05 19:58",
+      "duplicates": 49,
+      "invalid": 0,
+      "rx": 129,
+      "tx": 75,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "peers": [
+        {
+          "id": "18c7",
+          "rssi": -56,
+          "samples": 27,
+          "last_ms": 179464
+        },
+        {
+          "id": "9135",
+          "rssi": -64,
+          "samples": 27,
+          "last_ms": 174119
+        },
+        {
+          "id": "5d60",
+          "rssi": -59,
+          "samples": 21,
+          "last_ms": 174030
+        }
+      ]
+    },
+    "4": {
+      "mac": "ac276eafeb88",
+      "schema": 1,
+      "kind": "mlan-run",
+      "state": "running",
+      "storage_ok": true,
+      "node": "9135",
+      "source": "5d60",
+      "run": 2026110602,
+      "total": 5,
+      "sent": 0,
+      "payload_bytes": 32,
+      "source_pinned": true,
+      "repeat_ms": 5000,
+      "repeat_attempts": 0,
+      "gap_ms": 1000,
+      "limit_ms": 900000,
+      "elapsed_ms": 180420,
+      "stop_reason": 0,
+      "cutoff": "local",
+      "build": "9539f99 2026-11-05 19:58",
+      "duplicates": 49,
+      "invalid": 0,
+      "rx": 126,
+      "tx": 73,
+      "rx_drop": 0,
+      "rx_bad": 0,
+      "tx_fail": 0,
+      "received": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "peers": [
+        {
+          "id": "5d60",
+          "rssi": -66,
+          "samples": 22,
+          "last_ms": 178976
+        },
+        {
+          "id": "8e5a",
+          "rssi": -58,
+          "samples": 24,
+          "last_ms": 179811
+        },
+        {
+          "id": "18c7",
+          "rssi": -55,
+          "samples": 26,
+          "last_ms": 179479
+        }
+      ]
+    }
+  },
+  "source_usb_connected": true,
+  "source_software_stopped": true,
+  "physical_removal_verified": false
+}

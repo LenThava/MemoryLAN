@@ -95,9 +95,19 @@ def source_mode(record):
     return pinned, period, attempts
 
 
-def validate(records):
+def validate(records, limits_ms=None):
     if len(records) < 2:
         raise ValueError("Include the source and at least one receiving node")
+    if limits_ms is not None:
+        if not isinstance(limits_ms, dict):
+            raise ValueError("Expected a MAC-to-limit mapping")
+        for mac in limits_ms:
+            if not isinstance(mac, str) or not re.fullmatch(r"[0-9a-f]{12}", mac):
+                raise ValueError("Invalid planned hardware MAC")
+            integer(limits_ms, mac, 1000, 3600000)
+        addresses = [identity(r) for r in records]
+        if len(set(addresses)) != len(addresses) or set(addresses) != set(limits_ms):
+            raise ValueError("Planned limits must match exactly the supplied board MACs")
     nodes = set()
     hardware = set()
     config = None
@@ -126,7 +136,9 @@ def validate(records):
             raise ValueError("A receiver reports source repeat attempts")
         integer(r, "sent", 0, total)
         integer(r, "gap_ms", 100, 60000)
-        integer(r, "limit_ms", 1000, 3600000)
+        limit = integer(r, "limit_ms", 1000, 3600000)
+        if limits_ms is not None and limit != limits_ms[address]:
+            raise ValueError("Board duration differs from its planned limit")
         integer(r, "elapsed_ms", 1)
         integer(r, "stop_reason", 1, 2)
         for key in ("duplicates", "invalid", "rx", "tx", "rx_drop", "rx_bad", "tx_fail"):
@@ -138,7 +150,9 @@ def validate(records):
             raise ValueError("Invalid received-page IDs")
         if len(ids) != len(set(ids)):
             raise ValueError("Received-page IDs must already be deduplicated")
-        signature = tuple(r[k] for k in ("run", "source", "total", "gap_ms", "limit_ms", "build")) + (payload_bytes(r), mode[0], mode[1])
+        signature = tuple(r[k] for k in ("run", "source", "total", "gap_ms", "build")) + (payload_bytes(r), mode[0], mode[1])
+        if limits_ms is None:
+            signature += (limit,)
         if config is not None and signature != config:
             raise ValueError("Mixed run/configuration/firmware records")
         config = signature
