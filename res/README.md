@@ -3,6 +3,7 @@
 Working notes from the board tests.
 
 - [13 November, BLE comparison](20261113/README.md): four hub and five house runs.
+- [6 November, cache tests](20261106/README.md)
 
 - [5 November, house with pinned source](h3/README.md): all receivers got 5/5; contacts form a triangle 1–2–3, then 3–4–5.
 - [5 November, normal hub run](n1/README.md): all receivers got 5/5.

@@ -25,6 +25,17 @@ PROFILES = {
 RUNS = [(1, 'Haus', 'E'), (2, 'Haus', 'A'), (3, 'Haus', 'D'),
         (4, 'Haus, Cachetest', 'E'), (5, 'Haus, Cachetest', 'A'),
         (6, 'Hub', 'A'), (7, 'Hub', 'B'), (8, 'Hub', 'F'), (9, 'Hub', 'E')]
+RUN_NAMES = {
+    1: 'Haus, CODED mit zwei Events',
+    2: 'Haus, Ausgangsstand',
+    3: 'Haus, Wechsel auf 1M',
+    4: 'Haus, Quellenstopp mit zwei Events',
+    5: 'Haus, Quellenstopp im Ausgangsstand',
+    6: 'Hub, Ausgangsstand',
+    7: 'Hub, Scannerlimit entfernt',
+    8: 'Hub, zweites Sendeevent',
+    9: 'Hub, Standardintervalle',
+}
 # Relative start estimates from shared sender/run/sequence observations.
 # A cache sink has only two anchors per observer pair, with four in total.
 OFFSETS = {
@@ -182,29 +193,18 @@ def receipt_table(number, first):
     return table('ccccc', ['Seite', 'Board 2', 'Board 3', 'Board 4', 'Board 5'], rows, 'footnotesize')
 
 
-RUN_NOTES = {
-    1: '4 und 5 empfingen die Seiten 0, 3 und 4. Erste protokollierte Sender von Seite 0 ergeben $1\\to3\\to5\\to4$ um ca. 0,2 s ab Source-Start.',
-    2: '4 und 5 hörten Beacons und blieben bei 0/5. Über die Grenze zwischen 1--3 und 4--5 wurden 18 Sendevorgänge abwärts und 13 aufwärts gehört.',
-    3: 'Board 3 hatte nach geschätzt 300 s ab Source-Start 2/5 und nach ca. 382 s 5/5. Für 2, 4 und 5 fehlt eine gemeinsame Zeitreferenz. 5 protokollierte keine Frames.',
-    4: 'Board 5 war ca. 54,5 s nach dem Source-Stopp aktiv. Erste Kopien aller fünf Seiten von 4. Die letzte kam 243,641 s nach Start von 5.',
-    5: 'Board 5 war geschätzt ca. 74,5 s nach dem Source-Stopp aktiv. Die Schätzung beruht auf vier gemeinsamen Frames. 5 hörte 19 Beacons von 4.',
-    6: 'Letzter Erstempfang nach ca. 19,3 s ab Source-Start. Seite 1 tauchte bei allen vier Empfängern erst um 19,3 s auf.',
-    7: 'Letzter Erstempfang nach ca. 4,6 s ab Source-Start. Alle 20 gerichteten Kontakte wurden beobachtet.',
-    8: 'Letzter Erstempfang nach ca. 4,2 s ab Source-Start. Abstand zwischen beobachteten Kopien 99--123 ms.',
-    9: 'Letzter Erstempfang nach ca. 4,1 s ab Source-Start. Abstand zwischen beobachteten Kopien 149--160 ms.',
-}
-
-
 def run_page(number, location, profile, records, traces, edges, first):
     hub = location == 'Hub'
     graph(number, edges, hub)
     phy, cap, interval, events, build = PROFILES[profile]
-    header = (r'\textbf{' + location + ' ' + profile + r'} \hfill \texttt{' + str(2026111300 + number) + '}' )
+    pin = 'mit Pinning' if number in (4, 5) else 'ohne Pinning'
+    header = (rf'\textbf{{Test {number} -- {RUN_NAMES[number]} ({pin})}}'
+              rf' \hfill \texttt{{{2026111300 + number}}}')
     config = (f'Build {build}, {phy}, {events} Event' + ('s' if events != 1 else '') +
               f', Scannerlimit {cap}, Intervall {interval}' + (' ms' if interval != 'Standard' else ''))
     mode = '5 Seiten à 32 Byte, 1 s Abstand'
     if number in (4, 5):
-        mode += ', Source mit Pin und Wiederholung alle 5 s, Stopp nach ' + seconds(records[1]['elapsed_ms'], 3) + ' s'
+        mode += ', Quelle gepinnt, Wiederholung alle 5 s, Stopp nach ' + seconds(records[1]['elapsed_ms'], 3) + ' s'
     else:
         mode += ', Normalbetrieb'
     graph_and_matrix = '\n'.join([
@@ -219,14 +219,11 @@ def run_page(number, location, profile, records, traces, edges, first):
         pages = 'Quelle' if i == 1 else f'{len(r["received"])}/5'
         rows.append([i, seconds(r['elapsed_ms']), pages, ids, r['rx'], r['tx'], r['duplicates'], r['rx_bad']])
     status = table('crclrrrr', ['Board', 'Lokal (s)', 'Seiten', 'IDs', 'RX', 'TX', 'Dup.', 'Bad'], rows, 'footnotesize')
-    raw = sum(sum(e['raw'].values()) for e in edges.values())
-    unique = sum(len(e['unique']) for e in edges.values())
     return '\n\n'.join([
         header, textline(config + r'\par ' + mode), graph_and_matrix,
-        textline(r'Gesamte Logs. Pfeil vom Sender zum Empfänger. Durchgezogen bei Seitenframes, gestrichelt bei Beacons allein. Matrixzeile = Sender, Spalte = Empfänger. Zelle = Beacons/Seitenframes nach Sequenz.'),
-        status, textline(f'{unique} eindeutige Empfänge, {raw} Roh-Empfänge. RX/TX und Dup. aus der Firmware. Bad = nicht dekodierte Frames. RX-Pufferverluste, TX-Fehler und Überlauf jeweils 0.'),
-        plot(number, records, first), receipt_table(number, first),
-        textline('Tabelle in Sekunden ab eigenem Boardstart. Unmittelbarer Sender in Klammern.'), textline(RUN_NOTES[number])])
+        textline(r'Pfeil vom Sender zum Empfänger\enspace\textbullet\enspace Durchgezogen bei Seitenframes\enspace\textbullet\enspace Gestrichelt bei Beacons allein\par '
+                 r'Matrix über das ganze Log\enspace\textbullet\enspace Senderzeile, Empfängerspalte\enspace\textbullet\enspace Beacons/Seitenframes je Sequenz'),
+        status, plot(number, records, first), receipt_table(number, first)])
 
 
 def hub_summary(results):
@@ -237,28 +234,38 @@ def hub_summary(results):
         assert len(ratios) == 20
         pair_data[profile] = ratios
         last = max(ms + OFFSETS[number][i] for i in RECEIVERS for ms, _ in first[i].values())
-        rows.append([profile, str(2026111300 + number), f'{median(ratios.values()):.2f}'.replace('.', ','),
+        rows.append([f'Test {number}', str(2026111300 + number), f'{median(ratios.values()):.2f}'.replace('.', ','),
                      sum(len(e['unique']) for e in edges.values()), sum(sum(e['raw'].values()) for e in edges.values()), seconds(last)])
     comparisons = []
-    for a, b, change in [('A','B','Scannerlimit entfernt'),('B','F','Zweites Event'),('F','E','Standardintervalle')]:
+    for number, a, b, change in [(6, 'A', 'B', 'Scannerlimit entfernt'),
+                                 (7, 'B', 'F', 'Zweites Sendeevent'),
+                                 (8, 'F', 'E', 'Standardintervalle')]:
         deltas = [pair_data[b][k] - pair_data[a][k] for k in pair_data[a]]
-        comparisons.append([f'{a} $\\to$ {b}', change, f'{sum(x > 0 for x in deltas)}/20', f'{median(deltas):+.2f}'.replace('-0.00','0.00').replace('.', ',')])
+        comparisons.append([f'{number} $\\to$ {number + 1}', change, f'{sum(x > 0 for x in deltas)}/20',
+                            f'{median(deltas):+.2f}'.replace('-0.00','0.00').replace('.', ',')])
     return '\n\n'.join([
         r'\textbf{Vergleich am Hub}',
-        table('lrrrrr', ['Profil', 'Run', 'Median', 'Eindeutig', 'Roh', 'Alle 5/5 (s)'], rows),
-        textline('Median über 20 gerichtete Kontakte. Je Kontakt Anzahl gehörter Sequenzen geteilt durch den Bereich von der ersten bis zur letzten gehörten Sequenz. Der Wert lässt Verluste ausserhalb dieses Bereichs aus. Zeit bis 5/5 geschätzt ab Source-Start.'),
-        table('llrr', ['Paar', 'Änderung', 'Kontakte besser', 'Median der Differenzen'], comparisons),
+        table('lrrrrr', ['Test', 'Lauf-ID', 'Median', 'Eindeutig', 'Roh', 'Alle 5/5 (s)'], rows),
+        textline(r'Median über 20 gerichtete Kontakte\enspace\textbullet\enspace Anteil gehörter Sequenzen von der ersten bis zur letzten gehörten Sequenz\par '
+                 r'Verluste ausserhalb des Sequenzbereichs unberücksichtigt\enspace\textbullet\enspace Zeit bis 5/5 geschätzt ab Quellenstart'),
+        table('llrr', ['Tests', 'Änderung', 'Kontakte besser', 'Median der Differenzen'], comparisons),
         r'''\begin{itemize}
-\item B gegen F zeigt den grössten beobachteten Unterschied. Das zweite Event erhöhte den Empfangsschätzer an allen 20 Kontakten. Jede Einstellung lief in dieser Reihe einmal.
-\item Für Scannerlimit und Standardintervalle zeigte diese Reihe keinen ähnlich klaren Vorteil. A und E lagen bei den früheren Hubmessungen am 7. November in einem ähnlichen Bereich. Die Einzelvergleiche A/B, B/F und F/E stammen vom 13. November.
-\item Innerhalb der pro Sender beobachteten Sequenzbereiche gab es bei A 21/334, B 27/321, F 6/323 und E 9/316 Sequenznummern ohne Empfang an irgendeinem der vier anderen Boards. Bei A/B liegt dieser Anteil über der Erwartung eines einfachen Modells mit unabhängigen Empfängern. Die Ursache bleibt offen.
-\item TX zählt Sendevorgänge. Bei F und E tragen zwei Funk-Events dieselbe Sequenz. RX zählt beide Empfänge, wenn beide verarbeitet werden. Dup. zählt wiedererkannte Testseiten im Anwendungslog.
-\item Am Hub erhielten alle Empfänger 5/5 Seiten. Die Zeiten enthalten das Erzeugen, Weiterleiten und Nachliefern der Seiten. F hatte vier nicht dekodierte Frames. Die anderen drei Hubprofile hatten null.
+\item Zweites Sendeevent (7 $\to$ 8) mit dem grössten Zuwachs, +15 Prozentpunkte im Median
+\item Scannerlimit und Standardintervalle mit gemischtem Ergebnis, je ein Lauf pro Einstellung
+\item Ähnlicher Empfang beim Ausgangsstand und bei Standardintervallen am 7. November
+\item Von keinem Empfänger gehörte Sequenzen im beobachteten Bereich (Tests 6--9), 21/334, 27/321, 6/323, 9/316
+\item Gemeinsame Ausfälle in Tests 6 und 7 häufiger als im Modell unabhängiger Empfänge, Ursache offen
+\item TX = Sendevorgänge, RX = verarbeitete Empfänge, Dup. = wiedererkannte Testseiten
+\item Tests 8 und 9 mit zwei Events derselben Sequenz, beide Kopien im RX-Zähler möglich
+\item Alle Empfänger bei 5/5\enspace\textbullet\enspace Zeit inklusive Erzeugung, Weiterleitung und Nachlieferung
+\item Nicht dekodierte Frames (Tests 6--9), 0, 0, 4, 0
 \end{itemize}''',
         r'\textbf{Profile im Quellcode}',
-        table('lcccr', ['Profil','PHY TX/RX','Scannerlimit','Intervall','Events'],
-              [[name,p[0],p[1],p[2] + (' ms' if p[2]!='Standard' else ''),p[3]] for name,p in PROFILES.items()]),
-        textline(r'Änderungen in \texttt{esp32/io\_dev\_ble.cpp}. A/B/F/E bilden die Hub-Reihe. D und E unterscheiden sich in der PHY. C wurde gebaut und bleibt ohne abgeschlossenen Messlauf in dieser Auswertung.')])
+        table('lcccr', ['Tests', 'PHY TX/RX', 'Scannerlimit', 'Intervall', 'Events'],
+              [[tests, phy, cap, interval + (' ms' if interval != 'Standard' else ''), events]
+               for tests, name in [('2, 5, 6', 'A'), ('7', 'B'), ('8', 'F'), ('1, 4, 9', 'E'), ('3', 'D')]
+               for phy, cap, interval, events, _ in [PROFILES[name]]]),
+        textline(r'Änderungen in \texttt{esp32/io\_dev\_ble.cpp}\enspace\textbullet\enspace Funkmodus als einziger Unterschied zwischen Test 1 und 3')])
 
 
 PREAMBLE = r'''\documentclass[a4paper,11pt]{article}
@@ -285,27 +292,33 @@ HOUSE_SUMMARY = r'''\textbf{Haus, Cache und Einordnung}
 
 \begin{center}\small
 \begin{tabular}{llcccc}\toprule
-Run & Aufbau & 2 & 3 & 4 & 5 \\ \midrule
-2026111301 & Haus E, Normalbetrieb & 5/5 & 5/5 & 3/5 & 3/5 \\
-2026111302 & Haus A, Normalbetrieb & 5/5 & 5/5 & 0/5 & 0/5 \\
-2026111303 & Haus D, Normalbetrieb & 5/5 & 5/5 & 0/5 & 0/5 \\
-2026111304 & Haus E, Source gestoppt & 5/5 & 5/5 & 5/5 & 5/5 \\
-2026111305 & Haus A, Source gestoppt & 5/5 & 5/5 & 5/5 & 0/5 \\
+Test & Aufbau & 2 & 3 & 4 & 5 \\ \midrule
+1 & CODED mit zwei Events & 5/5 & 5/5 & 3/5 & 3/5 \\
+2 & Ausgangsstand & 5/5 & 5/5 & 0/5 & 0/5 \\
+3 & 1M mit zwei Events & 5/5 & 5/5 & 0/5 & 0/5 \\
+4 & Cache mit zwei Events & 5/5 & 5/5 & 5/5 & 5/5 \\
+5 & Cache im Ausgangsstand & 5/5 & 5/5 & 5/5 & 0/5 \\
 \bottomrule\end{tabular}\end{center}
 
-{\small Seiten am Ende der lokalen Logs. In D hatte Board 3 innerhalb der ersten 300 s ab Source-Start 2/5. In E und A ist das gemeinsame 300-s-Fenster aus dem Zeitabgleich rekonstruierbar. Die Normalversuche speicherten 420 s je Board.}
+{\small Seiten am Ende der lokalen Logs\enspace\textbullet\enspace Tests 1--3 mit 420 s je Board\par
+Gemeinsames 300-s-Fenster in Tests 1 und 2\enspace\textbullet\enspace Test 3 mit 2/5 bei Board 3 nach 300 s}
 
 \begin{itemize}
-\item E lieferte im Normalbetrieb Seiten 0, 3 und 4 an 4 und 5. D zeigte fünf Beacons von 3 bei 4. Bei 5 wurde mit D kein Frame protokolliert. Die Hausläufe E und D vergleichen die PHY bei einer Platzierung pro Lauf.
-\item Beim Cachetest hatten 2--4 mit beiden Builds alle Seiten vor dem Software-Stopp der Source erhalten. Sie liefen während der vollen 300 s von 5. In E erreichten alle fünf Seiten Board 5 über den unmittelbaren Sender 4. In A hörte 5 Beacons von 4 und blieb bei 0/5.
-\item Im E-Cachetest hörte 5 von 4 insgesamt 42 eindeutige Sendevorgänge, davon sieben Seitenframes. Die acht rohen Seitenempfänge enthalten eine zweite Kopie. Während A beobachteten andere Boards Seiten von 4. Die Zustellung zu 5 blieb aus.
-\item Die Source-Phase enthielt Pinning und zyklische Wiederholung. Fünf Seiten passten in zehn Cacheplätze. Ein eigener Funkversuch mit belegtem Cache und protokolliertem Cachebestand kann die Verdrängung untersuchen. Die bestehende C++-Hostmessung prüft die Verdrängung ohne Funk.
-\item Die beiden Cacheläufe hatten unterschiedliche Einstiegspausen. A/E ändert drei BLE-Einstellungen gemeinsam. Eine Wiederholung mit gleichem Ablauf würde den Hausvergleich stärken.
+\item Test 1 mit Seiten 0, 3 und 4 bei Boards 4 und 5
+\item Test 3 mit fünf Beacons von 3 bei 4, ohne Empfang bei 5
+\item Tests 4 und 5 mit Pinning und Wiederholung vor Software-Stopp der Quelle
+\item Boards 2--4 mit 5/5 vor Quellenstopp, aktiv während der 300 s von Board 5
+\item Test 4 mit allen fünf Erstempfängen bei 5 von 4, 42 eindeutige Empfänge auf diesem Kontakt (35 Beacons, 7 Seitenframes), 8 rohe Seitenempfänge
+\item Test 5 mit 19 Beacons von 4 bei 5, Seiten von 4 bei anderen Boards, 0/5 bei 5
+\item Cachevergleich mit unterschiedlichen Einstiegspausen und drei geänderten BLE-Einstellungen
+\item Mögliche Wiederholung mit gleichen Positionen und gleicher Einstiegspause
+\item Fünf Testseiten bei zehn Cacheplätzen\enspace\textbullet\enspace Verdrängung separat mit mehr als zehn Seiten und Cache-Log
 \end{itemize}
 
 \textbf{Zeit und Quellen}
 
-{\small Zeitabgleich aus gemeinsam gehörten Sendersequenzen. Bei zwei Events können Empfänger verschiedene Kopien derselben Sequenz hören. Hubzeiten sind an gemeinsam doppelt gehörten Frames ausgerichtet. Die Cachekurven verwenden geschätzte Starts. Die Ankunftstabellen behalten die lokalen Rohzeiten. Topologie und Matrix zeigen die gesamten Logs.}
+{\small Zeitabgleich aus gemeinsam gehörten Sequenzen\enspace\textbullet\enspace Mögliche Zeitabweichung durch verschiedene Kopien derselben Sequenz\par
+Hubzeiten aus gemeinsam doppelt gehörten Frames\enspace\textbullet\enspace Geschätzte Starts in Cachekurven\enspace\textbullet\enspace Lokale Rohzeiten in Ankunftstabellen}
 
 \begin{center}\footnotesize
 \begin{tabular}{ccll}\toprule
@@ -317,7 +330,8 @@ Board & Farbe & MAC & Standort im Haus \\ \midrule
 5 & Weiss & \texttt{ac276eb00868} & Hobbyraum \\
 \bottomrule\end{tabular}\end{center}
 
-{\small Rohdaten unter \texttt{data/20261113}, ein Ordner pro Lauf. Pro Lauf fünf Ergebnislogs und fünf Topologielogs. Die Firmwarevarianten stehen im Branch \texttt{ble-tests}. Stand 13. November 2026.}
+{\small Rohdaten in \texttt{data/20261113}\enspace\textbullet\enspace Je Lauf fünf Ergebnis- und fünf Topologielogs\par
+Firmwarevarianten auf \texttt{ble-tests}\enspace\textbullet\enspace Stand 13. November 2026}
 '''
 
 
@@ -330,5 +344,5 @@ pages.extend([hub_summary(results), HOUSE_SUMMARY])
 assert len(pages) == 11 and len(hashes) == 90
 for path, digest in hashes.items():
     assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == digest
-(ROOT / 'main.tex').write_text(PREAMBLE + '\n\\newpage\n'.join(pages) + '\n\\end{document}\n')
+(ROOT / 'short.tex').write_text(PREAMBLE + '\n\\newpage\n'.join(pages) + '\n\\end{document}\n')
 print('Generated nine measured run pages and two summary pages from 90 verified log files.')

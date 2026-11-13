@@ -1,6 +1,8 @@
 # BLE tests · 13 November 2026
 
-[Discussion notes](discussion.pdf) · [Run plots and tables](main.pdf) · [LaTeX](main.tex)
+[Short run report](short.pdf) · [Full run report](main.pdf) · [Discussion notes](discussion.pdf)
+
+LaTeX: [short](short.tex), [full](main.tex), [discussion](discussion.tex).
 
 - Hub A/B/F/E: all receivers got 5/5 pages. B → F improved reception on 20/20 directed links.
 - House E: boards 4 and 5 got 3/5 pages. With A and D they got 0/5.
@@ -25,4 +27,4 @@ python3 res/20261113/hub.py A=2026111306 B=2026111307 F=2026111308 E=2026111309
 python3 res/20261113/house.py 2026111301 2026111302 2026111303 2026111304 2026111305
 ```
 
-To regenerate the run plots and LaTeX from the logs, run `python3 res/20261113/build.py` with Graphviz installed.
+To regenerate the plots and short LaTeX report from the logs, run `python3 res/20261113/build.py` with Graphviz installed.
